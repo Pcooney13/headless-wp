@@ -49,11 +49,13 @@ class Photos extends Component {
                     <div className="gallery">
                         {items[1].map(item => (
                             <div key={item.acf.title} className="gallery-card">
-                                <Link 
-                                    to={`/photos/${item.slug}`} 
-                                    className="gallery-image" 
-                                    style={{backgroundImage: "url(" + item.acf.image.sizes.medium + ")"}}>
-                                </Link>
+                                <div className="gallery-imagebox">
+                                    <Link 
+                                        to={`/photos/${item.slug}`} 
+                                        className="gallery-image" 
+                                        style={{backgroundImage: "url(" + item.acf.image.sizes.medium + ")"}}>
+                                    </Link>
+                                </div>
                                 <div className="gallery-textbox">
                                     <h4 className="gallery-title">
                                         <Link to={`/photos/${item.slug}`}>
