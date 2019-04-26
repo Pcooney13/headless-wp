@@ -1,19 +1,25 @@
 :root {
-    --primary-color: #126b4c;
-    --bright-green: #0d8d24;
-    --off-white: #f8f2f2;
-    --coral: #ff6f61;
-    --black: #484848;
+    --white:       #f8f2f2;
+    --black:       #484848;
+    --dark-red:    #B42D3C;
+    --light-red:   #ff6f61;
+    --dark-yellow: #F7B11A;
+    --light-yellow:#fdd796;
+    --light-green: #A6CE39;
+    --dark-green:  #126b4c;
+    --dark-blue:   #0B57FF;
+    --light-blue:  #6BC4C6;
+    --purple:      #6F62AB;
 }
 
-body { background-color: var(--off-white); margin: 0; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { background-color: var(--white); margin: 0; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 code { font-family: source-code-pro, Menlo, monospace; }
 
 h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; }
 
 .App{ padding:30px; max-width: 960px; margin: 0 auto; }
 
-.header { display: flex; align-items: center; background: var(--primary-color); margin: 0; padding: 20px; }
+.header { display: flex; align-items: center; background: var(--dark-green); margin: 0; padding: 20px; }
 .header .active { font-weight: 600; opacity: 1; }
 .header li { display: inline-block; padding-right: 30px; }
 .header li:last-child { padding-right: 0; }
@@ -53,7 +59,7 @@ h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; 
     text-decoration: none;
     transition: all .5s;
 }
-.gallery-textbox a:hover { color: var(--bright-green); }
+.gallery-textbox a:hover { color: var(--dark-green); }
 .gallery-title{
     margin-top:0;
 }
@@ -70,7 +76,7 @@ h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; 
     padding-left:8px;
     font-size:14px;
 }
-.gallery-category:hover { color:var(--primary-color); }
+.gallery-category:hover { color:var(--dark-green); }
 
 .gallery-imagebox {
     overflow:hidden;
@@ -98,4 +104,87 @@ h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; 
 @media (max-width:550px) {
     .gallery-card { width: calc(100%); max-width: 100%; }
     .gallery-image { height: 220px; }
+}
+
+
+
+
+
+
+a.gallery-category:hover{
+    color:white;
+    opacity: 1;
+}
+a.gallery-category {
+    width: 15px;
+    height: 15px;
+    font-size:10px;
+    text-align:left;
+    color:white;
+    background-color: var(--light-red);
+    display: inline-block;
+    position: relative;
+    padding-left: 5px;
+    padding-top: 1px;
+    margin-left:5px;
+    border: 0;
+    border-radius: 50%;
+    opacity: .5;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .3s ease;
+}
+.gallery-category:before {
+    left: 50%;
+    bottom: 100%;
+    border: 5px solid transparent;
+    border-top-color: var(--light-red);
+    transform: translateX(-50%);
+    content: " ";
+    opacity: 0;
+    backface-visibility: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: 3;
+    transition: 0.2s;
+}
+.gallery-category:hover:before {
+    bottom: 15px;
+    border-bottom-color: transparent;
+    border-top-color: var(--light-red);
+}
+.gallery-category:after {
+    min-width: 40px;
+    left: 50%;
+    bottom: 100%;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 4px;
+    background-color: var(--light-red);
+    box-sizing: border-box;
+    transform: translateX(-50%);
+    color: #fff;
+    font: 500 12px/18px "Roboto",Arial,sans-serif;
+    letter-spacing: -.25px;
+    text-transform: none;
+    text-align: center;
+    content: " ";
+    opacity: 0;
+    backface-visibility: hidden;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1;
+    transition: 0.2s;
+    content: attr(data-tooltip);
+    box-shadow: 3px 3px 5px rgba(150, 150, 150, .2);
+    margin-bottom: 10px;
+    min-width: 140px;
+    white-space: normal;
+}
+.gallery-category:hover:before, .gallery-category:hover:after {
+    opacity: 1;
+    backface-visibility: visible;
+}
+.gallery-category, .gallery-category:before, .gallery-category:after {
+    box-sizing: border-box;
 }

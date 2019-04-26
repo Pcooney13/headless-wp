@@ -48,34 +48,66 @@ class Photos extends Component {
                     <h1>Fabulous Photos</h1>
                     <div className="gallery">
                         {items[1].map(item => (
-                            <div key={item.acf.title} className="gallery-card">
+                            <div
+                                key={item.acf.title}
+                                className="gallery-card"
+                            >
                                 <div className="gallery-imagebox">
-                                    <Link 
-                                        to={`/photos/${item.slug}`} 
-                                        className="gallery-image" 
-                                        style={{backgroundImage: "url(" + item.acf.image.sizes.medium + ")"}}>
-                                    </Link>
+                                    <Link
+                                        to={`/photos/${item.slug}`}
+                                        className="gallery-image"
+                                        // style={{
+                                        //     backgroundImage:
+                                        //         "url(" +
+                                        //         item.acf.image.sizes
+                                        //             .medium +
+                                        //         ")"
+                                        // }}
+                                    />
                                 </div>
                                 <div className="gallery-textbox">
                                     <h4 className="gallery-title">
-                                        <Link to={`/photos/${item.slug}`}>
+                                        <Link
+                                            to={`/photos/${
+                                                item.slug
+                                            }`}
+                                        >
                                             {item.acf.title}
                                         </Link>
                                     </h4>
                                     <p className="gallery-categories">
-                                        {items[0].map(tag => ( 
-                                            tag.id === item.categories[0] || tag.id === item.categories[1] 
-                                            ? 
-                                                <Link className="gallery-category" to={`/photos/${tag.slug}`}> 
-                                                    {tag.name}
+                                        {items[0].map(tag =>
+                                            tag.id ===
+                                                item
+                                                    .categories[0] ||
+                                            tag.id ===
+                                                item
+                                                    .categories[1] ? (
+                                                <Link
+                                                    className="gallery-category"
+                                                    to={`/photos/${
+                                                        tag.slug
+                                                    }`}
+                                                    data-tooltip={tag.name}
+                                                    aria-hidden="true"
+                                                    style={{backgroundColor:tag.acf.color}}
+                                                >
+                                                    {tag.name.slice(0, 1)}
                                                 </Link>
-                                            :
-                                                null
-                                        ))}
+                                            ) : null
+                                        )}
                                     </p>
                                     <Switch>
-                                        <Route path="/photos/:category" component={CategoryPhotos} />
-                                        <Route path="/photos/:title" component={Photo} />
+                                        <Route
+                                            path="/photos/:category"
+                                            component={
+                                                CategoryPhotos
+                                            }
+                                        />
+                                        <Route
+                                            path="/photos/:title"
+                                            component={Photo}
+                                        />
                                     </Switch>
                                 </div>
                             </div>
