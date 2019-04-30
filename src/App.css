@@ -20,7 +20,7 @@ h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; 
 
 .App{ padding:30px; max-width: 960px; margin: 0 auto; }
 
-.header { display: flex; align-items: center; background: var(--dark-green); margin: 0; padding: 20px; transition:all .5s;}
+.header { display: flex; align-items: center; background: var(--dark-green); margin: 0; width:100%; position:fixed; padding: 20px; transition:all .5s;}
 .header .active { font-weight: 600; opacity: 1; }
 .header li { display: inline-block; padding-right: 30px; }
 .header li:first-child {width:30px; position:relative;}
@@ -204,6 +204,9 @@ a.gallery-category {
 }
 .gallery-category, .gallery-category:before, .gallery-category:after {
     box-sizing: border-box;
+}
+.header-wrap{
+    height:61px;
 }
 #logo {
     position:absolute;

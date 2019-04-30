@@ -11,7 +11,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8888/test/wp-json/acf/v3/locations")
+        fetch("http://localhost:8888/pcooney/wp-json/acf/v3/locations")
         .then(res => res.json())
         .then(
             (result) => {

@@ -14,8 +14,8 @@ class Photo extends Component {
 
     componentDidMount() {
         Promise.all([
-            fetch("http://localhost:8888/test/wp-json/wp/v2/photography?per_page=50").then(value => value.json()),
-            fetch("http://localhost:8888/test/wp-json/wp/v2/categories?per_page=50").then(value => value.json())
+            fetch("http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=50").then(value => value.json()),
+            fetch("http://localhost:8888/pcooney/wp-json/wp/v2/categories?per_page=50").then(value => value.json())
         ])
             .then(
                 result => {
