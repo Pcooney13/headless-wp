@@ -33,11 +33,16 @@ class Routes extends Component {
 
       function checkPosition() {
         let windowY = window.scrollY;
-        // console.log("scroll" + scrollPos);
-        // console.log("window" + windowY);
-        if (windowY < scrollPos) {
+        console.log("scroll" + scrollPos);
+        console.log("window" + windowY);
+        if (window.scrollY < 100){
+            console.log("top 100")
+          document.querySelector('.header').classList.add('is-visible');
+          document.querySelector('.header').classList.remove('is-hidden');  
+        }
+        else if (windowY < scrollPos) {
           // Scrolling UP
-        //   console.log("show");
+          console.log("show");
           document.querySelector('.header').classList.add('is-visible');
           document.querySelector('.header').classList.remove('is-hidden');
         } else {
@@ -55,7 +60,7 @@ class Routes extends Component {
 <Router>
     <div>
     <div className="header-wrap">
-      <ul id="header" className="header">
+      <ul id="header" className="header is-visible">
         <li>
           <Logo />
         </li>

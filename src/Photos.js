@@ -19,10 +19,11 @@ class Photos extends Component {
         this.categories = [];
         Promise.all([
             fetch(
-                "http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=12"
+                //change to localhost - mobile viewing
+                "http://10.0.1.4:8888/pcooney/wp-json/wp/v2/photography?per_page=12"
             ).then(value => value.json()),
             fetch(
-                "http://localhost:8888/pcooney/wp-json/wp/v2/categories?per_page=12"
+                "http://10.0.1.4:8888/pcooney/wp-json/wp/v2/categories?per_page=12"
             ).then(value => value.json())
         ]).then(
             result => {
@@ -31,7 +32,11 @@ class Photos extends Component {
 
                 //seperates posts into categories
                 for (let i = 0; i < result[0].length; i++) {
-                    for (let j = 0; j < result[0][i].categories.length; j++) {
+                    for (
+                        let j = 0;
+                        j < result[0][i].categories.length;
+                        j++
+                    ) {
                         if (result[0][i].categories[j] === 2) {
                             this.dogs.push(result[0][i]);
                         }
@@ -187,8 +192,8 @@ class Photos extends Component {
                                         className="gallery-image"
                                         style={{
                                             backgroundImage:
-                                                "url(" +
-                                                item.acf.image.sizes.medium +
+                                                "url(http://10.0.1.4" + 
+                                                item.acf.image.sizes.medium.slice(16) +
                                                 ")"
                                         }}
                                     />
