@@ -221,7 +221,7 @@ a.gallery-category {
 .is-visible {
     position:fixed;
     width:100%;
-    z-index:5;
+    z-index:99;
 }
 .is-hidden {
     transform: translateY(-100%);

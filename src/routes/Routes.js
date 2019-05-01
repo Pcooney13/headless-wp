@@ -7,6 +7,7 @@ import Photos from '../Photos'
 import Photo from '../Photo'
 import Logo from '../Logo'
 import Notfound from '../notfound'
+import WeatherApp from "../components/pages/weatherapp";
 import '../App.css';
 
 class Routes extends Component {
@@ -35,7 +36,7 @@ class Routes extends Component {
         let windowY = window.scrollY;
         console.log("scroll" + scrollPos);
         console.log("window" + windowY);
-        if (window.scrollY < 100){
+        if (window.scrollY < 95){
             console.log("top 100")
           document.querySelector('.header').classList.add('is-visible');
           document.querySelector('.header').classList.remove('is-hidden');  
@@ -62,7 +63,9 @@ class Routes extends Component {
     <div className="header-wrap">
       <ul id="header" className="header is-visible">
         <li>
-          <Logo />
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
         </li>
         <li>
           <NavLink exact activeClassName="active" to="/">
@@ -79,6 +82,11 @@ class Routes extends Component {
             Photos
           </NavLink>
         </li>
+        <li>
+          <NavLink activeClassName="active" to="/weather">
+            Weather
+          </NavLink>
+        </li>
       </ul>
       </div>
       <Switch>
@@ -88,6 +96,7 @@ class Routes extends Component {
         <Route path="/photos/:category" component={Photos} />
         <Route path="/photo/:id" component={Photo} />
         <Route exact path="/photos" component={Photos} />
+        <Route exact path="/weather" component={WeatherApp} />
         <Route component={Notfound} />
       </Switch>
     </div>
