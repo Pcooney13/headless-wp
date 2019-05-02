@@ -11,6 +11,12 @@ class Weather extends Component {
             </p>
           }
           { 
+            this.props.lat && this.props.long && 
+            <p className="weather__key"> Location: 
+                <span className="weather__value"> {this.props.lat}, {this.props.long}</span>
+            </p>
+          }
+          { 
             this.props.temperature && 
             <p className="weather__key">Temperature: 
                 <span className="weather__value"> {this.props.temperature}&deg;F</span>

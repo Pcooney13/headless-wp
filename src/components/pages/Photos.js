@@ -1,3 +1,8 @@
+// 1. Clean up states and props using weather as guide
+// 2. Run photo component inside this file sending only the post info along
+// 3. Polish the transition from blurred image taking up screen to full size image
+// 4. Figure out the functionality for zomming from gallery card specifically not just top left corner
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
@@ -6,10 +11,9 @@ class Photos extends Component {
         super(props);
         this.state = {
             error: null,
-            isLoaded: false
+            isLoaded: false,
         };
     }
-    
     getData() {
         this.dogs = [];
         this.cats = [];
@@ -88,13 +92,11 @@ class Photos extends Component {
                 this.setState({
                     isLoaded: true,
                     items: result,
-                    dogs: this.dogs
                 });
             },
             error => {
                 this.setState({
                     isLoaded: true,
-                    categories: this.categories,
                     error
                 });
             }
@@ -102,29 +104,28 @@ class Photos extends Component {
     }
     componentDidMount() {
             this.getData();
-    }
-    
-    componentDidUpdate(prevProps) {
-        if (this.props.match.url !== prevProps.match.url) {
-            this.getData();
         }
-    }
-    
-    render() {
-        window.scrollTo(0, 0);
-        const { error, isLoaded, items, dogs } = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return (
-                <div className="App">
-                <p>{dogs}</p>
+        
+        componentDidUpdate(prevProps) {
+            if (this.props.match.url !== prevProps.match.url) {
+                this.getData();
+            }
+        }
+        
+        render() {
+            window.scrollTo(0, 0);
+            const { error, isLoaded, items } = this.state;
+            if (error) {
+                return <div>Error: {error.message}</div>;
+            } else if (!isLoaded) {
+                return (
+                    <div className="App">
                     <h1>
                         {this.props.match.params.category
                             ? this.props.match.params.category
-                                  .charAt(0)
-                                  .toUpperCase() +
-                              this.props.match.params.category.slice(1)
+                            .charAt(0)
+                            .toUpperCase() +
+                            this.props.match.params.category.slice(1)
                             : "Photos"}
                     </h1>
                 </div>
@@ -167,19 +168,19 @@ class Photos extends Component {
                 return textA < textB ? -1 : textA > textB ? 1 : 0;
             });
             // this.props.match.params.category === 'art-design' ? this.props.match.params.category = 'Art & Design' : null;
-
+            
             return (
                 <div className="App">
                     <h1
                         style={{
                             color: items[7] !== undefined ? items[7] : null
                         }}
-                    >
+                        >
                         {this.props.match.params.category
                             ? this.props.match.params.category
-                                  .charAt(0)
-                                  .toUpperCase() +
-                              this.props.match.params.category.slice(1)
+                            .charAt(0)
+                            .toUpperCase() +
+                            this.props.match.params.category.slice(1)
                             : "Photos"}
                     </h1>
                     <div className="gallery">
