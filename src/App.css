@@ -35,6 +35,8 @@ footer{height:200px;background: var(--dark-green); margin: 0; width:100%;}
     justify-content: space-between;
     flex-wrap: wrap;
     position:relative;
+    height:auto;
+    transition: all .5s;
 }
 .gallery-card {
     background-color: white;
