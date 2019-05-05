@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { slide, scale } from './transitions'
+import { slide, scale } from '../transitions'
 
 const Wrapper = styled.div`
 width: 100vw;
@@ -26,6 +26,7 @@ margin: 10px 30px;
   outline: none;
 }
 `
+console.log(this);
 
 const Page = ({ history, to, ...props }) => (
     <div>
@@ -43,6 +44,6 @@ const Page = ({ history, to, ...props }) => (
     </div>
 );
 
-export const Green = (props) => <Page color='#60d7a9' to='/subpage' {...props} />
+export const Green = (props) => <Page color='#60d7a9' to='/green' {...props} />
 
 export default Page;

@@ -24,10 +24,10 @@ class Photos extends Component {
         Promise.all([
             fetch(
                 //change to localhost - mobile viewing
-                "http://10.0.1.4:8888/pcooney/wp-json/wp/v2/photography?per_page=12"
+                "http://localhost:8888/test/wp-json/wp/v2/photography?per_page=12"
             ).then(value => value.json()),
             fetch(
-                "http://10.0.1.4:8888/pcooney/wp-json/wp/v2/categories?per_page=12"
+                "http://localhost:8888/test/wp-json/wp/v2/categories?per_page=12"
             ).then(value => value.json())
         ]).then(
             result => {
@@ -193,8 +193,8 @@ class Photos extends Component {
                                         className="gallery-image"
                                         style={{
                                             backgroundImage:
-                                                "url(http://10.0.1.4" + 
-                                                item.acf.image.sizes.medium.slice(16) +
+                                                "url(" + 
+                                                item.acf.image.sizes.medium +
                                                 ")"
                                         }}
                                     />

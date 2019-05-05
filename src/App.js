@@ -1,58 +1,37 @@
-import React, { Component } from 'react';
+import React from "react";
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            items: []
-        };
-    }
+//Components
+import styled from 'styled-components'
+import {CSSTransition}from 'react-transition-group';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
+import Photos from './components/pages/Photos'
 
-    componentDidMount() {
-        fetch("http://localhost:8888/pcooney/wp-json/acf/v3/locations")
-        .then(res => res.json())
-        .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    items: result
-                });
-            },
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-        )
-    }
 
-    render() {
-        const { error, isLoaded, items } = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return <div>Loading...</div>;
-        } else {
-            return (
-                <div className="App">
-                    <h1>Home</h1>
-                    <div className="gallery">
-                        {items.map(item => (
-                            <div key={item.acf.location} className="gallery-card">
-                                <div className="gallery-image" style={{backgroundImage: "url(" + item.acf.image.sizes.medium + ")"}}></div>
-                                <div className="gallery-textbox">
-                                    <p className="gallery-title">{item.acf.location}</p>
-                                </div>
-                            </div>
-                            ))}
+// Styled component to host the app.
+const PageContainer = styled.div`
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background-color: #e3f2fd;
+  font-family: "Open Sans", sans-serif;
+`;
+
+// Starting point of our app
+function App() {
+    return (
+        <Router>
+            <Route
+                render={({ location }) => {
+                    return (
+                        <div className="App">
+                            <h1>Home</h1>
                         </div>
-                </div>
-            );
-        }
-    }
+                    );
+                }}
+            />
+        </Router>
+    );
 }
 
 export default App;

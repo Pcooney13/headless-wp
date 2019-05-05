@@ -234,7 +234,7 @@ a.gallery-category {
 .is-visible {
     transform: translateY(0);
 }
-.gallery{
+/* .gallery{
     position: relative;
 }
 .gallery-card:hover{
@@ -254,4 +254,4 @@ a.gallery-category {
 }
 .gallery-card:nth-child(3n):hover{
     right:0;
-}
+} */
