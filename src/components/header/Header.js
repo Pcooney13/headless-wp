@@ -4,8 +4,10 @@ import Logo from "./Logo";
 
 class Header extends Component {
     
+    
     render() {
-
+        
+        
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
             return function() {
@@ -22,11 +24,6 @@ class Header extends Component {
             };
         }
                     
-        // CHANGE HEADer
-        if (document.getElementById("header")) {
-            console.log("hit");
-            document.getElementById("header").style.backgroundColor = "#126b4c";
-        }
         //   const nav = document.querySelector('.header');
         //   console.log(nav);
         
@@ -51,10 +48,14 @@ class Header extends Component {
     
         // window.addEventListener('scroll', checkPosition);
         window.addEventListener('scroll', debounce(checkPosition));
-
+        // const headerStyles = {
+        //     backgroundColor: '#126b4c',
+        // };
         return (
             <header className="header-wrap">
-                <ul id="header" className="header is-visible">
+                <ul
+                    id="header"
+                    className="header is-visible">
                     <li>
                         <NavLink to="/">
                             <Logo />
@@ -73,6 +74,13 @@ class Header extends Component {
                     <li>
                         <NavLink activeClassName="active" to="/photos">
                             Photos
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            activeClassName="active"
+                            to="/pictures">
+                            Pictures
                         </NavLink>
                     </li>
                     <li>

@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import { slide, scale } from '../transitions'
 
 const Wrapper = styled.div`
-width: 100vw;
-height: 90vh;
 position: absolute;
+left:0;
+right:0;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -26,12 +26,11 @@ margin: 10px 30px;
   outline: none;
 }
 `
-console.log(this);
 
 const Page = ({ history, to, ...props }) => (
-    <div>
         <Wrapper {...props}>
             <h1>Dynamic transitions</h1>
+            <h1>{console.log(props)}</h1>
             <div>
                 <Button onClick={() => history.push({ pathname: to, state: slide })}>
                     Slide
@@ -41,7 +40,6 @@ const Page = ({ history, to, ...props }) => (
                 </Button>
             </div>
         </Wrapper>
-    </div>
 );
 
 export const Green = (props) => <Page color='#60d7a9' to='/green' {...props} />
