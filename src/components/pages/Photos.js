@@ -16,12 +16,11 @@ class Photos extends React.Component {
             error: null,
             isLoaded: false,
         };
-        this.handleCategories = this.handleCategories.bind(this)
     }
 
-    getData() {
+    componentDidMount() {
         const dataPosts =
-            'http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=12';
+            'http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=24';
         const dataCategories =
             'http://localhost:8888/pcooney/wp-json/wp/v2/categories?per_page=12';
 
@@ -35,7 +34,6 @@ class Photos extends React.Component {
                     value[1].map(datacat => {
                         if (category === datacat.id) {
                             category = datacat.slug;
-                            console.log(datacat)
                             post.category.push([
                                 datacat.slug,
                                 datacat.acf.color,
@@ -51,6 +49,7 @@ class Photos extends React.Component {
                 {
                     isLoaded: true,
                     posts: PostArrays,
+                    allPosts: PostArrays,
                 },
                 error => {
                     this.setState({
@@ -62,16 +61,27 @@ class Photos extends React.Component {
         });
     }
 
-    componentDidMount() {
-        this.getData();
+    handleImage(image) {
+        console.log(image)
+        console.log(this)
     }
 
-    handleCategories() {
-        console.log("yay")
+    handleCategories(tag) {
+        const categorizedPosts = []
+        this.state.allPosts.map(post => {
+           post.category.map(categories => {
+               if (categories[0] === tag[0]) {
+                categorizedPosts.push(post);
+               }
+           })
+        })
+        this.setState({
+            posts: categorizedPosts,
+        });
     }
-
+    
     render() {
-        const { error, isLoaded, handleCategories } = this.state;
+        const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -91,6 +101,7 @@ class Photos extends React.Component {
                                     <Link
                                         to={`/photo/${post.slug}`}
                                         className="gallery-image"
+                                        onClick={() => this.handleImage(post)}
                                         style={{
                                             backgroundImage:
                                                 'url(' +
@@ -110,18 +121,15 @@ class Photos extends React.Component {
                                     <p className="gallery-categories">
                                         {post.category.map(tag => (
                                             <Link
-                                                key={post.id}
+                                                key={Math.floor(Math.random() * 1000)}
                                                 className="gallery-category"
                                                 style={{
                                                     backgroundColor: tag[1],
                                                     borderTopColor: tag[1],
                                                 }}
                                                 to={`/photos/${tag[0]}`}
-                                                onClick={handleCategories}
-                                                data-tooltip={tag[0].replace(
-                                                    'amp;',
-                                                    ''
-                                                )}
+                                                onClick={() => this.handleCategories(tag)}
+                                                data-tooltip={tag[0].charAt(0).toUpperCase() + tag[0].slice(1)}
                                                 aria-hidden="true">
                                                 {tag[0]
                                                     .slice(0, 1)
