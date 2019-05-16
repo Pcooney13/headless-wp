@@ -45,6 +45,11 @@ class Photos extends React.Component {
                 delete post.categories;
                 return post;
             });
+            PostArrays.sort(function(a, b) {
+                var textA = a.slug.toUpperCase();
+                var textB = b.slug.toUpperCase();
+                return textA < textB ? -1 : textA > textB ? 1 : 0;
+            });
             this.setState(
                 {
                     isLoaded: true,
@@ -62,18 +67,28 @@ class Photos extends React.Component {
     }
 
     handleImage(image) {
-        console.log(image)
-        console.log(this)
+        console.log(image.id)
+        this.setState(prevState => {
+            const postShowcase = prevState.posts.map(post => {
+                if(post.id === image.id) {
+                    console.log(post.title.rendered)
+                }
+                return post
+            })
+            return {
+                posts: postShowcase
+            }
+        });
     }
 
     handleCategories(tag) {
         const categorizedPosts = []
         this.state.allPosts.map(post => {
-           post.category.map(categories => {
-               if (categories[0] === tag[0]) {
-                categorizedPosts.push(post);
-               }
-           })
+            post.category.map(categories => {
+                if (categories[0] === tag[0]) {
+                    categorizedPosts.push(post);
+                }
+            })
         })
         this.setState({
             posts: categorizedPosts,
@@ -81,6 +96,7 @@ class Photos extends React.Component {
     }
     
     render() {
+        window.scrollTo(0, 0);
         const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;

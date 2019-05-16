@@ -24,7 +24,7 @@ export default () => (
                 <Route path="/users/:id" component={User} />
                 <Route exact path="/users" component={Users} />
                 <Route path="/photos/:category" component={Photos} />
-                <Route path="/photo/:id" component={Photo} />
+                <Route path="/photo/:id" component={Photos} />
                 <Route exact path="/photos" component={Photos} />
                 <Route exact path="/pictures" component={Pictures} />
                 <Route exact path="/weather" component={Weather} />
