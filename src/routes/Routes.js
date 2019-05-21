@@ -8,7 +8,6 @@ import Footer from '../components/footer/Footer'
 import Users from '../components/pages/Users'
 import User from '../components/pages/Users'
 import Photos from '../components/pages/Photos'
-import Photo from '../components/pages/Photos'
 import Pictures from '../components/pages/Pictures'
 import Weather from "../components/pages/Weather";
 import Notfound from '../components/pages/404'

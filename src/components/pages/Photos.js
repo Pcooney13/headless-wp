@@ -20,9 +20,9 @@ class Photos extends React.Component {
 
     componentDidMount() {
         const dataPosts =
-            'http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=24';
+            'http://localhost:8888/test/wp-json/wp/v2/photography?per_page=24';
         const dataCategories =
-            'http://localhost:8888/pcooney/wp-json/wp/v2/categories?per_page=12';
+            'http://localhost:8888/test/wp-json/wp/v2/categories?per_page=12';
 
         Promise.all([
             fetch(dataPosts).then(value => value.json()),
@@ -31,7 +31,7 @@ class Photos extends React.Component {
             const PostArrays = value[0].map(post => {
                 post.category = [];
                 post.categories.map(category => {
-                    value[1].map(datacat => {
+                    value[1].forEach(function(datacat) {
                         if (category === datacat.id) {
                             category = datacat.slug;
                             post.category.push([
@@ -66,25 +66,12 @@ class Photos extends React.Component {
         });
     }
 
-    handleImage(image) {
-        console.log(image.id)
-        this.setState(prevState => {
-            const postShowcase = prevState.posts.map(post => {
-                if(post.id === image.id) {
-                    console.log(post.title.rendered)
-                }
-                return post
-            })
-            return {
-                posts: postShowcase
-            }
-        });
-    }
+
 
     handleCategories(tag) {
         const categorizedPosts = []
-        this.state.allPosts.map(post => {
-            post.category.map(categories => {
+        this.state.allPosts.forEach(function(post) {
+            post.category.forEach(function(categories) {
                 if (categories[0] === tag[0]) {
                     categorizedPosts.push(post);
                 }
@@ -95,6 +82,48 @@ class Photos extends React.Component {
         });
     }
     
+    handleImage(image) {
+        // image.preventDefault()
+        let cards = document.getElementsByClassName(this.className)
+        for (var i = 0; i < cards.length; i++) {
+            //finds card that was clicked
+            if (cards[i].href.includes(this.to)) {
+                console.log(cards[i].parentElement.parentElement)
+                if (cards[i].style.backgroundImage.includes("300")) {
+                    cards[i].style.backgroundImage = cards[i].style.backgroundImage.slice(0, -14) + '.jpg")'
+                }
+                if (cards[i].parentElement.parentElement.style.position !== "absolute") {
+                    cards[i].parentElement.parentElement.style.width = "100%"
+                    cards[i].parentElement.parentElement.style.position = "absolute"
+                    cards[i].style.height = "600px"
+                    cards[i].parentElement.parentElement.style.left = 0
+                    cards[i].parentElement.parentElement.style.maxWidth = "100%"
+                    cards[i].parentElement.parentElement.style.zIndex = 5
+
+                    
+                } else {
+                    cards[i].parentElement.parentElement.style.width = "calc(100% / 3)"
+                    cards[i].parentElement.parentElement.style.position = "relative"
+                    cards[i].style.height = "200px"
+                    cards[i].parentElement.parentElement.style.maxWidth = "300px"
+                    cards[i].parentElement.parentElement.style.zIndex = 1
+                    console.log(cards[i])
+                }
+            }
+        }
+
+        // this.setState(prevState => {
+        //     const postShowcase = prevState.posts.map(post => {
+        //         if (post.id === image.id) {
+        //             // console.log(post.title.rendered)
+        //         }
+        //         return post
+        //     })
+        //     return {
+        //         posts: postShowcase
+        //     }
+        // });
+    }
     render() {
         window.scrollTo(0, 0);
         const { error, isLoaded } = this.state;
@@ -117,7 +146,7 @@ class Photos extends React.Component {
                                     <Link
                                         to={`/photo/${post.slug}`}
                                         className="gallery-image"
-                                        onClick={() => this.handleImage(post)}
+                                        onClick={this.handleImage}//this.handleImage(post)}
                                         style={{
                                             backgroundImage:
                                                 'url(' +
