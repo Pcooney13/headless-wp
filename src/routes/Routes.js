@@ -8,7 +8,7 @@ import Footer from '../components/footer/Footer'
 import Users from '../components/pages/Users'
 import User from '../components/pages/Users'
 import Photos from '../components/pages/Photos'
-import Pictures from '../components/pages/Pictures'
+// import Pictures from '../components/pages/Pictures'
 import Weather from "../components/pages/Weather";
 import Notfound from '../components/pages/404'
 import '../App.css';
@@ -25,7 +25,7 @@ export default () => (
                 <Route path="/photos/:category" component={Photos} />
                 <Route path="/photo/:id" component={Photos} />
                 <Route exact path="/photos" component={Photos} />
-                <Route exact path="/pictures" component={Pictures} />
+                {/* <Route exact path="/pictures" component={Pictures} /> */}
                 <Route exact path="/weather" component={Weather} />
                 <Route component={Notfound} />
             </Switch>

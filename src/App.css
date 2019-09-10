@@ -260,3 +260,56 @@ a.gallery-category {
 .gallery-card:nth-child(3n):hover{
     right:0;
 } */
+.weather-app{
+    max-width:500px;
+    min-height:300px;
+    margin:0 auto;
+}
+.weather-app input {
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border:0;
+}
+.weather-app button {
+    background: var(--dark-green);
+    color: white;
+    text-align:center;
+    padding: 20px 15px;
+    width:100%;   
+    text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: 3px;
+    border:0;
+    margin:15px 0;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, .125);
+}
+.weather__location{
+    margin:0;
+    font-size:21px;
+    text-align: center;
+}
+.weather__key {
+    font-weight:600;
+    margin:0;
+    padding:10px;
+}
+.weather__key span {
+    font-weight:400;
+}
+.weather__info {
+    display:none;
+    background-color:white;
+    padding:15px 30px;
+    margin-bottom:15px;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, .125);
+}
+.weather__info p:nth-child(odd) {
+    background:#f7f7fa;
+}
+.weather__info img {
+    display:block;
+    padding:15px;
+    margin:0 auto;
+}

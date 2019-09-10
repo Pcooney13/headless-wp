@@ -76,13 +76,13 @@ class Header extends Component {
                             Photos
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink
                             activeClassName="active"
                             to="/pictures">
-                            Pictures
+                            Clay Posts
                         </NavLink>
-                    </li>
+                    </li> */}
                     <li>
                         <NavLink activeClassName="active" to="/weather">
                             Weather
