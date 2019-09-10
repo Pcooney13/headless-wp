@@ -53,9 +53,7 @@ class Header extends Component {
         // };
         return (
             <header className="header-wrap">
-                <ul
-                    id="header"
-                    className="header is-visible">
+                <ul id="header" className="header is-visible">
                     <li>
                         <NavLink to="/">
                             <Logo />
@@ -67,25 +65,23 @@ class Header extends Component {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName="active" to="/users">
-                            Users
-                        </NavLink>
-                    </li>
-                    <li>
                         <NavLink activeClassName="active" to="/photos">
                             Photos
                         </NavLink>
                     </li>
-                    {/* <li>
-                        <NavLink
-                            activeClassName="active"
-                            to="/pictures">
+                    <li>
+                        <NavLink activeClassName="active" to="/pictures">
                             Clay Posts
                         </NavLink>
-                    </li> */}
+                    </li>
                     <li>
                         <NavLink activeClassName="active" to="/weather">
                             Weather
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink activeClassName="active" to="/resume">
+                            Resume
                         </NavLink>
                     </li>
                 </ul>

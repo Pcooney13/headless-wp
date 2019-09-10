@@ -20,9 +20,9 @@ class Photos extends React.Component {
 
     componentDidMount() {
         const dataPosts =
-            'http://localhost:8888/test/wp-json/wp/v2/photography?per_page=24';
+            'http://localhost:8888/pcooney/wp-json/wp/v2/photography?per_page=24';
         const dataCategories =
-            'http://localhost:8888/test/wp-json/wp/v2/categories?per_page=12';
+            'http://localhost:8888/pcooney/wp-json/wp/v2/categories?per_page=12';
 
         Promise.all([
             fetch(dataPosts).then(value => value.json()),
