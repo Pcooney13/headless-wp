@@ -59,19 +59,14 @@ class Header extends Component {
                             <Logo />
                         </NavLink>
                     </li>
-                    <li>
+                    {/* <li>
                         <NavLink exact activeClassName="active" to="/">
                             Home
                         </NavLink>
-                    </li>
+                    </li> */}
                     <li>
                         <NavLink activeClassName="active" to="/photos">
                             Photos
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName="active" to="/pictures">
-                            Clay Posts
                         </NavLink>
                     </li>
                     <li>
@@ -84,6 +79,12 @@ class Header extends Component {
                             Resume
                         </NavLink>
                     </li>
+                </ul>
+                <ul
+                    className="header secondary-header">
+                    <div className="container">
+                        <li>dynamic category (needs work)</li>
+                    </div>
                 </ul>
             </header>
         );

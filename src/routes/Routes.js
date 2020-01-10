@@ -7,7 +7,6 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../components/pages/Photos'
 import Resume from '../components/pages/Resume'
-import Pictures from '../components/pages/Pictures'
 import Weather from "../components/pages/Weather";
 import Notfound from '../components/pages/404'
 import '../App.css';
@@ -22,7 +21,6 @@ export default () => (
                 <Route path="/photos/:category" component={Photos} />
                 <Route path="/photo/:id" component={Photos} />
                 <Route exact path="/photos" component={Photos} />
-                <Route exact path="/pictures" component={Pictures} />
                 <Route exact path="/weather" component={Weather} />
                 <Route exact path="/resume" component={Resume} />
                 <Route component={Notfound} />

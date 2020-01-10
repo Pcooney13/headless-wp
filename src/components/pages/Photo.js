@@ -59,7 +59,7 @@ class Photo extends Component {
                             <Link
                                 to={`/photo/${items[0][0].slug}`}
                                 className="showcase-image"
-                                style={{ backgroundImage: "url(" + items[0][0].acf.image.sizes.large + ")" }}
+                                style={{ backgroundImage: "url(" + items[0][0].acf.image.sizes.medium + ")" }}
                             />
                         </div>
                         <div className="showcase-textbox">

@@ -63,7 +63,9 @@ class Photos extends React.Component {
                     });
                 }
             );
-        });
+        })
+        .then(
+            window.location.href.indexOf('localhost') > -1 ? document.querySelector('.secondary-header').classList.add('show-off') : document.querySelector('.secondary-header').classList.remove('show-off')        );
     }
 
 
@@ -90,6 +92,7 @@ class Photos extends React.Component {
             if (cards[i].href.includes(this.to)) {
                 console.log(cards[i].parentElement.parentElement)
                 if (cards[i].style.backgroundImage.includes("300")) {
+                    console.log(cards[i].style.backgroundImage);
                     cards[i].style.backgroundImage = cards[i].style.backgroundImage.slice(0, -14) + '.jpg")'
                 }
                 if (cards[i].parentElement.parentElement.style.position !== "absolute") {

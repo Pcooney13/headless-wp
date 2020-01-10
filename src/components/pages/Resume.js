@@ -18,6 +18,7 @@ class Resume extends React.Component {
     }
 
     render() {
+        
         window.scrollTo(0, 0);
         const { error, isLoaded } = this.state;
         if (error) {
