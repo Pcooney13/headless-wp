@@ -68,6 +68,10 @@ class WeatherApp extends Component {
             }
             if (sunrise[0] < 1) {sunrise[0] += 12};
             if (sunset[0] < 1) {sunset[0] += 12};
+            if (sunset[0] > 12) { sunset[0] = sunset[0] - 12 };
+            //Daylight Savings Time Adjustment - Start
+            sunset[0] = sunset[0] - 1;
+            //Daylight Savings Time Adjustment - End
             sunset[0] += ':';
             sunset[1] += 'PM';
             sunrise[0] += ':';

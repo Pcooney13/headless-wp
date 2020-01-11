@@ -20,7 +20,7 @@ class Photos extends React.Component {
 
     componentDidMount() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=24';
+            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=30';
         const dataCategories =
             'https://pat-cooney.com/wp/wp-json/wp/v2/categories?per_page=12';
 
@@ -65,7 +65,7 @@ class Photos extends React.Component {
             );
         })
         .then(
-            window.location.href.indexOf('localhost') > -1 ? document.querySelector('.secondary-header').classList.add('show-off') : document.querySelector('.secondary-header').classList.remove('show-off')        );
+            window.location.href.indexOf('photo/') > -1 ? document.querySelector('.secondary-header').classList.add('show-off') : document.querySelector('.secondary-header').classList.remove('show-off')        );
     }
 
 
@@ -95,9 +95,10 @@ class Photos extends React.Component {
                     console.log(cards[i].style.backgroundImage);
                     cards[i].style.backgroundImage = cards[i].style.backgroundImage.slice(0, -14) + '.jpg")'
                 }
-                if (cards[i].parentElement.parentElement.style.position !== "absolute") {
+                if (cards[i].parentElement.parentElement.style.order !== "-1") {
+                    console.log(cards[i].parentElement.parentElement.style.order);
                     cards[i].parentElement.parentElement.style.width = "100%"
-                    cards[i].parentElement.parentElement.style.position = "absolute"
+                    cards[i].parentElement.parentElement.style.order = "-1"
                     cards[i].style.height = "600px"
                     cards[i].parentElement.parentElement.style.left = 0
                     cards[i].parentElement.parentElement.style.maxWidth = "100%"
@@ -106,7 +107,7 @@ class Photos extends React.Component {
                     
                 } else {
                     cards[i].parentElement.parentElement.style.width = "calc(100% / 3)"
-                    cards[i].parentElement.parentElement.style.position = "relative"
+                    cards[i].parentElement.parentElement.style.order = "0"
                     cards[i].style.height = "200px"
                     cards[i].parentElement.parentElement.style.maxWidth = "300px"
                     cards[i].parentElement.parentElement.style.zIndex = 1

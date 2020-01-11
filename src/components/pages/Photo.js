@@ -41,7 +41,8 @@ class Photo extends Component {
                         error
                     });
                 }
-            );
+        ).then(
+            window.location.href.indexOf('photo/') > -1 ? document.querySelector('.secondary-header').classList.add('show-off') : document.querySelector('.secondary-header').classList.remove('show-off'));
     }
 
     render() {

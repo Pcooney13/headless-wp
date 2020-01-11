@@ -51,8 +51,8 @@ class Weather extends Component {
           }
           { 
             this.props.sunset && 
-            <p className="weather__key">Sunset: 
-                <span className="weather__value"> {this.props.sunset}</span>
+          <p className="weather__key">Sunset: 
+                <span className="weather__value"> {this.props.sunset > 12 ? this.props.sunset - 12 : this.props.sunset}</span>
             </p>
           }
           { 
