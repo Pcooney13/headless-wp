@@ -86,20 +86,24 @@ class Photos extends React.Component {
     
     handleImage(image) {
         // image.preventDefault()
+        console.log(this.to)
         let cards = document.getElementsByClassName(this.className)
         for (var i = 0; i < cards.length; i++) {
             //finds card that was clicked
             if (cards[i].href.includes(this.to)) {
                 console.log(cards[i].parentElement.parentElement)
-                if (cards[i].style.backgroundImage.includes("300")) {
+                if (cards[i].children[0].src.includes("300x")) {
                     console.log(cards[i].style.backgroundImage);
-                    cards[i].style.backgroundImage = cards[i].style.backgroundImage.slice(0, -14) + '.jpg")'
+                    cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
                 }
                 if (cards[i].parentElement.parentElement.style.order !== "-1") {
-                    console.log(cards[i].parentElement.parentElement.style.order);
                     cards[i].parentElement.parentElement.style.width = "100%"
                     cards[i].parentElement.parentElement.style.order = "-1"
-                    cards[i].style.height = "600px"
+
+                    cards[i].style.height = "unset"
+                    cards[i].children[0].style.minWidth = "100%"
+                    cards[i].children[0].style.maxWidth = "100%"
+                    console.log(cards[i].children[0].src)
                     cards[i].parentElement.parentElement.style.left = 0
                     cards[i].parentElement.parentElement.style.maxWidth = "100%"
                     cards[i].parentElement.parentElement.style.zIndex = 5
@@ -108,10 +112,10 @@ class Photos extends React.Component {
                 } else {
                     cards[i].parentElement.parentElement.style.width = "calc(100% / 3)"
                     cards[i].parentElement.parentElement.style.order = "0"
-                    cards[i].style.height = "200px"
+                    // cards[i].style.height = "200px"
+                    cards[i].children[0].style.minWidth = "unset"
                     cards[i].parentElement.parentElement.style.maxWidth = "300px"
                     cards[i].parentElement.parentElement.style.zIndex = 1
-                    console.log(cards[i])
                 }
             }
         }
@@ -151,13 +155,15 @@ class Photos extends React.Component {
                                         to={`/photo/${post.slug}`}
                                         className="gallery-image"
                                         onClick={this.handleImage}//this.handleImage(post)}
-                                        style={{
-                                            backgroundImage:
-                                                'url(' +
-                                                post.acf.image.sizes.medium +
-                                                ')',
-                                        }}
-                                    />
+                                        // style={{
+                                        //     backgroundImage:
+                                        //         'url(' +
+                                        //         post.acf.image.sizes.medium +
+                                        //         ')',
+                                        // }}
+                                    >
+                                        <img src={post.acf.image.sizes.medium} alt=""></img>
+                                    </Link>
                                 </div>
                                 <div className="gallery-textbox">
                                     <h4 className="gallery-title">
