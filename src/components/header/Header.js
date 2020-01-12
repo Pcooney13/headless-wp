@@ -45,7 +45,9 @@ class Header extends Component {
             }
             scrollPos = windowY;
         }
-    
+        if (window.location.href.indexOf('photo/') > -1) {
+            console.log("YOOOO")
+        }
         // window.addEventListener('scroll', checkPosition);
         window.addEventListener('scroll', debounce(checkPosition));
         // const headerStyles = {

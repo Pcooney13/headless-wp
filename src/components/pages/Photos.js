@@ -63,9 +63,7 @@ class Photos extends React.Component {
                     });
                 }
             );
-        })
-        .then(
-            window.location.href.indexOf('photo/') > -1 ? document.querySelector('.secondary-header').classList.add('show-off') : document.querySelector('.secondary-header').classList.remove('show-off')        );
+        });
     }
 
 
@@ -91,10 +89,17 @@ class Photos extends React.Component {
         for (var i = 0; i < cards.length; i++) {
             //finds card that was clicked
             if (cards[i].href.includes(this.to)) {
+                if (window.location.href.indexOf('photo/') > -1) {
+                    document.querySelector('.secondary-header').classList.add('show-off')
+                    console.log(cards[i].parentElement.parentElement.children[1].children[0].innerHTML)
+                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
+                } else {
+                    document.querySelector('.secondary-header').classList.remove('show-off')
+                }
                 console.log(cards[i].parentElement.parentElement)
                 if (cards[i].children[0].src.includes("300x")) {
-                    console.log(cards[i].style.backgroundImage);
                     cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
+                    document.querySelector('.secondary-header').classList.add('show-off')
                 }
                 if (cards[i].parentElement.parentElement.style.order !== "-1") {
                     cards[i].parentElement.parentElement.style.width = "100%"
@@ -114,23 +119,15 @@ class Photos extends React.Component {
                     cards[i].parentElement.parentElement.style.order = "0"
                     // cards[i].style.height = "200px"
                     cards[i].children[0].style.minWidth = "unset"
+                    // window.location.pathname = "/photos"
+                    window.history.back();
                     cards[i].parentElement.parentElement.style.maxWidth = "300px"
                     cards[i].parentElement.parentElement.style.zIndex = 1
+                    document.querySelector('.secondary-header').classList.remove('show-off')
+
                 }
             }
         }
-
-        // this.setState(prevState => {
-        //     const postShowcase = prevState.posts.map(post => {
-        //         if (post.id === image.id) {
-        //             // console.log(post.title.rendered)
-        //         }
-        //         return post
-        //     })
-        //     return {
-        //         posts: postShowcase
-        //     }
-        // });
     }
     render() {
         window.scrollTo(0, 0);
@@ -155,12 +152,6 @@ class Photos extends React.Component {
                                         to={`/photo/${post.slug}`}
                                         className="gallery-image"
                                         onClick={this.handleImage}//this.handleImage(post)}
-                                        // style={{
-                                        //     backgroundImage:
-                                        //         'url(' +
-                                        //         post.acf.image.sizes.medium +
-                                        //         ')',
-                                        // }}
                                     >
                                         <img src={post.acf.image.sizes.medium} alt=""></img>
                                     </Link>
