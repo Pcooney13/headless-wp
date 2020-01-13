@@ -20,7 +20,7 @@ class Photos extends React.Component {
 
     componentDidMount() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=30';
+            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=39';
         const dataCategories =
             'https://pat-cooney.com/wp/wp-json/wp/v2/categories?per_page=12';
 
@@ -84,14 +84,13 @@ class Photos extends React.Component {
     
     handleImage(image) {
         // image.preventDefault()
-        console.log(this.to)
         let cards = document.getElementsByClassName(this.className)
         for (var i = 0; i < cards.length; i++) {
-            //finds card that was clicked
+            //finds card that was clicked with new url
             if (cards[i].href.includes(this.to)) {
+                //put image title in secondary nav when clicked on
                 if (window.location.href.indexOf('photo/') > -1) {
                     document.querySelector('.secondary-header').classList.add('show-off')
-                    console.log(cards[i].parentElement.parentElement.children[1].children[0].innerHTML)
                     document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
                 } else {
                     document.querySelector('.secondary-header').classList.remove('show-off')
@@ -101,31 +100,20 @@ class Photos extends React.Component {
                     cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
                     document.querySelector('.secondary-header').classList.add('show-off')
                 }
-                if (cards[i].parentElement.parentElement.style.order !== "-1") {
-                    cards[i].parentElement.parentElement.style.width = "100%"
-                    cards[i].parentElement.parentElement.style.order = "-1"
-
+                if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
+                    cards[i].parentElement.parentElement.classList.add("clicked-full")
                     cards[i].style.height = "unset"
                     cards[i].children[0].style.minWidth = "100%"
                     cards[i].children[0].style.maxWidth = "100%"
-                    console.log(cards[i].children[0].src)
-                    cards[i].parentElement.parentElement.style.left = 0
-                    cards[i].parentElement.parentElement.style.maxWidth = "100%"
-                    cards[i].parentElement.parentElement.style.zIndex = 5
-
-                    
+                    console.log(cards[i].children[0].src)                    
                 } else {
-                    cards[i].parentElement.parentElement.style.width = "calc(100% / 3)"
-                    cards[i].parentElement.parentElement.style.order = "0"
-                    // cards[i].style.height = "200px"
+                    cards[i].parentElement.parentElement.classList.remove("clicked-full")
                     cards[i].children[0].style.minWidth = "unset"
-                    // window.location.pathname = "/photos"
                     window.history.back();
-                    cards[i].parentElement.parentElement.style.maxWidth = "300px"
-                    cards[i].parentElement.parentElement.style.zIndex = 1
                     document.querySelector('.secondary-header').classList.remove('show-off')
-
                 }
+            } else {
+                cards[i].parentElement.parentElement.classList.remove("clicked-full")
             }
         }
     }
