@@ -88,15 +88,15 @@ class Photos extends React.Component {
     //         if (cards[i].href.includes(this.to)) {
     //             //put image title in secondary nav when clicked on
     //             if (window.location.href.indexOf('photo/') > -1) {
-    //                 document.querySelector('.secondary-header').classList.add('show-off')
+    //                 document.querySelector('.secondary-header').classList.add('show-secondary-nav')
     //                 document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
     //             } else {
-    //                 document.querySelector('.secondary-header').classList.remove('show-off')
+    //                 document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
     //             }
     //             //changes image src to full size and brings image to top
     //             if (cards[i].children[0].src.includes("300x")) {
     //                 cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
-    //                 document.querySelector('.secondary-header').classList.add('show-off')
+    //                 document.querySelector('.secondary-header').classList.add('show-secondary-nav')
     //             }
     //             if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
     //                 cards[i].parentElement.parentElement.classList.add("clicked-full")
@@ -107,13 +107,14 @@ class Photos extends React.Component {
     //                 cards[i].parentElement.parentElement.classList.remove("clicked-full")
     //                 cards[i].children[0].style.minWidth = "unset"
     //                 window.history.back();
-    //                 document.querySelector('.secondary-header').classList.remove('show-off')
+    //                 document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
     //             }
     //         } else {
     //             cards[i].parentElement.parentElement.classList.remove("clicked-full")
     //         }
     //     }
     // }
+    
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
@@ -128,40 +129,44 @@ class Photos extends React.Component {
             window.scrollTo(0, 0);
             let counter = 1;
             
-            let cards = document.getElementsByClassName('card-image-link');
-            let openImage = 0;
+            let cardLinks = document.getElementsByClassName('card-image-link');
+            let showSecondaryNav = 0;
             
-            for (var i = 0; i < cards.length; i++) {
-                //finds card that was clicked with new url
-                if (window.location.href.includes(cards[i].pathname)) {
-                    openImage++;
-                    //put image title in secondary nav when clicked on
-                    // document.querySelector('.secondary-header').classList.add('show-off')
-                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
-                    //changes image src to full size and brings image to top
-                    if (cards[i].children[0].src.includes("300x")) {
-                        cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
-                        // document.querySelector('.secondary-header').classList.add('show-off')
-                    } else {
-                                                window.history.back();
+            for (var i = 0; i < cardLinks.length; i++) {
+                let card = cardLinks[i].parentElement.parentElement;
+                let cardImage = cardLinks[i].children[0];
+                //finds card that matchs url
+                if (window.location.href.includes(cardLinks[i].pathname)) {
+                    
+                    //Put image title in secondary nav
+                    showSecondaryNav++;
+                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = card.children[1].children[0].innerHTML
+                    
+                    //changes image src to full-rez
+                    if (cardImage.src.includes("300x")) {
+                        cardImage.src = cardImage.src.slice(0, -12) + '.jpg")'
                     }
-                    if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
-                        cards[i].parentElement.parentElement.classList.add("clicked-full")
-                        cards[i].style.height = "unset"
-                        cards[i].children[0].style.minWidth = "100%"
-                        cards[i].children[0].style.maxWidth = "100%"
+                    
+                    //Makes image full-width of the page
+                    if (!card.classList.contains("clicked-full")) {
+                        card.classList.add("clicked-full")
+                        cardLinks[i].style.height = "unset"
+                        cardImage.style.maxWidth = "100%"
+                        cardImage.style.width = "100%"
+                        cardImage.style.height = "100%"
                     } else {
-                        cards[i].parentElement.parentElement.classList.remove("clicked-full")
-                        cards[i].children[0].style.minWidth = "unset"
-                        window.location = "/photos";
+                        window.history.back();
+                        card.classList.remove("clicked-full")
+                        cardImage.style.minWidth = "unset"
+                        cardImage.style.maxWidth = "unset"
                     }
                 } else {
-                    cards[i].parentElement.parentElement.classList.remove("clicked-full")
+                    card.classList.remove("clicked-full")
                 }
-                if (openImage > 0) {
-                    document.querySelector('.secondary-header').classList.add('show-off')
+                if (showSecondaryNav) {
+                    document.querySelector('.secondary-header').classList.add('show-secondary-nav')
                 } else {
-                    document.querySelector('.secondary-header').classList.remove('show-off')
+                    document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
                 }
             }
 

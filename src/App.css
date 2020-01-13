@@ -74,6 +74,7 @@ footer{
 }
 .card-image-link img {
     width:100%;
+    height:100%;
 }
 .card-textbox {
     padding: 20px;
@@ -229,7 +230,7 @@ a.card-category {
 .is-visible {
     transform: translateY(0);
 }
-.show-off {
+.show-secondary-nav {
     padding-top:84px;
     opacity:1;
 }
