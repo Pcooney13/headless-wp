@@ -10,7 +10,7 @@
     --light-yellow:#fdd796;
     --light-green: #A6CE39;
     --dark-green:  #126b4c;
-    --darker-green:  #284b3e;
+    --darker-green:#284b3e;
     --dark-blue:   #0B57FF;
     --light-blue:  #6BC4C6;
     --purple:      #6F62AB;
@@ -18,7 +18,7 @@
 
 html {scroll-behavior: smooth;}
 body { background-color: var(--white); margin: 0; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x:hidden;}
-code { font-family: source-code-pro, Menlo, monospace; }
+
 
 
 h1 { margin-top:0;font-family: 'Roboto Condensed', sans-serif;font-weight: 600; }
@@ -44,7 +44,7 @@ footer{
 }
 
 
-.gallery {
+.card-container {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -52,7 +52,7 @@ footer{
     height:auto;
     transition: all .5s;
 }
-.gallery-card {
+.card {
     background-color: white;
     width: calc(100% / 3 - 1em);
     margin-bottom: 30px;
@@ -61,9 +61,9 @@ footer{
     box-shadow: 3px 3px 5px rgba(150, 150, 150, .2);
     transition: all .5s;
 }
-.gallery-card:hover { box-shadow: 10px 10px 20px rgba(100, 100, 100, .2); }
+.card:hover { box-shadow: 10px 10px 20px rgba(100, 100, 100, .2); }
 
-.gallery-image {
+.card-image-link {
     display:flex;
     justify-content:center;
     height: 200px;
@@ -72,70 +72,69 @@ footer{
     border-top-right-radius: 8px;
     transition:all .5s;
 }
-.gallery-image img {
+.card-image-link img {
     width:100%;
 }
-.gallery-textbox {
+.card-textbox {
     padding: 20px;
     text-align: left;
 }
-.gallery-textbox a {
+.card-textbox a {
     color: var(--black);
     text-decoration: none;
     transition: all .5s;
 }
-.gallery-textbox a:hover { color: var(--dark-green); }
-.gallery-title{
+.card-textbox a:hover { color: var(--dark-green); }
+.card-title{
     margin-top:0;
 }
-.gallery-title a{
+.card-title a{
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 600;
     margin: 0;
 }
-.gallery-categories {
+.card-categories {
     text-align: right;
     margin-bottom: 0;
 }
-.gallery-category {
+.card-category {
     padding-left:8px;
     font-size:14px;
 }
-.gallery-category:hover { color:var(--dark-green); }
+.card-category:hover { color:var(--dark-green); }
 
-.gallery-imagebox  {
+.card-imagebox  {
     overflow:hidden;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
 
-.gallery-imagebox:hover .gallery-image,
-.gallery-imagebox:focus .gallery-image {
+.card-imagebox:hover .card-image-link,
+.card-imagebox:focus .card-image-link {
   transform: scale(1.025);
 }
 
 @media (max-width:900px) {
-    .gallery-image { height: unset; }
+    .card-image-link { height: unset; }
 }
 @media (max-width:750px) {
-    .gallery h4 { margin-bottom:0; }
+    .container h4 { margin-bottom:0; }
 }
 @media (max-width:650px) {
-    .gallery-card { width:calc(100% / 2 - 1em); }
-    /* .gallery-image img{ width:100%; min-height:unset;} */
-    .gallery-categories{ margin-top:8px; }
+    .card { width:calc(100% / 2 - 1em); }
+    .card-categories{ margin-top:8px; }
 }
 @media (max-width:360px) {
-    .gallery-card { width:100%; max-width: 100%; }
+    .card { width:100%; max-width: 100%; }
 }
 
 
 
-a.gallery-category:hover{
+a.card-category:hover{
     color:white;
     opacity: 1;
 }
-a.gallery-category {
+a.card-category {
     width: 15px;
     height: 15px;
     font-size:10px;
@@ -154,7 +153,7 @@ a.gallery-category {
     white-space: nowrap;
     transition: all .3s ease;
 }
-.gallery-category:before {
+.card-category:before {
     left: 50%;
     bottom: 100%;
     border: 5px solid transparent;
@@ -168,12 +167,12 @@ a.gallery-category {
     z-index: 3;
     transition: 0.2s;
 }
-.gallery-category:hover:before {
+.card-category:hover:before {
     bottom: 15px;
     border-bottom-color: transparent;
     border-top-color: inherit;
 }
-.gallery-category:after {
+.card-category:after {
     min-width: 40px;
     left: 50%;
     bottom: 100%;
@@ -201,11 +200,11 @@ a.gallery-category {
     min-width: 140px;
     white-space: normal;
 }
-.gallery-category:hover:before, .gallery-category:hover:after {
+.card-category:hover:before, .card-category:hover:after {
     opacity: 1;
     backface-visibility: visible;
 }
-.gallery-category, .gallery-category:before, .gallery-category:after {
+.card-category, .card-category:before, .card-category:after {
     box-sizing: border-box;
 }
 #logo {
@@ -287,7 +286,7 @@ a.gallery-category {
     padding:15px;
     margin:0 auto;
 }
-.gallery-card.clicked-full {
+.card.clicked-full {
     max-width:100%;
     width:100%;
     order:-1;

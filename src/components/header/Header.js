@@ -4,9 +4,7 @@ import Logo from "./Logo";
 
 class Header extends Component {
     
-    
     render() {
-        
         
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
@@ -23,11 +21,9 @@ class Header extends Component {
                 if (callNow) func.apply(context, args);
             };
         }
-                    
-        //   const nav = document.querySelector('.header');
-        //   console.log(nav);
         
         let scrollPos = 0;
+
         function checkPosition() {
             let windowY = window.scrollY;
             if (window.scrollY < 95){
@@ -45,14 +41,9 @@ class Header extends Component {
             }
             scrollPos = windowY;
         }
-        if (window.location.href.indexOf('photo/') > -1) {
-            console.log("YOOOO")
-        }
-        // window.addEventListener('scroll', checkPosition);
+
         window.addEventListener('scroll', debounce(checkPosition));
-        // const headerStyles = {
-        //     backgroundColor: '#126b4c',
-        // };
+
         return (
             <header className="header-wrap">
                 <ul id="header" className="header is-visible">
@@ -61,11 +52,6 @@ class Header extends Component {
                             <Logo />
                         </NavLink>
                     </li>
-                    {/* <li>
-                        <NavLink exact activeClassName="active" to="/">
-                            Home
-                        </NavLink>
-                    </li> */}
                     <li>
                         <NavLink activeClassName="active" to="/photos">
                             Photos
@@ -85,7 +71,7 @@ class Header extends Component {
                 <ul
                     className="header secondary-header">
                     <div className="container">
-                        <li>dynamic category (needs work)</li>
+                        <li>Photos</li>
                     </div>
                 </ul>
             </header>

@@ -4,7 +4,7 @@
 //another handler for when image is clicekd changing it out from medium to large and zoom effect to look like a screen change
 
 // Polish the transition from blurred image taking up screen to full size image
-// Figure out the functionality for zomming from gallery card specifically not just top left corner
+// Figure out the functionality for zomming from card specifically not just top left corner
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -66,8 +66,6 @@ class Photos extends React.Component {
         });
     }
 
-
-
     handleCategories(tag) {
         const categorizedPosts = []
         this.state.allPosts.forEach(function(post) {
@@ -82,43 +80,41 @@ class Photos extends React.Component {
         });
     }
     
-    handleImage(image) {
-        // image.preventDefault()
-        let cards = document.getElementsByClassName(this.className)
-        for (var i = 0; i < cards.length; i++) {
-            //finds card that was clicked with new url
-            if (cards[i].href.includes(this.to)) {
-                //put image title in secondary nav when clicked on
-                if (window.location.href.indexOf('photo/') > -1) {
-                    document.querySelector('.secondary-header').classList.add('show-off')
-                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
-                } else {
-                    document.querySelector('.secondary-header').classList.remove('show-off')
-                }
-                console.log(cards[i].parentElement.parentElement)
-                if (cards[i].children[0].src.includes("300x")) {
-                    cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
-                    document.querySelector('.secondary-header').classList.add('show-off')
-                }
-                if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
-                    cards[i].parentElement.parentElement.classList.add("clicked-full")
-                    cards[i].style.height = "unset"
-                    cards[i].children[0].style.minWidth = "100%"
-                    cards[i].children[0].style.maxWidth = "100%"
-                    console.log(cards[i].children[0].src)                    
-                } else {
-                    cards[i].parentElement.parentElement.classList.remove("clicked-full")
-                    cards[i].children[0].style.minWidth = "unset"
-                    window.history.back();
-                    document.querySelector('.secondary-header').classList.remove('show-off')
-                }
-            } else {
-                cards[i].parentElement.parentElement.classList.remove("clicked-full")
-            }
-        }
-    }
+    // handleImage(image) {
+    //     // image.preventDefault()
+    //     let cards = document.getElementsByClassName(this.className)
+    //     for (var i = 0; i < cards.length; i++) {
+    //         //finds card that was clicked with new url
+    //         if (cards[i].href.includes(this.to)) {
+    //             //put image title in secondary nav when clicked on
+    //             if (window.location.href.indexOf('photo/') > -1) {
+    //                 document.querySelector('.secondary-header').classList.add('show-off')
+    //                 document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
+    //             } else {
+    //                 document.querySelector('.secondary-header').classList.remove('show-off')
+    //             }
+    //             //changes image src to full size and brings image to top
+    //             if (cards[i].children[0].src.includes("300x")) {
+    //                 cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
+    //                 document.querySelector('.secondary-header').classList.add('show-off')
+    //             }
+    //             if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
+    //                 cards[i].parentElement.parentElement.classList.add("clicked-full")
+    //                 cards[i].style.height = "unset"
+    //                 cards[i].children[0].style.minWidth = "100%"
+    //                 cards[i].children[0].style.maxWidth = "100%"
+    //             } else {
+    //                 cards[i].parentElement.parentElement.classList.remove("clicked-full")
+    //                 cards[i].children[0].style.minWidth = "unset"
+    //                 window.history.back();
+    //                 document.querySelector('.secondary-header').classList.remove('show-off')
+    //             }
+    //         } else {
+    //             cards[i].parentElement.parentElement.classList.remove("clicked-full")
+    //         }
+    //     }
+    // }
     render() {
-        window.scrollTo(0, 0);
         const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -129,41 +125,92 @@ class Photos extends React.Component {
                 </div>
             );
         } else {
+            window.scrollTo(0, 0);
+            let counter = 1;
+            
+            let cards = document.getElementsByClassName('card-image-link');
+            let openImage = 0;
+            
+            for (var i = 0; i < cards.length; i++) {
+                //finds card that was clicked with new url
+                if (window.location.href.includes(cards[i].pathname)) {
+                    openImage++;
+                    //put image title in secondary nav when clicked on
+                    // document.querySelector('.secondary-header').classList.add('show-off')
+                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
+                    //changes image src to full size and brings image to top
+                    if (cards[i].children[0].src.includes("300x")) {
+                        cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
+                        // document.querySelector('.secondary-header').classList.add('show-off')
+                    } else {
+                                                window.history.back();
+                    }
+                    if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
+                        cards[i].parentElement.parentElement.classList.add("clicked-full")
+                        cards[i].style.height = "unset"
+                        cards[i].children[0].style.minWidth = "100%"
+                        cards[i].children[0].style.maxWidth = "100%"
+                    } else {
+                        cards[i].parentElement.parentElement.classList.remove("clicked-full")
+                        cards[i].children[0].style.minWidth = "unset"
+                        window.location = "/photos";
+                    }
+                } else {
+                    cards[i].parentElement.parentElement.classList.remove("clicked-full")
+                }
+                if (openImage > 0) {
+                    document.querySelector('.secondary-header').classList.add('show-off')
+                } else {
+                    document.querySelector('.secondary-header').classList.remove('show-off')
+                }
+            }
+
+
+        
             return (
                 <div className="App">
                     <h1>Photos</h1>
-                    <div className="gallery">
+                    <div className="card-container">
                         {this.state.posts.map(post => (
-                            <div key={post.slug} className="gallery-card">
-                                <div className="gallery-imagebox">
+                            <div key={post.slug} className="card">
+                                <div className="card-imagebox">
                                     <Link
                                         to={`/photo/${post.slug}`}
-                                        className="gallery-image"
-                                        onClick={this.handleImage}//this.handleImage(post)}
+                                        className="card-image-link"
                                     >
-                                        <img src={post.acf.image.sizes.medium} alt=""></img>
+                                        <img
+                                            src={post.acf.image.sizes.medium}
+                                            className="card-image"
+                                            alt={post.title.rendered
+                                                .replace('#038;', '')
+                                                .replace('&#8217;', "'")}></img>
                                     </Link>
                                 </div>
-                                <div className="gallery-textbox">
-                                    <h4 className="gallery-title">
-                                        <Link to={`/photo/${post.slug}`}>
-                                            {post.title.rendered
-                                                .replace('#038;', '')
-                                                .replace('&#8217;', "'")}
-                                        </Link>
+                                <div className="card-textbox">
+                                    <h4 className="card-title">
+                                        {post.title.rendered
+                                            .replace('#038;', '')
+                                            .replace('&#8217;', "'")}
                                     </h4>
-                                    <p className="gallery-categories">
+                                    <p className="card-categories">
                                         {post.category.map(tag => (
                                             <Link
-                                                key={Math.floor(Math.random() * 1000)}
-                                                className="gallery-category"
+                                                key={counter++}
+                                                className="card-category"
                                                 style={{
                                                     backgroundColor: tag[1],
                                                     borderTopColor: tag[1],
                                                 }}
                                                 to={`/photos/${tag[0]}`}
-                                                onClick={() => this.handleCategories(tag)}
-                                                data-tooltip={tag[0].charAt(0).toUpperCase() + tag[0].slice(1)}
+                                                onClick={() =>
+                                                    this.handleCategories(tag)
+                                                }
+                                                data-tooltip={
+                                                    tag[0]
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                    tag[0].slice(1)
+                                                }
                                                 aria-hidden="true">
                                                 {tag[0]
                                                     .slice(0, 1)
