@@ -224,11 +224,10 @@ class Resume extends React.Component {
                                     <article class="mb-4 col-break-avoid">
                                         <header>
                                             <h3 class="text-lg text-gray-700 font-semibold leading-heading">
-                                                Graz University of Technology
+                                                University of Massachusetts Dartmouth
                                             </h3>
                                             <p class="text-m text-gray-600 leading-normal">
-                                                2011 – 2012 | Bachelor's Degree
-                                                in Fine Arts
+                                                2008 – 2012 | Bachelor's Degree in Fine Arts
                                             </p>
                                         </header>
                                     </article>
@@ -240,8 +239,7 @@ class Resume extends React.Component {
                                             Minuteman Vocational High School
                                         </h3>
                                         <p class="text-m text-gray-600 leading-normal">
-                                            2007 – 2008 | Certificate in Graphic
-                                            Design
+                                            2004 – 2008 | Certificate in Graphic Design
                                         </p>
                                     </header>
                                 </article>
@@ -257,7 +255,9 @@ class Resume extends React.Component {
                                         <header>
                                             <h3 class="text-lg text-gray-700 font-semibold leading-heading">
                                                 <a
-                                                href="https://www.compassioninactionconference.org/schedule"
+                                                    href="https://www.compassioninactionconference.org/schedule"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
                                                     class="group">
                                                     <span>
                                                         Conference Schedule
@@ -277,7 +277,8 @@ class Resume extends React.Component {
                                                 </a>
                                             </h3>
                                             <p class="text-m text-gray-600 leading-normal">
-                                                2019 | JavaScript, Wordpress, PHP, CSS
+                                                2019 | JavaScript, Wordpress,
+                                                PHP, CSS
                                             </p>
                                         </header>
                                         <p class="mt-1.5 text-m text-gray-700 leading-normal">
@@ -295,9 +296,14 @@ class Resume extends React.Component {
                                     <header>
                                         <h3 class="text-lg text-gray-700 font-semibold leading-heading">
                                             <a
-                                                href="https://github.com/WebPraktikos"
+                                                href="https://projectteachny.org/mmh/"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 class="group">
-                                                <span>Maternal Mental Health Consulations</span>
+                                                <span>
+                                                    Maternal Mental Health
+                                                    Consulations
+                                                </span>
                                                 <span class="icon-parent -ml-0.5 inline-flex items-center">
                                                     <svg
                                                         class="pb-0.7 w-5 text-gray-600 group-hover:text-gray-800 transition-color-1 print:hidden "
@@ -313,7 +319,8 @@ class Resume extends React.Component {
                                             </a>
                                         </h3>
                                         <p class="text-m text-gray-600 leading-normal">
-                                            2019 | JavaScript, Wordpress, PHP, CSS
+                                            2019 | JavaScript, Wordpress, PHP,
+                                            CSS
                                         </p>
                                     </header>
                                     <p class="mt-1.5 text-m text-gray-700 leading-normal">
