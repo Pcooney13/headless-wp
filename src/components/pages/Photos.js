@@ -68,6 +68,7 @@ class Photos extends React.Component {
 
     handleCategories(tag) {
         const categorizedPosts = []
+        document.querySelector('.secondary-header').classList.remove('show-secondary-nav');
         this.state.allPosts.forEach(function(post) {
             post.category.forEach(function(categories) {
                 if (categories[0] === tag[0]) {
@@ -80,40 +81,52 @@ class Photos extends React.Component {
         });
     }
     
-    // handleImage(image) {
-    //     // image.preventDefault()
-    //     let cards = document.getElementsByClassName(this.className)
-    //     for (var i = 0; i < cards.length; i++) {
-    //         //finds card that was clicked with new url
-    //         if (cards[i].href.includes(this.to)) {
-    //             //put image title in secondary nav when clicked on
-    //             if (window.location.href.indexOf('photo/') > -1) {
-    //                 document.querySelector('.secondary-header').classList.add('show-secondary-nav')
-    //                 document.querySelector('.secondary-header').children[0].children[0].innerHTML = cards[i].parentElement.parentElement.children[1].children[0].innerHTML
-    //             } else {
-    //                 document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
-    //             }
-    //             //changes image src to full size and brings image to top
-    //             if (cards[i].children[0].src.includes("300x")) {
-    //                 cards[i].children[0].src = cards[i].children[0].src.slice(0, -12) + '.jpg")'
-    //                 document.querySelector('.secondary-header').classList.add('show-secondary-nav')
-    //             }
-    //             if (!cards[i].parentElement.parentElement.classList.contains("clicked-full")) {
-    //                 cards[i].parentElement.parentElement.classList.add("clicked-full")
-    //                 cards[i].style.height = "unset"
-    //                 cards[i].children[0].style.minWidth = "100%"
-    //                 cards[i].children[0].style.maxWidth = "100%"
-    //             } else {
-    //                 cards[i].parentElement.parentElement.classList.remove("clicked-full")
-    //                 cards[i].children[0].style.minWidth = "unset"
-    //                 window.history.back();
-    //                 document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
-    //             }
-    //         } else {
-    //             cards[i].parentElement.parentElement.classList.remove("clicked-full")
-    //         }
-    //     }
-    // }
+    handleImage(image) {
+            
+            let cardLinks = document.getElementsByClassName('card-image-link');
+            let showSecondaryNav = 0;
+            let secondaryNav = document.querySelector('.secondary-header');
+            
+            for (var i = 0; i < cardLinks.length; i++) {
+                let card = cardLinks[i].parentElement.parentElement;
+                let cardImage = cardLinks[i].children[0];
+                //finds card that matchs url
+                if (
+                    image.sizes.medium === cardLinks[i].children[0].src ||
+                    image.url === cardLinks[i].children[0].src
+                ) {
+                    //Put image title in secondary nav
+                    showSecondaryNav++;
+                    secondaryNav.children[0].children[0].innerHTML =
+                        card.children[1].children[0].innerHTML;
+
+                    //changes image src to full-rez
+                    if (cardImage.src === image.sizes.medium) {
+                        cardImage.src = image.url;
+                    }
+                    //Makes image full-width of the page
+                    if (!card.classList.contains('clicked-full')) {
+                        card.classList.add('clicked-full');
+                        cardLinks[i].style.height = 'unset';
+                        cardImage.style.maxWidth = '100%';
+                        cardImage.style.width = '100%';
+                        cardImage.style.height = '100%';
+                    } else {
+                        card.classList.remove('clicked-full');
+                        cardImage.style.minWidth = 'unset';
+                        cardImage.style.maxWidth = 'unset';
+                    }
+                } else {
+                    card.classList.remove('clicked-full');
+                    console.log(this)
+                }
+                if (showSecondaryNav) {
+                    secondaryNav.classList.add('show-secondary-nav')
+                } else {
+                    secondaryNav.classList.remove('show-secondary-nav')
+                }
+            }
+    }
     
     render() {
         const { error, isLoaded } = this.state;
@@ -127,51 +140,7 @@ class Photos extends React.Component {
             );
         } else {
             window.scrollTo(0, 0);
-            let counter = 1;
-            
-            let cardLinks = document.getElementsByClassName('card-image-link');
-            let showSecondaryNav = 0;
-            
-            for (var i = 0; i < cardLinks.length; i++) {
-                let card = cardLinks[i].parentElement.parentElement;
-                let cardImage = cardLinks[i].children[0];
-                //finds card that matchs url
-                if (window.location.href.includes(cardLinks[i].pathname)) {
-                    
-                    //Put image title in secondary nav
-                    showSecondaryNav++;
-                    document.querySelector('.secondary-header').children[0].children[0].innerHTML = card.children[1].children[0].innerHTML
-                    
-                    //changes image src to full-rez
-                    if (cardImage.src.includes("300x")) {
-                        cardImage.src = cardImage.src.slice(0, -12) + '.jpg")'
-                    }
-                    
-                    //Makes image full-width of the page
-                    if (!card.classList.contains("clicked-full")) {
-                        card.classList.add("clicked-full")
-                        cardLinks[i].style.height = "unset"
-                        cardImage.style.maxWidth = "100%"
-                        cardImage.style.width = "100%"
-                        cardImage.style.height = "100%"
-                    } else {
-                        window.history.back();
-                        card.classList.remove("clicked-full")
-                        cardImage.style.minWidth = "unset"
-                        cardImage.style.maxWidth = "unset"
-                    }
-                } else {
-                    card.classList.remove("clicked-full")
-                }
-                if (showSecondaryNav) {
-                    document.querySelector('.secondary-header').classList.add('show-secondary-nav')
-                } else {
-                    document.querySelector('.secondary-header').classList.remove('show-secondary-nav')
-                }
-            }
-
-
-        
+            let counter = 1;        
             return (
                 <div className="App">
                     <h1>Photos</h1>
@@ -182,7 +151,11 @@ class Photos extends React.Component {
                                     <Link
                                         to={`/photo/${post.slug}`}
                                         className="card-image-link"
-                                    >
+                                        onClick={() =>
+                                            this.handleImage(
+                                                post.acf.image
+                                            )
+                                        }>
                                         <img
                                             src={post.acf.image.sizes.medium}
                                             className="card-image"

@@ -8,6 +8,8 @@ import Footer from '../components/footer/Footer'
 import Photos from '../components/pages/Photos'
 import Resume from '../components/pages/Resume'
 import Weather from "../components/pages/Weather";
+import Users from "../components/pages/Users";
+import User from "../components/pages/Users";
 import Notfound from '../components/pages/404'
 import '../App.css';
 
@@ -23,6 +25,8 @@ export default () => (
                 <Route exact path="/photos" component={Photos} />
                 <Route exact path="/weather" component={Weather} />
                 <Route exact path="/resume" component={Resume} />
+                <Route path="/users/:id" component={User} />
+                <Route exact path="/users" component={Users} />
                 <Route component={Notfound} />
             </Switch>
         <Footer />
