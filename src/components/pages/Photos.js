@@ -9,6 +9,46 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+    },
+    body: JSON.stringify({
+        username: 'username', //change
+        password: 'password', //change
+    }),
+})
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(post) {
+        console.log(post.token); //token response
+    });
+
+// get post.token from above and paste into variable below
+// var token = post.token;
+// fetch('https://pat-cooney.com/wp/wp-json/wp/v2/posts', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//         Accept: 'application/json',
+//         Authorization: 'Bearer ' + token,
+//     },
+//     body: JSON.stringify({
+//         title: 'Lorem catsum',
+//         content: 'Lorem ipsum dolor sit amet.',
+//         status: 'draft',
+//     }),
+// })
+// .then(function(response) {
+//     return response.json();
+// })
+// .then(function(post) {
+//     console.log(post);
+// });
+
 class Photos extends React.Component {
     constructor(props) {
         super(props);
