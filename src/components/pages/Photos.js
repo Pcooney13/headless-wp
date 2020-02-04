@@ -8,46 +8,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-    },
-    body: JSON.stringify({
-        username: 'username', //change
-        password: 'password', //change
-    }),
-})
-    .then(function(response) {
-        return response.json();
-    })
-    .then(function(post) {
-        console.log(post.token); //token response
-    });
-
-// get post.token from above and paste into variable below
-// var token = post.token;
-// fetch('https://pat-cooney.com/wp/wp-json/wp/v2/posts', {
-//     method: 'POST',
-//     headers: {
-//         'Content-Type': 'application/json',
-//         Accept: 'application/json',
-//         Authorization: 'Bearer ' + token,
-//     },
-//     body: JSON.stringify({
-//         title: 'Lorem catsum',
-//         content: 'Lorem ipsum dolor sit amet.',
-//         status: 'draft',
-//     }),
-// })
-// .then(function(response) {
-//     return response.json();
-// })
-// .then(function(post) {
-//     console.log(post);
-// });
+import Cookies from 'js-cookie';
 
 class Photos extends React.Component {
     constructor(props) {
@@ -55,6 +16,8 @@ class Photos extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
+            loggedIn: false,
+            token: 'wp-token',
         };
     }
 
@@ -107,67 +70,101 @@ class Photos extends React.Component {
     }
 
     handleCategories(tag) {
-        const categorizedPosts = []
-        document.querySelector('.secondary-header').classList.remove('show-secondary-nav');
+        const categorizedPosts = [];
+        document
+            .querySelector('.secondary-header')
+            .classList.remove('show-secondary-nav');
         this.state.allPosts.forEach(function(post) {
             post.category.forEach(function(categories) {
                 if (categories[0] === tag[0]) {
                     categorizedPosts.push(post);
                 }
-            })
-        })
+            });
+        });
         this.setState({
             posts: categorizedPosts,
         });
     }
-    
-    handleImage(image) {
-            
-            let cardLinks = document.getElementsByClassName('card-image-link');
-            let showSecondaryNav = 0;
-            let secondaryNav = document.querySelector('.secondary-header');
-            
-            for (var i = 0; i < cardLinks.length; i++) {
-                let card = cardLinks[i].parentElement.parentElement;
-                let cardImage = cardLinks[i].children[0];
-                //finds card that matchs url
-                if (
-                    image.sizes.medium === cardLinks[i].children[0].src ||
-                    image.url === cardLinks[i].children[0].src
-                ) {
-                    //Put image title in secondary nav
-                    showSecondaryNav++;
-                    secondaryNav.children[0].children[0].innerHTML =
-                        card.children[1].children[0].innerHTML;
 
-                    //changes image src to full-rez
-                    if (cardImage.src === image.sizes.medium) {
-                        cardImage.src = image.url;
-                    }
-                    //Makes image full-width of the page
-                    if (!card.classList.contains('clicked-full')) {
-                        card.classList.add('clicked-full');
-                        cardLinks[i].style.height = 'unset';
-                        cardImage.style.maxWidth = '100%';
-                        cardImage.style.width = '100%';
-                        cardImage.style.height = '100%';
-                    } else {
-                        card.classList.remove('clicked-full');
-                        cardImage.style.minWidth = 'unset';
-                        cardImage.style.maxWidth = 'unset';
-                    }
+    handleImage(image) {
+        console.log(this.state);
+        let cardLinks = document.getElementsByClassName('card-image-link');
+        let showSecondaryNav = 0;
+        let secondaryNav = document.querySelector('.secondary-header');
+
+        for (var i = 0; i < cardLinks.length; i++) {
+            let card = cardLinks[i].parentElement.parentElement;
+            let cardImage = cardLinks[i].children[0];
+            //finds card that matchs url
+            if (
+                image.sizes.medium === cardLinks[i].children[0].src ||
+                image.url === cardLinks[i].children[0].src
+            ) {
+                //Put image title in secondary nav
+                showSecondaryNav++;
+                secondaryNav.children[0].children[0].innerHTML =
+                    card.children[1].children[0].innerHTML;
+
+                //changes image src to full-rez
+                if (cardImage.src === image.sizes.medium) {
+                    cardImage.src = image.url;
+                }
+                //Makes image full-width of the page
+                if (!card.classList.contains('clicked-full')) {
+                    card.classList.add('clicked-full');
+                    cardLinks[i].style.height = 'unset';
+                    cardImage.style.maxWidth = '100%';
+                    cardImage.style.width = '100%';
+                    cardImage.style.height = '100%';
                 } else {
                     card.classList.remove('clicked-full');
-                    console.log(this)
+                    cardImage.style.minWidth = 'unset';
+                    cardImage.style.maxWidth = 'unset';
                 }
-                if (showSecondaryNav) {
-                    secondaryNav.classList.add('show-secondary-nav')
-                } else {
-                    secondaryNav.classList.remove('show-secondary-nav')
-                }
+            } else {
+                card.classList.remove('clicked-full');
+                console.log(this);
             }
+            if (showSecondaryNav) {
+                secondaryNav.classList.add('show-secondary-nav');
+            } else {
+                secondaryNav.classList.remove('show-secondary-nav');
+            }
+        }
     }
-    
+
+    postshit() {
+        console.log(Cookies.get());
+        // get post.token from above and paste into variable below
+        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/posts', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+            },
+            body: JSON.stringify({
+                title: 'Lorem catsum',
+                content: 'Lorem ipsum dolor sit amet.',
+                status: 'draft',
+            }),
+        })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(post) {
+                console.log(post);
+            });
+    }
+
+    loginFunction() {
+        if (Cookies.get('wp-auth-token')) {
+            console.log('el cookie');
+        } else {
+            console.log('no cook-cook');
+        }
+    }
+
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
@@ -180,10 +177,13 @@ class Photos extends React.Component {
             );
         } else {
             window.scrollTo(0, 0);
-            let counter = 1;        
+            let counter = 1;
             return (
                 <div className="App">
+                    {this.loginFunction()}
                     <h1>Photos</h1>
+                    <button onClick={() => this.handlelogin()}>login</button>
+                    <button onClick={() => this.postshit()}>post shit</button>
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">
@@ -192,9 +192,7 @@ class Photos extends React.Component {
                                         to={`/photo/${post.slug}`}
                                         className="card-image-link"
                                         onClick={() =>
-                                            this.handleImage(
-                                                post.acf.image
-                                            )
+                                            this.handleImage(post.acf.image)
                                         }>
                                         <img
                                             src={post.acf.image.sizes.medium}

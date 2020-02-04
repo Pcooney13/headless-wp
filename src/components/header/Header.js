@@ -1,11 +1,52 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from "./Logo";
+import Cookies from 'js-cookie';
 
 class Header extends Component {
     
     render() {
-        
+        function handlelogin() {
+        fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                username: 'username',
+                password: 'password',
+            }),
+        })
+        .then(function(response) {
+            if (200 === response.status) {
+                console.log('Logged in');
+            }
+            console.log(response);
+            return response.json();
+        })
+        .then(function(post) {
+            Cookies.set('wp-auth-token', post.token);
+            console.log(post.token); //token response
+            // loginFunction();
+        });
+        }
+        function handlelogout() {
+            console.log("logging out");
+            console.log(this);
+            Cookies.remove('wp-auth-token');
+            // loginFunction();
+        }
+        // function loginFunction() {
+        //     if (Cookies.get('wp-auth-token')) {
+        //         console.log('cookies');
+        //         return <button onClick={() => {handlelogout()}}>logout</button>;
+        //     } else {
+        //         console.log('no cookies');
+        //         return <button onClick={() => {handlelogin()}}>login</button>;
+        //     }
+        // }
+
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
             return function() {
@@ -67,9 +108,25 @@ class Header extends Component {
                             Resume
                         </NavLink>
                     </li>
+                    <li>
+                        {Cookies.get('wp-auth-token') ? (
+                            <button
+                                onClick={() => {
+                                    handlelogout()
+                                }}>
+                                logout
+                            </button>
+                        ) : (
+                            <button
+                            onClick={() => {
+                                handlelogin()
+                                }}>
+                                login
+                            </button>
+                        )}
+                    </li>
                 </ul>
-                <ul
-                    className="header secondary-header">
+                <ul className="header secondary-header">
                     <div className="container">
                         <li>Photos</li>
                     </div>
