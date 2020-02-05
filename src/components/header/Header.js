@@ -6,46 +6,46 @@ import Cookies from 'js-cookie';
 class Header extends Component {
     
     render() {
+
         function handlelogin() {
-        fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
-            body: JSON.stringify({
-                username: 'username',
-                password: 'password',
-            }),
-        })
-        .then(function(response) {
-            if (200 === response.status) {
-                console.log('Logged in');
-            }
-            console.log(response);
-            return response.json();
-        })
-        .then(function(post) {
-            Cookies.set('wp-auth-token', post.token);
-            console.log(post.token); //token response
-            // loginFunction();
-        });
+            let user = document.getElementById('username').value;
+            console.log(user);
+            fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                },
+                body: JSON.stringify({
+                    username: document.getElementById('username').value,
+                    password: document.getElementById('password').value,
+                }),
+            })
+            .then(function(response) {
+                if (200 === response.status) {
+                    console.log('Logged in');
+                    Cookies.set('wp-auth-token', response.token);
+                    document.getElementById('log').innerHTML = `<button
+                                onClick=${() => {
+                                    handlelogout();
+                                }}>
+                                Logout ${user}
+                            </button>`;
+                }
+            })
         }
+
         function handlelogout() {
             console.log("logging out");
-            console.log(this);
             Cookies.remove('wp-auth-token');
-            // loginFunction();
+            document.getElementById('log').innerHTML = `<div>
+                                <p><label>Username:</label></p>
+                                <p><input id="username" class="username" type="text" name="username"/></p>
+                                <p><label>Password:</label></p>
+                                <p><input id="password" class="password" type="password" name="password"/></p>
+                                <p><button onClick=${() => {handlelogin();}} class="submit">Login</button></p>
+                            </div>`
         }
-        // function loginFunction() {
-        //     if (Cookies.get('wp-auth-token')) {
-        //         console.log('cookies');
-        //         return <button onClick={() => {handlelogout()}}>logout</button>;
-        //     } else {
-        //         console.log('no cookies');
-        //         return <button onClick={() => {handlelogin()}}>login</button>;
-        //     }
-        // }
 
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
@@ -108,21 +108,22 @@ class Header extends Component {
                             Resume
                         </NavLink>
                     </li>
-                    <li>
+                    <li id="log">
                         {Cookies.get('wp-auth-token') ? (
                             <button
                                 onClick={() => {
-                                    handlelogout()
+                                    handlelogout();
                                 }}>
                                 logout
                             </button>
                         ) : (
-                            <button
-                            onClick={() => {
-                                handlelogin()
-                                }}>
-                                login
-                            </button>
+                            <div>
+                                <p><label>Username:</label></p>
+                                <p><input id="username" className="username" type="text" name="username"/></p>
+                                <p><label>Password:</label></p>
+                                <p><input id="password" className="password" type="password" name="password"/></p>
+                                <p><button onClick={() => {handlelogin();}} className="submit">Login</button></p>
+                            </div>
                         )}
                     </li>
                 </ul>

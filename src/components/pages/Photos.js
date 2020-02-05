@@ -157,14 +157,6 @@ class Photos extends React.Component {
             });
     }
 
-    loginFunction() {
-        if (Cookies.get('wp-auth-token')) {
-            console.log('el cookie');
-        } else {
-            console.log('no cook-cook');
-        }
-    }
-
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
@@ -180,9 +172,7 @@ class Photos extends React.Component {
             let counter = 1;
             return (
                 <div className="App">
-                    {this.loginFunction()}
                     <h1>Photos</h1>
-                    <button onClick={() => this.handlelogin()}>login</button>
                     <button onClick={() => this.postshit()}>post shit</button>
                     <div className="card-container">
                         {this.state.posts.map(post => (
