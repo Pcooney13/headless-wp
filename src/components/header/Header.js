@@ -25,6 +25,7 @@ class Header extends Component {
                 if (200 === response.status) {
                     console.log('Logged in');
                     Cookies.set('wp-auth-token', response.token);
+                    hideModal();
                     document.getElementById('log').innerHTML = `<button
                                 onClick=${() => {
                                     handlelogout();
@@ -46,6 +47,12 @@ class Header extends Component {
                                 <p><button onClick=${() => {handlelogin();}} class="submit">Login</button></p>
                             </div>`
         }
+        function loginForm() {
+            if (document.getElementById('modal')) {
+                console.log(document.getElementById('modal'));
+                document.getElementById('modal').style.display = 'block';
+            }
+        }
 
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
@@ -61,6 +68,10 @@ class Header extends Component {
                 timeout = setTimeout(later, wait);
                 if (callNow) func.apply(context, args);
             };
+        }
+
+        function hideModal() {
+            document.getElementById('modal').style.display='none';
         }
         
         let scrollPos = 0;
@@ -118,11 +129,8 @@ class Header extends Component {
                             </button>
                         ) : (
                             <div>
-                                <p><label>Username:</label></p>
-                                <p><input id="username" className="username" type="text" name="username"/></p>
-                                <p><label>Password:</label></p>
-                                <p><input id="password" className="password" type="password" name="password"/></p>
-                                <p><button onClick={() => {handlelogin();}} className="submit">Login</button></p>
+                                <button onClick={() => {loginForm();}}id="log-in">Log In</button>
+                                <button id="sign-in">Sign Up</button>
                             </div>
                         )}
                     </li>
@@ -132,6 +140,19 @@ class Header extends Component {
                         <li>Photos</li>
                     </div>
                 </ul>
+                <div id="modal">
+                    
+                                <span onClick={() => { hideModal(); }} className="close-modal">&times;</span>
+                                <div className="form">
+                                    <h2>Log in</h2>
+                                    <label>Username:</label>
+                                    <input id="username" className="username" type="text" name="username" />
+                                    <label>Password:</label>
+                                    <input id="password" className="password" type="password" name="password" />
+                                    <button onClick={() => {handlelogin();}} className="submit">Login</button>
+                              
+                    </div>
+                </div>
             </header>
         );
     }
