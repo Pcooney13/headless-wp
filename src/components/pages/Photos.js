@@ -18,12 +18,13 @@ class Photos extends React.Component {
             isLoaded: false,
             loggedIn: false,
             token: 'wp-token',
+            username: null
         };
     }
 
     componentDidMount() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=39';
+            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=24';
         const dataCategories =
             'https://pat-cooney.com/wp/wp-json/wp/v2/categories?per_page=12';
 
@@ -173,7 +174,7 @@ class Photos extends React.Component {
             return (
                 <div className="App">
                     <h1>Photos</h1>
-                    <button onClick={() => this.postshit()}>post shit</button>
+                    {Cookies.get('wp-auth-token') ? <button onClick={() => this.postshit()}>post shit</button> : ''}
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">

@@ -14,21 +14,36 @@ import Notfound from '../components/pages/404'
 import '../App.css';
 
 
+class Routes extends React.Component {
+        constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            loggedIn: false,
+            token: 'wp-token',
+            username: null,
+        };
+    }
+    render() {
+         return (
+             <Router>
+                 <Header username={this.state.username}/>
+                 <Switch>
+                     {console.log(this.state)}
+                     <Route exact path="/" component={App} />
+                     <Route path="/photos/:category" component={Photos} />
+                     <Route path="/photo/:id" component={Photos} />
+                     <Route exact path="/photos" component={Photos} />
+                     <Route exact path="/weather" component={Weather} />
+                     <Route exact path="/resume" component={Resume} />
+                     <Route path="/users/:id" component={User} />
+                     <Route exact path="/users" component={Users} />
+                     <Route component={Notfound} />
+                 </Switch>
+                 <Footer />
+             </Router>
+         );}
+}
 
-export default () => (
-    <Router>
-        <Header />
-            <Switch>
-                <Route exact path="/" component={App} />
-                <Route path="/photos/:category" component={Photos} />
-                <Route path="/photo/:id" component={Photos} />
-                <Route exact path="/photos" component={Photos} />
-                <Route exact path="/weather" component={Weather} />
-                <Route exact path="/resume" component={Resume} />
-                <Route path="/users/:id" component={User} />
-                <Route exact path="/users" component={Users} />
-                <Route component={Notfound} />
-            </Switch>
-        <Footer />
-    </Router>
-)
+export default Routes;

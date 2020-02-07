@@ -1,15 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from "./Logo";
 import Cookies from 'js-cookie';
 
-class Header extends Component {
-    
-    render() {
+class Header extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            loggedIn: false,
+            token: 'wp-token',
+            username: null,
+        };
+    }
 
-        function handlelogin() {
-            let user = document.getElementById('username').value;
-            console.log(user);
+        handlelogin() {
+            let user;
+            if (!this.state.username) {
+                user = document.getElementById('username').value;
+                console.log(user);
+            } else {
+                user = this.state.username;
+            }
+            console.log(user)
             fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
                 method: 'POST',
                 headers: {
@@ -20,39 +34,83 @@ class Header extends Component {
                     username: document.getElementById('username').value,
                     password: document.getElementById('password').value,
                 }),
-            })
-            .then(function(response) {
+            }).then(function(response) {
                 if (200 === response.status) {
                     console.log('Logged in');
+                    Cookies.set('username', user);
                     Cookies.set('wp-auth-token', response.token);
-                    hideModal();
-                    document.getElementById('log').innerHTML = `<button
-                                onClick=${() => {
-                                    handlelogout();
-                                }}>
-                                Logout ${user}
-                            </button>`;
+                    // this.changeState(user);
+                    // this.LoginLogic();
                 }
-            })
+            });
+        }
+        
+        //cant change state to add username
+        changeState = () => {
+            this.setState({
+                username: 'pat',
+            });
+            if (this.state.username != null) {
+                console.log(this.state.username);
+            } else {
+                console.log('nulllllll');
+            }
+            this.hideModal();
+            this.handlelogin();
         }
 
-        function handlelogout() {
-            console.log("logging out");
+        handlelogout() {
+            console.log('logging out');
             Cookies.remove('wp-auth-token');
+            Cookies.remove('username');
+            console.log(document.getElementById('log'));
             document.getElementById('log').innerHTML = `<div>
-                                <p><label>Username:</label></p>
-                                <p><input id="username" class="username" type="text" name="username"/></p>
-                                <p><label>Password:</label></p>
-                                <p><input id="password" class="password" type="password" name="password"/></p>
-                                <p><button onClick=${() => {handlelogin();}} class="submit">Login</button></p>
-                            </div>`
+                        <button
+                            onClick=${() => {
+                                this.showModal();
+                            }}
+                            id="log-in">
+                            Log In
+                        </button>
+                        <button id="sign-in">Sign Up</button>
+                    </div>`;
         }
-        function loginForm() {
-            if (document.getElementById('modal')) {
-                console.log(document.getElementById('modal'));
-                document.getElementById('modal').style.display = 'block';
-            }
+
+        hideModal = () => {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('modal-bg').style.display = 'none';
+            document.body.style.overflowY = 'visible';
         }
+
+        showModal() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal-bg').style.display = 'block';
+            document.body.style.overflowY = 'hidden';
+        }
+
+    render() {
+
+        const LoginLogic = () =>
+            Cookies.get('wp-auth-token') ? (
+                <button
+                    id="log-out"
+                    onClick={() => {
+                        this.handlelogout();
+                    }}>
+                    logout {Cookies.get('username')}
+                </button>
+            ) : (
+                <div>
+                    <button
+                        onClick={() => {
+                            this.showModal();
+                        }}
+                        id="log-in">
+                        Log In
+                    </button>
+                    <button id="sign-in">Sign Up</button>
+                </div>
+            );
 
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
@@ -70,26 +128,25 @@ class Header extends Component {
             };
         }
 
-        function hideModal() {
-            document.getElementById('modal').style.display='none';
-        }
-        
+
+
         let scrollPos = 0;
 
         function checkPosition() {
             let windowY = window.scrollY;
-            if (window.scrollY < 95){
+            if (window.scrollY < 95) {
                 document.querySelector('.header').classList.add('is-visible');
-                document.querySelector('.header').classList.remove('is-hidden');  
-            }
-            else if (windowY < scrollPos) {
+                document.querySelector('.header').classList.remove('is-hidden');
+            } else if (windowY < scrollPos) {
                 // Scrolling UP
                 document.querySelector('.header').classList.add('is-visible');
                 document.querySelector('.header').classList.remove('is-hidden');
             } else {
                 // Scrolling DOWN
                 document.querySelector('.header').classList.add('is-hidden');
-                document.querySelector('.header').classList.remove('is-visible');
+                document
+                    .querySelector('.header')
+                    .classList.remove('is-visible');
             }
             scrollPos = windowY;
         }
@@ -98,7 +155,7 @@ class Header extends Component {
 
         return (
             <header className="header-wrap">
-                <ul id="header" className="header is-visible">
+                <ul id="header" className="header primary-header is-visible">
                     <li>
                         <NavLink to="/">
                             <Logo />
@@ -120,19 +177,7 @@ class Header extends Component {
                         </NavLink>
                     </li>
                     <li id="log">
-                        {Cookies.get('wp-auth-token') ? (
-                            <button
-                                onClick={() => {
-                                    handlelogout();
-                                }}>
-                                logout
-                            </button>
-                        ) : (
-                            <div>
-                                <button onClick={() => {loginForm();}}id="log-in">Log In</button>
-                                <button id="sign-in">Sign Up</button>
-                            </div>
-                        )}
+                        <LoginLogic />
                     </li>
                 </ul>
                 <ul className="header secondary-header">
@@ -141,18 +186,41 @@ class Header extends Component {
                     </div>
                 </ul>
                 <div id="modal">
-                    
-                                <span onClick={() => { hideModal(); }} className="close-modal">&times;</span>
-                                <div className="form">
-                                    <h2>Log in</h2>
-                                    <label>Username:</label>
-                                    <input id="username" className="username" type="text" name="username" />
-                                    <label>Password:</label>
-                                    <input id="password" className="password" type="password" name="password" />
-                                    <button onClick={() => {handlelogin();}} className="submit">Login</button>
-                              
+                    <span
+                        onClick={() => {
+                            this.hideModal();
+                        }}
+                        className="close-modal">
+                        &times;
+                    </span>
+                    <div className="form">
+                        <h2>Log in</h2>
+                        <label>Username:</label>
+                        <input
+                            id="username"
+                            className="username"
+                            type="text"
+                            name="username"
+                            />
+                        <label>Password:</label>
+                        <input
+                            id="password"
+                            className="password"
+                            type="password"
+                            name="password"
+                            />
+                        <button
+                            onClick={() => {
+                                this.changeState();
+                            }}
+                            className="submit">
+                            Login
+                        </button>
                     </div>
                 </div>
+                <div id="modal-bg"></div>
+                <button onClick={() => this.changeState()}>test</button>
+                {this.state.username}
             </header>
         );
     }
