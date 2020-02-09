@@ -15,22 +15,11 @@ import '../App.css';
 
 
 class Routes extends React.Component {
-        constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            loggedIn: false,
-            token: 'wp-token',
-            username: null,
-        };
-    }
     render() {
          return (
              <Router>
-                 <Header username={this.state.username}/>
+                 <Header/>
                  <Switch>
-                     {console.log(this.state)}
                      <Route exact path="/" component={App} />
                      <Route path="/photos/:category" component={Photos} />
                      <Route path="/photo/:id" component={Photos} />

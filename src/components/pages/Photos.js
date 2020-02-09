@@ -6,6 +6,7 @@
 // Polish the transition from blurred image taking up screen to full size image
 // Figure out the functionality for zomming from card specifically not just top left corner
 
+//[LIKE] button that stores an array of usernames that likes the pic
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -159,7 +160,7 @@ class Photos extends React.Component {
     }
 
     render() {
-        const { error, isLoaded } = this.state;
+        const { error, isLoaded, username } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {

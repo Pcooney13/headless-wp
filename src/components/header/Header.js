@@ -1,9 +1,16 @@
+//create a new user --> [SIGN UP] button
+
+//
+
+
+
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from "./Logo";
 import Cookies from 'js-cookie';
 
 class Header extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -11,106 +18,90 @@ class Header extends React.Component {
             isLoaded: false,
             loggedIn: false,
             token: 'wp-token',
-            username: null,
+            username: Cookies.get('username'),
+            login: false,
         };
+        this.changeState = this.changeState.bind(this);
     }
 
-        handlelogin() {
-            let user;
-            if (!this.state.username) {
-                user = document.getElementById('username').value;
-                console.log(user);
-            } else {
-                user = this.state.username;
+    changeState = (user) => {
+        console.log(user);
+        console.log("change state");
+        console.log(Cookies.get());
+        this.setState({
+            login: !this.state.login,
+            username: user,
+        });
+        console.log(this.state);
+    };
+
+    handlelogin() {
+        console.log(this.state.username);
+        let user;
+        if (!this.state.username) {
+            user = document.getElementById('username').value;
+        } else {
+            user = this.state.username;
+        }
+        console.log(user)
+        fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+            }),
+        }).then(function(response) {
+            console.log(response);
+            if (200 === response.status) {
+                console.log(response.token);
+                Cookies.set('username', user);
+                // Cookies.set('wp-auth-token', response.token);
+                console.log(Cookies.get());
+                return response.json();
             }
-            console.log(user)
-            fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify({
-                    username: document.getElementById('username').value,
-                    password: document.getElementById('password').value,
-                }),
-            }).then(function(response) {
-                if (200 === response.status) {
-                    console.log('Logged in');
-                    Cookies.set('username', user);
-                    Cookies.set('wp-auth-token', response.token);
-                    // this.changeState(user);
-                    // this.LoginLogic();
-                }
-            });
-        }
-        
-        //cant change state to add username
-        changeState = () => {
-            this.setState({
-                username: 'pat',
-            });
-            if (this.state.username != null) {
-                console.log(this.state.username);
-            } else {
-                console.log('nulllllll');
-            }
-            this.hideModal();
-            this.handlelogin();
-        }
+        }).then(function (post) {
+            Cookies.set('wp-auth-token', post.token);
+            console.log(post.token); //token response
+            // loginFunction();
+        });
+        this.changeState(user);
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        this.hideModal();
+        console.log(this.state);
+    }
 
-        handlelogout() {
-            console.log('logging out');
-            Cookies.remove('wp-auth-token');
-            Cookies.remove('username');
-            console.log(document.getElementById('log'));
-            document.getElementById('log').innerHTML = `<div>
-                        <button
-                            onClick=${() => {
-                                this.showModal();
-                            }}
-                            id="log-in">
-                            Log In
-                        </button>
-                        <button id="sign-in">Sign Up</button>
-                    </div>`;
-        }
+    handlelogout() {
+        console.log('logging out');
+        Cookies.remove('wp-auth-token');
+        Cookies.remove('username');
+        console.log(Cookies.get());
+        console.log(document.getElementById('log'));
+        this.changeState();
+    }
 
-        hideModal = () => {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('modal-bg').style.display = 'none';
-            document.body.style.overflowY = 'visible';
-        }
+    hideModal = () => {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('modal-bg').style.display = 'none';
+        document.body.style.overflowY = 'visible';
+    }
 
-        showModal() {
-            document.getElementById('modal').style.display = 'block';
-            document.getElementById('modal-bg').style.display = 'block';
-            document.body.style.overflowY = 'hidden';
-        }
+    showModal() {
+        document.getElementById('modal').style.display = 'block';
+        document.getElementById('modal-bg').style.display = 'block';
+        document.body.style.overflowY = 'hidden';
+    }
 
     render() {
 
-        const LoginLogic = () =>
-            Cookies.get('wp-auth-token') ? (
-                <button
-                    id="log-out"
-                    onClick={() => {
-                        this.handlelogout();
-                    }}>
-                    logout {Cookies.get('username')}
-                </button>
-            ) : (
-                <div>
-                    <button
-                        onClick={() => {
-                            this.showModal();
-                        }}
-                        id="log-in">
-                        Log In
-                    </button>
-                    <button id="sign-in">Sign Up</button>
-                </div>
-            );
+        const { login, username } = this.state;
+
+        let scrollPos = 0;
+        window.addEventListener('scroll', debounce(checkPosition));
 
         function debounce(func, wait = 13, immediate = true) {
             var timeout;
@@ -127,10 +118,6 @@ class Header extends React.Component {
                 if (callNow) func.apply(context, args);
             };
         }
-
-
-
-        let scrollPos = 0;
 
         function checkPosition() {
             let windowY = window.scrollY;
@@ -151,8 +138,6 @@ class Header extends React.Component {
             scrollPos = windowY;
         }
 
-        window.addEventListener('scroll', debounce(checkPosition));
-
         return (
             <header className="header-wrap">
                 <ul id="header" className="header primary-header is-visible">
@@ -162,7 +147,7 @@ class Header extends React.Component {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName="active" to="/photos">
+                        <NavLink activeClassName="active" to="/photos" username={username}>
                             Photos
                         </NavLink>
                     </li>
@@ -177,7 +162,25 @@ class Header extends React.Component {
                         </NavLink>
                     </li>
                     <li id="log">
-                        <LoginLogic />
+                        {username ?
+                            <button
+                                id="log-out"
+                                onClick={() => {
+                                    this.handlelogout();
+                                }}>
+                                logout {username}
+                            </button> :
+                            <div>
+                                <button
+                                    onClick={() => {
+                                        this.showModal();
+                                    }}
+                                    id="log-in">
+                                    Log In
+                                </button>
+                                <button id="sign-in">Sign Up</button>
+                            </div>
+                            }
                     </li>
                 </ul>
                 <ul className="header secondary-header">
@@ -211,7 +214,7 @@ class Header extends React.Component {
                             />
                         <button
                             onClick={() => {
-                                this.changeState();
+                                this.handlelogin();
                             }}
                             className="submit">
                             Login
@@ -219,8 +222,6 @@ class Header extends React.Component {
                     </div>
                 </div>
                 <div id="modal-bg"></div>
-                <button onClick={() => this.changeState()}>test</button>
-                {this.state.username}
             </header>
         );
     }
