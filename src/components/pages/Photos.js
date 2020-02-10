@@ -17,9 +17,7 @@ class Photos extends React.Component {
         this.state = {
             error: null,
             isLoaded: false,
-            loggedIn: false,
             token: 'wp-token',
-            username: null
         };
     }
 
@@ -160,7 +158,7 @@ class Photos extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, username } = this.state;
+        const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -175,7 +173,9 @@ class Photos extends React.Component {
             return (
                 <div className="App">
                     <h1>Photos</h1>
-                    {Cookies.get('wp-auth-token') ? <button onClick={() => this.postshit()}>post shit</button> : ''}
+                    {console.log(this.props.username)}
+                    {console.log(this.props)}
+                    {this.props.username ? <button onClick={() => this.postshit()}>post shit</button> : ''}
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">
@@ -192,14 +192,28 @@ class Photos extends React.Component {
                                             alt={post.title.rendered
                                                 .replace('#038;', '')
                                                 .replace('&#8217;', "'")}></img>
+                                        <div className="author-box">
+                                            <div className="author-image"></div>
+                                            <p className="author">Pat Cooney</p>
+                                        </div>
                                     </Link>
                                 </div>
                                 <div className="card-textbox">
-                                    <h4 className="card-title">
-                                        {post.title.rendered
-                                            .replace('#038;', '')
-                                            .replace('&#8217;', "'")}
-                                    </h4>
+                                    {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' }
+                                    <div className="card-titlebox">
+                                        <div className="text-container">
+                                            <h4 className="card-title">
+                                                {post.title.rendered
+                                                    .replace('#038;', '')
+                                                    .replace('&#8217;', "'")}
+                                            </h4>
+                                        </div>
+                                        {/* <input className="likes" type="checkbox" /> */}
+                                        <div className="heart-box">
+                                            <input id="heart" type="checkbox" />
+                                            <label htmlFor="heart">♡</label>
+                                        </div>
+                                    </div>
                                     <p className="card-categories">
                                         {post.category.map(tag => (
                                             <Link
