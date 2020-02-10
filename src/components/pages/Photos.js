@@ -157,6 +157,12 @@ class Photos extends React.Component {
             });
     }
 
+    clickedHeart(e, user) {
+        e.target.innerHTML === '♥️'
+            ? (e.target.innerHTML = '♡')
+            : (e.target.innerHTML = '♥️');
+    }
+
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
@@ -199,7 +205,7 @@ class Photos extends React.Component {
                                     </Link>
                                 </div>
                                 <div className="card-textbox">
-                                    {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' }
+                                    {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
                                     <div className="card-titlebox">
                                         <div className="text-container">
                                             <h4 className="card-title">
@@ -210,8 +216,8 @@ class Photos extends React.Component {
                                         </div>
                                         {/* <input className="likes" type="checkbox" /> */}
                                         <div className="heart-box">
-                                            <input id="heart" type="checkbox" />
-                                            <label htmlFor="heart">♡</label>
+                                            <input id={`hrt-${post.slug}`} class="heart-input" type="checkbox" />
+                                            <label onClick={(e) => {this.clickedHeart(e, this.props.username)}} htmlFor={`hrt-${post.slug}`}>♡</label>
                                         </div>
                                     </div>
                                     <p className="card-categories">

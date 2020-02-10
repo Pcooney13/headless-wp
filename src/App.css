@@ -203,7 +203,10 @@ footer{
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 }
-
+.heart-input {
+    z-index: -1;
+    position: relative;
+}
 /* .card-imagebox:hover .card-image-link,
 .card-imagebox:focus .card-image-link {
   transform: scale(1.025);
