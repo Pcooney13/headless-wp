@@ -7,6 +7,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Logo from "./Logo";
+import Cookies from 'js-cookie';
 
 
 class Header extends React.Component {
@@ -77,7 +78,7 @@ class Header extends React.Component {
                         </NavLink>
                     </li>
                     <li id="log">
-                        {username !== undefined ?
+                        {username !== undefined || Cookies.get('username') !== undefined ?
                             <button
                                 id="log-out"
                                 onClick={() => {

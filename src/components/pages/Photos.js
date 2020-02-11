@@ -136,7 +136,7 @@ class Photos extends React.Component {
     postshit() {
         console.log(Cookies.get());
         // get post.token from above and paste into variable below
-        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/posts', {
+        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,9 +144,9 @@ class Photos extends React.Component {
                 Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
             },
             body: JSON.stringify({
-                title: 'Lorem catsum',
+                title: 'AA Lorem catsum',
                 content: 'Lorem ipsum dolor sit amet.',
-                status: 'draft',
+                status: 'publish',
             }),
         })
             .then(function(response) {
@@ -181,7 +181,13 @@ class Photos extends React.Component {
                     <h1>Photos</h1>
                     {console.log(this.props.username)}
                     {console.log(this.props)}
-                    {this.props.username ? <button onClick={() => this.postshit()}>post shit</button> : ''}
+                    {this.props.username ? (
+                        <button onClick={() => this.postshit()}>
+                            post shit
+                        </button>
+                    ) : (
+                        ''
+                    )}
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">
@@ -193,14 +199,33 @@ class Photos extends React.Component {
                                             this.handleImage(post.acf.image)
                                         }>
                                         <img
-                                            src={post.acf.image.sizes.medium}
+                                            src={
+                                                post.acf.image
+                                                    ? post.acf.image.sizes
+                                                          .medium
+                                                    : 'https:via.placeholder.com/300x350'
+                                            }
                                             className="card-image"
                                             alt={post.title.rendered
                                                 .replace('#038;', '')
                                                 .replace('&#8217;', "'")}></img>
                                         <div className="author-box">
-                                            <div className="author-image"></div>
-                                            <p className="author">Pat Cooney</p>
+                                            <div
+                                                className="author-image"
+                                                style={
+                                                    post.author === 1
+                                                        ? {
+                                                              backgroundImage: `url(https://i.pinimg.com/originals/fa/74/aa/fa74aae41a7e83b4c5d8bacb657743c6.png)`,
+                                                          }
+                                                        : {
+                                                              backgroundImage: `https://image.flaticon.com/icons/png/128/28/28733.png`,
+                                                          }
+                                                }></div>
+                                            <p className="author">
+                                                {post.author === 1
+                                                    ? 'Pat Cooney'
+                                                    : 'LaunchPad Media'}
+                                            </p>
                                         </div>
                                     </Link>
                                 </div>
@@ -216,8 +241,21 @@ class Photos extends React.Component {
                                         </div>
                                         {/* <input className="likes" type="checkbox" /> */}
                                         <div className="heart-box">
-                                            <input id={`hrt-${post.slug}`} class="heart-input" type="checkbox" />
-                                            <label onClick={(e) => {this.clickedHeart(e, this.props.username)}} htmlFor={`hrt-${post.slug}`}>♡</label>
+                                            <input
+                                                id={`hrt-${post.slug}`}
+                                                class="heart-input"
+                                                type="checkbox"
+                                            />
+                                            <label
+                                                onClick={e => {
+                                                    this.clickedHeart(
+                                                        e,
+                                                        this.props.username
+                                                    );
+                                                }}
+                                                htmlFor={`hrt-${post.slug}`}>
+                                                ♡
+                                            </label>
                                         </div>
                                     </div>
                                     <p className="card-categories">
