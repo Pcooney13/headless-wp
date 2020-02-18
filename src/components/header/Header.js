@@ -88,13 +88,17 @@ class Header extends React.Component {
                             </button> :
                             <div>
                                 <button
-                                    onClick={() => {
-                                        this.props.showModal();
+                                    onClick={(e) => {
+                                        this.props.showModal(e);
                                     }}
                                     id="log-in">
                                     Log In
                                 </button>
-                                <button id="sign-in">Sign Up</button>
+                                <button 
+                                    onClick={(e) => {
+                                        this.props.showModal(e);
+                                    }}
+                                    id="sign-up">Sign Up</button>
                             </div>
                             }
                     </li>
@@ -113,28 +117,56 @@ class Header extends React.Component {
                         &times;
                     </span>
                     <div className="form">
-                        <h2>Log in</h2>
-                        <label>Username:</label>
-                        <input
-                            id="username"
-                            className="username"
-                            type="text"
-                            name="username"
+                        <h2 id="modal-title">Log in</h2>
+                        <div id="modal-username">
+                            <label>Username:</label>
+                            <input
+                                id="username"
+                                className="username"
+                                type="text"
+                                name="username"
+                                />
+                        </div>
+                        <div id="modal-password">
+                            <label>Password:</label>
+                            <input
+                                id="password"
+                                className="password"
+                                type="password"
+                                name="password"
                             />
-                        <label>Password:</label>
-                        <input
-                            id="password"
-                            className="password"
-                            type="password"
-                            name="password"
+                        </div>
+                        <div id="modal-email">
+                            <label>Email:</label>
+                            <input
+                                id="email"
+                                className="email"
+                                type="email"
+                                name="email"
                             />
+                        </div>
                         <button
                             onClick={() => {
                                 this.props.handlelogin();
                             }}
+                            id="modal-submit"
                             className="submit">
                             Login
                         </button>
+                        <div className="modal-btns">
+                            <p 
+                                onClick={(e) => {
+                                    this.props.showModal(e);
+                                }}
+                                id="modal-btn-left"
+                            >Login</p>
+                            <p 
+                                onClick={(e) => {
+                                    this.props.showModal(e);
+                                }}
+                                id="modal-btn-right"
+                            >Forgot Password</p>
+                        </div>
                     </div>
                 </div>
                 <div id="modal-bg"></div>

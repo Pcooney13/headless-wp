@@ -24,9 +24,11 @@ class Routes extends React.Component {
             loggedIn: false,
             token: 'wp-token',
             username: undefined,
+            modalState: undefined,
         };
         this.changeState = this.changeState.bind(this);
     }
+
     componentDidMount() {
         console.log(Cookies.get('username'));
         if (Cookies.get('username')) {
@@ -94,45 +96,66 @@ class Routes extends React.Component {
         this.changeState();
     };
     handleSignIn = () => {
-        console.log(this.state.username);
-        // fetch('https://pat-cooney.com/wp/wp-json//wp/v2/users', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         Accept: 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         username: document.getElementById('username').value,
-        //         password: document.getElementById('password').value,
-        //     }),
-        // })
-        //     .then(function(response) {
-        //         console.log(response);
-        //         if (200 === response.status) {
-        //             console.log(response.token);
-        //             Cookies.set('username', user);
-        //             // Cookies.set('wp-auth-token', response.token);
-        //             console.log(Cookies.get());
-        //             return response.json();
-        //         }
-        //     })
-        //     .then(function(post) {
-        //         Cookies.set('wp-auth-token', post.token);
-        //         console.log(post.token); //token response
-        //         // loginFunction();
-        //     });
-        console.log(this.state);
+        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value,
+            }),
+        })
+        .then(function(response) {
+            if (200 === response.status) {
+                return response.json();
+            }
+        })
+        .then(function(post) {
+            // Cookies.set('wp-auth-token', post.token);
+        });
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('email').value = '';
+        this.hideModal();
     };
-
     hideModal = () => {
         document.getElementById('modal').style.display = 'none';
         document.getElementById('modal-bg').style.display = 'none';
         document.body.style.overflowY = 'visible';
     };
-    showModal = () => {
+    showModal = (e) => {
+        console.log(e.target.innerHTML);
         document.getElementById('modal').style.display = 'block';
         document.getElementById('modal-bg').style.display = 'block';
+        document.getElementById('modal-title').innerHTML = e.target.innerHTML;
+        document.getElementById('modal-submit').innerHTML = e.target.innerHTML;
         document.body.style.overflowY = 'hidden';
+        if (e.target.innerHTML === "Log In") {
+            document.getElementById('modal-username').style.display = 'block';
+            document.getElementById('modal-password').style.display = 'block';
+            document.getElementById('modal-email').style.display = 'none';
+            document.getElementById('modal-btn-left').innerHTML = 'Sign Up';
+            document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
+            // document.getElementById('modal-btn-left').addEventListener("click", (e) => {this.showModal(e)});
+        } else if (e.target.innerHTML === "Sign Up") {
+            document.getElementById('modal-username').style.display = 'block';
+            document.getElementById('modal-password').style.display = 'block';
+            document.getElementById('modal-email').style.display = 'block';
+            document.getElementById('modal-btn-left').innerHTML = 'Log In';
+            document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
+            // document.getElementById('modal-btn-left').addEventListener("click", (e) => { this.showModal(e) });
+        } else if (e.target.innerHTML === "Forgot Password") {
+            document.getElementById('modal-username').style.display = 'none';
+            document.getElementById('modal-password').style.display = 'none';
+            document.getElementById('modal-email').style.display = 'block';
+            document.getElementById('modal-btn-left').innerHTML = 'Log In';
+            document.getElementById('modal-btn-right').innerHTML = 'Sign Up';
+            // document.getElementById('modal-btn-left').addEventListener("click", (e) => { this.showModal(e) });
+            // document.getElementById('modal-btn-right').innerHTML = 'login';
+            // document.getElementById('modal-btn-left').addEventListener("click", () => { this.showModal("Login") });
+        }
     };
 
     render() {
@@ -143,7 +166,9 @@ class Routes extends React.Component {
                     hideModal={this.hideModal}
                     handlelogout={this.handlelogout}
                     handlelogin={this.handlelogin}
+                    handleSignIn={this.handleSignIn}
                     username={this.state.username}
+                    modalState={this.modalState}
                 />
                 <Switch>
                     <Route exact path="/" component={App} />
