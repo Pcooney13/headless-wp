@@ -25,32 +25,10 @@ class Photos extends React.Component {
     componentDidMount() {
         const dataPosts =
             'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=24&_embed';
-        const dataCategories =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/categories?per_page=12';
 
-        Promise.all([
-            fetch(dataPosts).then(value => value.json()),
-            fetch(dataCategories).then(value => value.json()),
-        ]).then(value => {
-            const PostArrays = value[0].map(post => {
-                console.log(post._embedded.author[0].avatarUrls);
-                post.category = [];
-                post.categories.map(category => {
-                    value[1].forEach(function(datacat) {
-                        if (category === datacat.id) {
-                            category = datacat.slug;
-                            post.category.push([
-                                datacat.slug,
-                                datacat.acf.color,
-                            ]);
-                        }
-                    });
-                    return category;
-                });
-                delete post.categories;
-                return post;
-            });
-            PostArrays.sort(function(a, b) {
+        fetch(dataPosts).then(value => value.json())
+            .then(value => {
+            value.sort(function(a, b) {
                 var textA = a.slug.toUpperCase();
                 var textB = b.slug.toUpperCase();
                 return textA < textB ? -1 : textA > textB ? 1 : 0;
@@ -58,8 +36,8 @@ class Photos extends React.Component {
             this.setState(
                 {
                     isLoaded: true,
-                    posts: PostArrays,
-                    allPosts: PostArrays,
+                    posts: value,
+                    allPosts: value,
                 },
                 error => {
                     this.setState({
@@ -72,16 +50,21 @@ class Photos extends React.Component {
     }
 
     handleCategories(tag) {
+        console.log(tag.id)
+        // console.log(tag);
         const categorizedPosts = [];
         document
             .querySelector('.secondary-header')
             .classList.remove('show-secondary-nav');
         this.state.allPosts.forEach(function(post) {
-            post.category.forEach(function(categories) {
-                if (categories[0] === tag[0]) {
+            post.categories.forEach(function(categories) {
+                // console.log(categories);
+                if (categories === tag.id) {
+                    console.log("match");
                     categorizedPosts.push(post);
                 }
             });
+            // console.log(post.categories)
         });
         this.setState({
             posts: categorizedPosts,
@@ -89,7 +72,6 @@ class Photos extends React.Component {
     }
 
     handleImage(image) {
-        console.log(this.state);
         let cardLinks = document.getElementsByClassName('card-image-link');
         let showSecondaryNav = 0;
         let secondaryNav = document.querySelector('.secondary-header');
@@ -189,7 +171,6 @@ class Photos extends React.Component {
                 <div className="App">
                     <h1>Photos</h1>
                     {console.log(this.props.username)}
-                    {console.log(this.props)}
                     {this.props.username ? (
                         <button onClick={() => this.postshit()}>
                             post shit
@@ -221,15 +202,10 @@ class Photos extends React.Component {
                                         <div className="author-box">
                                             <div
                                                 className="author-image"
-                                                style={
-                                                    post.author === 1
-                                                        ? {
-                                                              backgroundImage: `url(https://i.pinimg.com/originals/fa/74/aa/fa74aae41a7e83b4c5d8bacb657743c6.png)`,
-                                                          }
-                                                        : {
-                                                              backgroundImage: `https://image.flaticon.com/icons/png/128/28/28733.png`,
-                                                          }
-                                                }></div>
+                                                style={{
+                                                    backgroundImage: `url(https://i.pinimg.com/originals/fa/74/aa/fa74aae41a7e83b4c5d8bacb657743c6.png)`,
+                                                }}
+                                                ></div>
                                             <p className="author">
                                                 {post._embedded.author[0].name}
                                             </p>
@@ -266,30 +242,35 @@ class Photos extends React.Component {
                                         </div>
                                     </div>
                                     <p className="card-categories">
-                                        {post.category.map(tag => (
-                                            <Link
-                                                key={counter++}
-                                                className="card-category"
-                                                style={{
-                                                    backgroundColor: tag[1],
-                                                    borderTopColor: tag[1],
-                                                }}
-                                                to={`/photos/${tag[0]}`}
-                                                onClick={() =>
-                                                    this.handleCategories(tag)
-                                                }
-                                                data-tooltip={
-                                                    tag[0]
-                                                        .charAt(0)
-                                                        .toUpperCase() +
-                                                    tag[0].slice(1)
-                                                }
-                                                aria-hidden="true">
-                                                {tag[0]
-                                                    .slice(0, 1)
-                                                    .toUpperCase()}
-                                            </Link>
-                                        ))}
+                                        {post._embedded['wp:term'].length > 1 ?
+                                            post._embedded['wp:term'][0].map(tag => (
+                                                <Link
+                                                    key={counter++}
+                                                    className="card-category"
+                                                    style={{
+                                                        backgroundColor: tag.acf.color,
+                                                        borderTopColor: tag.acf.color,
+                                                    }}
+                                                    to={`/photos/${tag.slug}`}
+                                                    onClick={() =>
+                                                        this.handleCategories(tag)
+                                                    }
+                                                    data-tooltip={
+                                                        tag.name
+                                                            .charAt(0)
+                                                            .toUpperCase() +
+                                                        tag.name.slice(1)
+                                                    }
+                                                    aria-hidden="true"
+                                                >
+                                                    {tag.name
+                                                        .slice(0, 1)
+                                                        .toUpperCase()}
+                                                </Link>
+                                        ))
+                                        :
+                                        <p></p>
+                                    }
                                     </p>
                                 </div>
                             </div>

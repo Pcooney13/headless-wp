@@ -30,7 +30,6 @@ class Routes extends React.Component {
     }
 
     componentDidMount() {
-        console.log(Cookies.get('username'));
         if (Cookies.get('username')) {
             this.setState({
                 username: Cookies.get('username'),
