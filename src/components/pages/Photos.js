@@ -170,14 +170,12 @@ class Photos extends React.Component {
             return (
                 <div className="App">
                     <h1>Photos</h1>
-                    {console.log(this.props.username)}
-                    {this.props.username ? (
+                    {console.log(this.state)}
+                    
                         <button onClick={() => this.postshit()}>
                             post shit
                         </button>
-                    ) : (
-                        ''
-                    )}
+                    
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">
@@ -203,7 +201,7 @@ class Photos extends React.Component {
                                             <div
                                                 className="author-image"
                                                 style={{
-                                                    backgroundImage: `url(https://i.pinimg.com/originals/fa/74/aa/fa74aae41a7e83b4c5d8bacb657743c6.png)`,
+                                                    backgroundImage: `url(${post._embedded.author[0]['avatar_urls']['24']})`,
                                                 }}
                                                 ></div>
                                             <p className="author">
@@ -242,7 +240,7 @@ class Photos extends React.Component {
                                         </div>
                                     </div>
                                     <p className="card-categories">
-                                        {post._embedded['wp:term'].length > 1 ?
+                                        {post._embedded['wp:term'] ?
                                             post._embedded['wp:term'][0].map(tag => (
                                                 <Link
                                                     key={counter++}

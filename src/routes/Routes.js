@@ -30,6 +30,7 @@ class Routes extends React.Component {
     }
 
     componentDidMount() {
+        console.log(Cookies.get('username'))
         if (Cookies.get('username')) {
             this.setState({
                 username: Cookies.get('username'),
@@ -87,11 +88,8 @@ class Routes extends React.Component {
         console.log(this.state);
     };
     handlelogout = () => {
-        console.log('logging out');
         Cookies.remove('wp-auth-token');
         Cookies.remove('username');
-        console.log(Cookies.get());
-        console.log(document.getElementById('log'));
         this.changeState();
     };
     handleSignIn = () => {
@@ -125,7 +123,6 @@ class Routes extends React.Component {
         document.body.style.overflowY = 'visible';
     };
     showModal = (e) => {
-        console.log(e.target.innerHTML);
         document.getElementById('modal').style.display = 'block';
         document.getElementById('modal-bg').style.display = 'block';
         document.getElementById('modal-title').innerHTML = e.target.innerHTML;
