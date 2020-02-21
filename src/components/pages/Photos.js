@@ -18,12 +18,13 @@ class Photos extends React.Component {
             error: null,
             isLoaded: false,
             token: 'wp-token',
+            count: 0,
         };
     }
 
     componentDidMount() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=24';
+            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=24&_embed';
         const dataCategories =
             'https://pat-cooney.com/wp/wp-json/wp/v2/categories?per_page=12';
 
@@ -32,6 +33,7 @@ class Photos extends React.Component {
             fetch(dataCategories).then(value => value.json()),
         ]).then(value => {
             const PostArrays = value[0].map(post => {
+                console.log(post._embedded.author[0].avatarUrls);
                 post.category = [];
                 post.categories.map(category => {
                     value[1].forEach(function(datacat) {
@@ -134,7 +136,9 @@ class Photos extends React.Component {
     }
 
     postshit() {
+        console.log(this.state);
         console.log(Cookies.get());
+        let thePost = []
         // get post.token from above and paste into variable below
         fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
             method: 'POST',
@@ -144,7 +148,7 @@ class Photos extends React.Component {
                 Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
             },
             body: JSON.stringify({
-                title: 'AA Lorem catsum',
+                title: 'AA borem catsum',
                 content: 'Lorem ipsum dolor sit amet.',
                 status: 'publish',
             }),
@@ -154,7 +158,12 @@ class Photos extends React.Component {
             })
             .then(function(post) {
                 console.log(post);
+                thePost.push(post);
             });
+            this.setState({
+                allPosts: thePost[0],
+            })
+            console.log(this.state);
     }
 
     clickedHeart(e, user) {
@@ -203,7 +212,7 @@ class Photos extends React.Component {
                                                 post.acf.image
                                                     ? post.acf.image.sizes
                                                           .medium
-                                                    : 'https:via.placeholder.com/300x350'
+                                                    : 'https:via.placeholder.com/300x350/126b4c/ffffff'
                                             }
                                             className="card-image"
                                             alt={post.title.rendered
@@ -222,9 +231,7 @@ class Photos extends React.Component {
                                                           }
                                                 }></div>
                                             <p className="author">
-                                                {post.author === 1
-                                                    ? 'Pat Cooney'
-                                                    : 'LaunchPad Media'}
+                                                {post._embedded.author[0].name}
                                             </p>
                                         </div>
                                     </Link>
