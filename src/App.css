@@ -460,3 +460,8 @@ a.image-big{
     font-size:21px;
     font-weight:bold;
 }
+.form #new-post-image {
+    padding:0;
+    height:60px;
+    border:none;
+}

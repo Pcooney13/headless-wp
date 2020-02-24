@@ -11,7 +11,6 @@ import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import LazyLoad from 'react-lazyload';
 
-
 const Loading = () => (
     <div>
         <h5>Loading...</h5>
@@ -26,6 +25,7 @@ class Photos extends React.Component {
             isLoaded: false,
             token: 'wp-token',
             count: 0,
+            active: null,
         };
     }
 
@@ -76,21 +76,22 @@ class Photos extends React.Component {
     }
 
     handleImage(e, image) {
-        console.log(e.target.src);
-        console.log(image);
         let card = document.querySelectorAll('.card');
         for (var i = 0; i < card.length; i++) {
-            console.log(card[i].classList.remove('clicked-full'));
+            if (!e.target.parentElement.parentElement.parentElement.classList.contains('clicked-full')) {
+                card[i].classList.remove('clicked-full');
+            }
         }
         if (e.target.className !== "delete-trash") {
             image
             ?
                 e.target.src = image.url
             :
-                e.target.src = "https:via.placeholder.com/1200x800/"
+                e.target.src = "https:via.placeholder.com/1200x800/" + e.target.src.substring(36)
+
             e.target.parentElement.parentElement.parentElement.classList.toggle('clicked-full');
-            e.target.classList.add('image-full')
-            e.target.parentElement.classList.add('image-big')
+            e.target.classList.toggle('image-full')
+            e.target.parentElement.classList.toggle('image-big')
             //Put image title in secondary nav
 
             // for (var i = 0; i < cardLinks.length; i++) {
@@ -121,11 +122,23 @@ class Photos extends React.Component {
             //     }
             // }
         }
+        this.setState(
+            {
+                isLoaded: true,
+                active: image,
+            },
+            error => {
+                this.setState({
+                    isLoaded: true,
+                    error,
+                });
+            }
+        );
     }
 
     postshit() {
         const newTitle = document.getElementById('new-post-title');
-        const newColor = document.getElementById('new-post-image');
+        const newColor = document.getElementById('new-post-image').value.slice(1,7);
 
         const categories = [
             document.getElementById('new-post-category--dogs'),
@@ -134,16 +147,12 @@ class Photos extends React.Component {
             document.getElementById('new-post-category--people')
         ]
 
-        console.log(categories);
-
         let categoryArray = []
 
         categories.map(category => 
             category.checked &&
                 categoryArray.push(category.name)
         );
-
-        console.log(categoryArray);
 
         fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
             method: 'POST',
@@ -154,19 +163,13 @@ class Photos extends React.Component {
             },
             body: JSON.stringify({
                 title: newTitle.value,
-                content: 'Lorem ipsum dolor sit amet.',
+                content: newColor,
                 status: 'publish',
-                categories: categoryArray,
-                acf: {
-                    image: {
-                        sizes: {
-                            medium:`https:via.placeholder.com/300x350/${newColor.value}/ffffff`,
-                        }
-                    }
-                },                
+                categories: categoryArray,         
             }),
         }).then((res) => {
             if (res.status === 201) {
+                this.hidePostModal()
                 this.loadPosts()
             }
         }).catch(error => {
@@ -249,7 +252,7 @@ class Photos extends React.Component {
                                 <label className="main-label">Title:</label>
                                 <input id="new-post-title" className="username" type="text" name="title"/>
                                 <label className="main-label">Background Color:</label>
-                                <input id="new-post-image" className="username" type="text" name="bg-color"/>
+                                <input id="new-post-image" className="username" type="color" name="bg-color"/>
                                 <div>
                                     <label className="main-label">Category:</label>
                                     <input 
@@ -305,7 +308,7 @@ class Photos extends React.Component {
                                                 src={
                                                     post.acf.image
                                                         ? post.acf.image.sizes.medium
-                                                        : 'https:via.placeholder.com/300x350/' + "000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); })+'/ffffff'
+                                                        : `https:via.placeholder.com/300x200/${post.content.rendered.slice(3,9)}/ffffff'`
                                                 }
                                                 className="card-image"
                                                 alt={post.title.rendered
