@@ -69,7 +69,7 @@ footer{
     margin-left: 5px;
     margin-right: 5px;
 }
-#modal{
+#modal, #post-modal{
     display:none;
     background-color:white;
     position: relative;
@@ -437,4 +437,26 @@ a.card-category {
 }
 .form .main-label {
     display:block;
+}
+img.image-full{
+    max-width:100%;
+    width:100%;
+    height:100%;
+}
+a.image-big{
+    height:unset;
+
+}
+.photo-title-flex{
+    display:flex;
+}
+.photo-title-flex button {
+    margin-left:auto;
+    width: 42px;
+    height: 42px;
+    border-radius:50%;
+    background-color:var(--dark-green);
+    color:white;
+    font-size:21px;
+    font-weight:bold;
 }

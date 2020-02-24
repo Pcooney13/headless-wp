@@ -38,22 +38,20 @@ class Photos extends React.Component {
             'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=50&_embed';
 
         fetch(dataPosts)
-            .then(value => value.json())
-            .then(value => {
-                this.setState(
-                    {
-                        isLoaded: true,
-                        posts: value,
-                        allPosts: value,
-                    },
-                    error => {
-                        this.setState({
-                            isLoaded: true,
-                            error,
-                        });
-                    }
-                );
+        .then(value => value.json())
+        .then(value => {
+            this.setState({
+                isLoaded: true,
+                posts: value,
+                allPosts: value,
+            },
+            error => {
+                this.setState({
+                    isLoaded: true,
+                    error,
+                });
             });
+        });
     }
 
     handleCategories(tag) {
@@ -62,70 +60,66 @@ class Photos extends React.Component {
         this.state.allPosts.map(post =>
             post.categories.map(
                 category =>
-                    //match post category to clicked category
                     category === tag.id && categoryPosts.push(post)
             )
         );
-        this.setState(
-            {
+        this.setState({
+            isLoaded: true,
+            posts: categoryPosts,
+        },
+        error => {
+            this.setState({
                 isLoaded: true,
-                posts: categoryPosts,
-            },
-            error => {
-                this.setState({
-                    isLoaded: true,
-                    error,
-                });
-            }
-        );
+                error,
+            });
+        });
     }
 
     handleImage(e, image) {
-        console.log(e.target);
+        console.log(e.target.src);
+        console.log(image);
+        let card = document.querySelectorAll('.card');
+        for (var i = 0; i < card.length; i++) {
+            console.log(card[i].classList.remove('clicked-full'));
+        }
         if (e.target.className !== "delete-trash") {
-            let cardLinks = document.getElementsByClassName('card-image-link');
-            let showSecondaryNav = 0;
-            let secondaryNav = document.querySelector('.secondary-header');
+            image
+            ?
+                e.target.src = image.url
+            :
+                e.target.src = "https:via.placeholder.com/1200x800/"
+            e.target.parentElement.parentElement.parentElement.classList.toggle('clicked-full');
+            e.target.classList.add('image-full')
+            e.target.parentElement.classList.add('image-big')
+            //Put image title in secondary nav
 
-            for (var i = 0; i < cardLinks.length; i++) {
-                let card = cardLinks[i].parentElement.parentElement;
-                let cardImage = cardLinks[i].children[0];
-                //finds card that matchs url
-                if (
-                    image.sizes.medium === cardLinks[i].children[0].src ||
-                    image.url === cardLinks[i].children[0].src
-                ) {
-                    //Put image title in secondary nav
-                    showSecondaryNav++;
-                    secondaryNav.children[0].children[0].innerHTML =
-                        card.children[1].children[0].innerHTML;
+            // for (var i = 0; i < cardLinks.length; i++) {
+            //         showSecondaryNav++;
+            //         secondaryNav.children[0].children[0].innerHTML =
+            //             card.children[1].children[0].innerHTML;
 
-                    //changes image src to full-rez
-                    if (cardImage.src === image.sizes.medium) {
-                        cardImage.src = image.url;
-                    }
-                    //Makes image full-width of the page
-                    if (!card.classList.contains('clicked-full')) {
-                        card.classList.add('clicked-full');
-                        cardLinks[i].style.height = 'unset';
-                        cardImage.style.maxWidth = '100%';
-                        cardImage.style.width = '100%';
-                        cardImage.style.height = '100%';
-                    } else {
-                        card.classList.remove('clicked-full');
-                        cardImage.style.minWidth = 'unset';
-                        cardImage.style.maxWidth = 'unset';
-                    }
-                } else {
-                    card.classList.remove('clicked-full');
-                    console.log(this);
-                }
-                if (showSecondaryNav) {
-                    secondaryNav.classList.add('show-secondary-nav');
-                } else {
-                    secondaryNav.classList.remove('show-secondary-nav');
-                }
-            }
+            //         //Makes image full-width of the page
+            //         if (!card.classList.contains('clicked-full')) {
+            //             card.classList.add('clicked-full');
+            //             cardLinks[i].style.height = 'unset';
+            //             cardImage.style.maxWidth = '100%';
+            //             cardImage.style.width = '100%';
+            //             cardImage.style.height = '100%';
+            //         } else {
+            //             card.classList.remove('clicked-full');
+            //             cardImage.style.minWidth = 'unset';
+            //             cardImage.style.maxWidth = 'unset';
+            //         }
+            //     } else {
+            //         card.classList.remove('clicked-full');
+            //         // console.log(this);
+            //     }
+            //     if (showSecondaryNav) {
+            //         secondaryNav.classList.add('show-secondary-nav');
+            //     } else {
+            //         secondaryNav.classList.remove('show-secondary-nav');
+            //     }
+            // }
         }
     }
 
@@ -181,6 +175,16 @@ class Photos extends React.Component {
 
     }
 
+    showPostModal(){
+        document.getElementById('post-modal').style.display = 'block';
+        document.getElementById('modal-bg').style.display = 'block';
+    }
+
+    hidePostModal() {
+        document.getElementById('post-modal').style.display = 'none';
+        document.getElementById('modal-bg').style.display = 'none';
+    }
+
     deleteshit(image) {
         fetch(
             `https://pat-cooney.com/wp/wp-json/wp/v2/photography/${image}`,
@@ -224,66 +228,67 @@ class Photos extends React.Component {
             let counter = 1;
             return (
                 <div className="App">
-                    <h1>Photos</h1>
-
+                    <div className="photo-title-flex">
+                        <h1>Photos</h1>
+                        {this.props.username && (
+                            <button onClick={() => this.showPostModal()}>+</button>
+                        )}
+                    </div>
                     {this.props.username && (
-                        <div>
+                    <div>
+                        <div id="post-modal">
+                            <span
+                                onClick={() => {
+                                    this.hidePostModal();
+                                }}
+                                className="close-modal">
+                                &times;
+                            </span>
                             <div className="form">
+                                <h2 id="modal-title">Add New Photo</h2>
                                 <label className="main-label">Title:</label>
-                                <input
-                                    id="new-post-title"
-                                    className="username"
-                                    type="text"
-                                    name="title"
-                                />
+                                <input id="new-post-title" className="username" type="text" name="title"/>
                                 <label className="main-label">Background Color:</label>
-                                <input
-                                    id="new-post-image"
-                                    className="username"
-                                    type="text"
-                                    name="bg-color"
-                                />
+                                <input id="new-post-image" className="username" type="text" name="bg-color"/>
                                 <div>
                                     <label className="main-label">Category:</label>
-                                    
-                                    <input
+                                    <input 
                                         id="new-post-category--dogs"
                                         className="new-post-category"
                                         type="checkbox"
-                                        name="2"
-                                    />
+                                        name="2"/>
                                     <label>Dogs</label>
-                                    <input
+                                    <input 
                                         id="new-post-category--cats"
                                         className="new-post-category"
                                         type="checkbox"
-                                        name="5"
-                                    />
+                                        name="5"/>
                                     <label>Cats</label>
-                                    <input
+
+                                    <input 
                                         id="new-post-category--landscape"
                                         className="new-post-category"
                                         type="checkbox"
-                                        name="4"
-                                    />
+                                        name="4"/>
                                     <label>Landscape</label>
-                                    <input
+
+                                    <input 
                                         id="new-post-category--people"
                                         className="new-post-category"
                                         type="checkbox"
-                                        name="3"
-                                    />
+                                        name="3"/>
                                     <label>People</label>
                                 </div>
-
+                                <button onClick={() => this.postshit()}>
+                                    post shit
+                                </button>
                             </div>
-                            <button onClick={() => this.postshit()}>
-                                post shit
-                            </button>
                         </div>
+                        
+                    </div>
+
                     )}
                     {console.log(this.state.posts)}
-
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <LazyLoad key={post.slug} placeholder={<Loading />}>
@@ -300,7 +305,7 @@ class Photos extends React.Component {
                                                 src={
                                                     post.acf.image
                                                         ? post.acf.image.sizes.medium
-                                                        : 'https:via.placeholder.com/300x350/9aaca0/ffffff'
+                                                        : 'https:via.placeholder.com/300x350/' + "000000".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); })+'/ffffff'
                                                 }
                                                 className="card-image"
                                                 alt={post.title.rendered
