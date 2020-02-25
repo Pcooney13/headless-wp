@@ -148,33 +148,54 @@ class Photos extends React.Component {
         ]
 
         let categoryArray = []
-
+        const fileName = 'poop'
         categories.map(category => 
             category.checked &&
                 categoryArray.push(category.name)
         );
-
-        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
+        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/media', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'image/jpeg',
+                'Content-Disposition': 'attachment; filename=' + fileName,
+                'Access-Control-Allow-Origin': '*',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
             },
             body: JSON.stringify({
-                title: newTitle.value,
-                content: newColor,
-                status: 'publish',
-                categories: categoryArray,         
+                file: fileName,
             }),
-        }).then((res) => {
-            if (res.status === 201) {
-                this.hidePostModal()
-                this.loadPosts()
-            }
-        }).catch(error => {
-            console.error(error);
-        });
+        })
+            .then(res => {
+                if (res.status === 201) {
+                    this.hidePostModal();
+                    this.loadPosts();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        // fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         Accept: 'application/json',
+        //         Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+        //     },
+        //     body: JSON.stringify({
+        //         title: newTitle.value,
+        //         content: newColor,
+        //         status: 'publish',
+        //         categories: categoryArray,         
+        //     }),
+        // }).then((res) => {
+        //     if (res.status === 201) {
+        //         this.hidePostModal()
+        //         this.loadPosts()
+        //     }
+        // }).catch(error => {
+        //     console.error(error);
+        // });
 
     }
 
