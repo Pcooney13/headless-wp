@@ -427,7 +427,6 @@ a.card-category {
     order:-1;
     left:0;
     max-width:100%;
-    z-index:5;
 }
 #modal-email{
     transition:all .5s;
@@ -464,4 +463,14 @@ a.image-big{
     padding:0;
     height:60px;
     border:none;
+}
+.not-liked .fill {
+    opacity:0;
+}
+.fill {
+    opacity:1;
+    transition:all.5s;
+}
+.heart-svg {
+    margin-top:-18px;
 }

@@ -76,14 +76,6 @@ class WeatherApp extends Component {
             sunset[1] += 'PM';
             sunrise[0] += ':';
             sunrise[1] += 'AM';
-            
-            if (data.data[0].weather.description === "Clear sky") {
-                document.body.style.background = 'linear-gradient(#fffffb 10%, #6dd5fa)'
-            } 
-            //Gradient is Very cloudy looking, need a lil cloudy colored one
-            if (data.data[0].weather.description === "Few clouds") {
-                document.body.style.background = 'linear-gradient(-180deg, #BCC5CE 0%, #929EAD 98%), radial-gradient(at top left, rgba(255, 255, 255, 0.30) 0%, rgba(0, 0, 0, 0.30) 100%)'
-            }
             this.setState({
                 temperature: data.data[0].temp,
                 apparentTemperature: data.data[0].app_temp,

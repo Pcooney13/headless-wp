@@ -11,7 +11,7 @@ class Form extends Component {
                 name="state"
                 placeholder="State..."
             />
-            <button>Get Weather</button>
+            <button type="submit">Get Weather</button>
         </form>
     );
   }

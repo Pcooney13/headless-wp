@@ -26,28 +26,33 @@ class Routes extends React.Component {
             username: undefined,
             modalState: undefined,
         };
-        this.changeState = this.changeState.bind(this);
+        this.changeUser = this.changeUser.bind(this);
     }
 
     componentDidMount() {
-        console.log(Cookies.get('username'))
+        //Check cookies if user is logged in && forces a reload on login
         if (Cookies.get('username')) {
             this.setState({
                 username: Cookies.get('username'),
             });
         }
     }
-    changeState = user => {
-        console.log(user);
-        console.log('change state');
-        console.log(Cookies.get());
-        this.setState({
-            username: user,
-        });
-        console.log(this.state);
+
+    changeUser = user => {
+        if (user) {
+            this.setState({
+                username: user,
+            });
+        } else {
+            this.setState({
+                username: undefined,
+            });
+        }
     };
-    handlelogin = () => {
-        console.log(this.state.username);
+
+    handlelogin = (e) => {
+        e.preventDefault();
+        console.log(this.state);
         let user;
         if (!this.state.username) {
             user = document.getElementById('username').value;
@@ -81,16 +86,17 @@ class Routes extends React.Component {
                 console.log(post.token); //token response
                 // loginFunction();
             });
-        this.changeState(user);
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        this.hideModal();
-        console.log(this.state);
+            user &&
+                this.changeUser(user);
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            this.hideModal();
+            console.log(this.state);
     };
     handlelogout = () => {
         Cookies.remove('wp-auth-token');
         Cookies.remove('username');
-        this.changeState();
+        this.changeUser();
     };
     handleSignIn = () => {
         fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/register', {
@@ -168,8 +174,12 @@ class Routes extends React.Component {
                 />
                 <Switch>
                     <Route exact path="/" component={App} />
-                    <Route path="/photos/:category" component={Photos} />
-                    <Route path="/photo/:id" component={Photos} />
+                    <Route path="/photos/:category" render={props => (
+                            <Photos {...props} username={this.state.username} />
+                        )} />
+                    <Route path="/photo/:id" render={props => (
+                            <Photos {...props} username={this.state.username} />
+                        )} />
                     <Route exact path="/weather" component={Weather} />
                     <Route exact path="/resume" component={Resume} />
                     <Route path="/users/:id" component={User} />

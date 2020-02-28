@@ -78,29 +78,33 @@ class Header extends React.Component {
                         </NavLink>
                     </li>
                     <li id="log">
-                        {username !== undefined || Cookies.get('username') !== undefined ?
+                        {username !== undefined ||
+                        Cookies.get('username') !== undefined ? (
                             <button
                                 id="log-out"
                                 onClick={() => {
                                     this.props.handlelogout();
                                 }}>
                                 logout {username}
-                            </button> :
+                            </button>
+                        ) : (
                             <div>
                                 <button
-                                    onClick={(e) => {
+                                    onClick={e => {
                                         this.props.showModal(e);
                                     }}
                                     id="log-in">
                                     Log In
                                 </button>
-                                <button 
-                                    onClick={(e) => {
+                                <button
+                                    onClick={e => {
                                         this.props.showModal(e);
                                     }}
-                                    id="sign-up">Sign Up</button>
+                                    id="sign-up">
+                                    Sign Up
+                                </button>
                             </div>
-                            }
+                        )}
                     </li>
                 </ul>
                 <ul className="header secondary-header">
@@ -116,7 +120,7 @@ class Header extends React.Component {
                         className="close-modal">
                         &times;
                     </span>
-                    <div className="form">
+                    <form className="form" onSubmit={this.props.handlelogin}>
                         <h2 id="modal-title">Log in</h2>
                         <div id="modal-username">
                             <label>Username:</label>
@@ -125,7 +129,7 @@ class Header extends React.Component {
                                 className="username"
                                 type="text"
                                 name="username"
-                                />
+                            />
                         </div>
                         <div id="modal-password">
                             <label>Password:</label>
@@ -146,28 +150,28 @@ class Header extends React.Component {
                             />
                         </div>
                         <button
-                            onClick={() => {
-                                this.props.handlelogin();
-                            }}
+                            type="submit"
                             id="modal-submit"
                             className="submit">
                             Login
                         </button>
                         <div className="modal-btns">
-                            <p 
-                                onClick={(e) => {
+                            <p
+                                onClick={e => {
                                     this.props.showModal(e);
                                 }}
-                                id="modal-btn-left"
-                            >Login</p>
-                            <p 
-                                onClick={(e) => {
+                                id="modal-btn-left">
+                                Login
+                            </p>
+                            <p
+                                onClick={e => {
                                     this.props.showModal(e);
                                 }}
-                                id="modal-btn-right"
-                            >Forgot Password</p>
+                                id="modal-btn-right">
+                                Forgot Password
+                            </p>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div id="modal-bg"></div>
             </header>
