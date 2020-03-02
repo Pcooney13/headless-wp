@@ -7,8 +7,8 @@ import React, { Component } from 'react';
 // 4. Figure out how to loop over 0 for sunset
 
 //components
-import Form from "../Form";
-import Weather from "../WeatherResponse";
+import Form from "../components/Form";
+import Weather from "../components/WeatherResponse";
 
 const API_KEY = '53189c1951814d7a9ccda592dac5a917';
 

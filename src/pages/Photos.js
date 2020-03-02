@@ -1,7 +1,3 @@
-//Lazy loading
-
-//another handler for when image is clicekd changing it out from medium to large and zoom effect to look like a screen change
-
 // Polish the transition from blurred image taking up screen to full size image
 // Figure out the functionality for zomming from card specifically not just top left corner
 
@@ -24,7 +20,6 @@ class Photos extends React.Component {
 
     componentDidMount() {
         this.loadPosts()
-        console.table(this.state)
     }
 
     loadPosts() {
@@ -45,7 +40,6 @@ class Photos extends React.Component {
                     error,
                 });
             });
-            this.lazyLoad();
         });
     }
 
@@ -75,12 +69,17 @@ class Photos extends React.Component {
         }
     }
 
-    handleCategories(category) {
+    handleCategories(category, e) {
+        e.preventDefault();
+        console.log(category);
+        console.log(this.state);
         let categoryPosts = [];
 
         this.state.allPosts.map(post =>
-            post.categories.map(clickedCategory =>
-                category.title === clickedCategory.title && categoryPosts.push(post)
+            post.categories && post.categories.map(
+                clickedCategory =>
+                    category.title === clickedCategory.title &&
+                    categoryPosts.push(post)
             )
         );
         this.setState({
@@ -250,7 +249,7 @@ class Photos extends React.Component {
         
     }
 
-    clickedHeart(e, user) {
+    clickedHeart(e, user, slug) {
         let heartSVG;
         if (e.target.classList.contains('heart-svg')) {
             heartSVG = e.target
@@ -260,6 +259,32 @@ class Photos extends React.Component {
             console.log(heartSVG);
 
             heartSVG.classList.toggle('not-liked');
+
+
+        fetch(`https://pat-cooney.com/wp/wp-json/pcd/v1/photos/${slug}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+            },
+            body: JSON.stringify({
+                likes: user,
+            }),
+        })
+        .then(res => {
+            console.log(res.status);
+            if (res.status === 200) {
+                this.loadPosts();
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+
+
+
         // e.target.classList.contains('not-liked') &&
         //     e.target.classList.remove('not-liked');
         // e.target.parentElement.classList.contains('not-liked') &&
@@ -289,10 +314,12 @@ class Photos extends React.Component {
         } else {
 
             window.scrollTo(0, 0);
+            this.lazyLoad();
             let counter = 1;
             
             return (
                 <div className="App">
+                    {console.log(this.state)}
                     <div className="photo-title-flex">
                         <h1>Photos</h1>
                         {this.props.username && (
@@ -376,10 +403,9 @@ class Photos extends React.Component {
                                     <Link
                                         to={`/photos/${post.slug}`}
                                         className="card-image-link"
-                                        // onClick={e =>
-                                        //     this.handleImage(e, post.image)
-                                        // }
-                                        >
+                                        onClick={e =>
+                                            this.handleImage(e, post.image)
+                                        }>
                                         <img
                                             data-src={
                                                 post.image
@@ -401,14 +427,14 @@ class Photos extends React.Component {
                                             <div
                                                 className="author-image"
                                                 style={{
-                                                    backgroundImage: `url(${post.author.avatar})`,
+                                                    backgroundImage: `url(${post.author.custom_avatar ? post.author.custom_avatar : post.author.avatar})`,
                                                 }}></div>
                                             <p className="author">
                                                 {post.author.title}
                                             </p>
                                             {post.author.slug ===
                                                 Cookies.get('username') && (
-                                                    <button
+                                                <button
                                                     className="delete-trash"
                                                     onClick={e =>
                                                         this.deleteshit(post.id)
@@ -425,7 +451,7 @@ class Photos extends React.Component {
                                                             fillRule="evenodd"
                                                             d="M16.5 5a1 1 0 01-1 1H15v9a2 2 0 01-2 2H7a2 2 0 01-2-2V6h-.5a1 1 0 01-1-1V4a1 1 0 011-1H8a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM6.118 6L6 6.059V15a1 1 0 001 1h6a1 1 0 001-1V6.059L13.882 6H6.118zM4.5 5V4h11v1h-11z"
                                                             clipRule="evenodd"
-                                                            />
+                                                        />
                                                     </svg>
                                                 </button>
                                             )}
@@ -453,7 +479,8 @@ class Photos extends React.Component {
                                                 onClick={e => {
                                                     this.clickedHeart(
                                                         e,
-                                                        this.props.username
+                                                        this.props.username,
+                                                        post.slug
                                                     );
                                                 }}
                                                 htmlFor={`hrt-${post.slug}`}>
@@ -491,36 +518,37 @@ class Photos extends React.Component {
                                     </div>
                                     <p className="card-categories">
                                         {post.categories
-                                            ? post.categories.map(
-                                                  category => (
-                                                      <Link
-                                                          key={counter++}
-                                                          className="card-category"
-                                                          style={{
-                                                              backgroundColor:
-                                                                  category.color,
-                                                              borderTopColor:
-                                                                  category.color,
-                                                          }}
-                                                          to={`/photos/${category.slug}`}
-                                                          onClick={() =>
-                                                              this.handleCategories(
-                                                                  category
-                                                              )
-                                                          }
-                                                          data-tooltip={
-                                                              category.title
-                                                                  .charAt(0)
-                                                                  .toUpperCase() +
-                                                              category.title.slice(1)
-                                                          }
-                                                          aria-hidden="true">
-                                                          {category.title
-                                                              .slice(0, 1)
-                                                              .toUpperCase()}
-                                                      </Link>
-                                                  )
-                                              )
+                                            ? post.categories.map(category => (
+                                                  <Link
+                                                      key={counter++}
+                                                      className="card-category"
+                                                      style={{
+                                                          backgroundColor:
+                                                              category.color,
+                                                          borderTopColor:
+                                                              category.color,
+                                                      }}
+                                                      to={`/photos/${category.slug}`}
+                                                      onClick={e =>
+                                                          this.handleCategories(
+                                                              category,
+                                                              e
+                                                          )
+                                                      }
+                                                      data-tooltip={
+                                                          category.title
+                                                              .charAt(0)
+                                                              .toUpperCase() +
+                                                          category.title.slice(
+                                                              1
+                                                          )
+                                                      }
+                                                      aria-hidden="true">
+                                                      {category.title
+                                                          .slice(0, 1)
+                                                          .toUpperCase()}
+                                                  </Link>
+                                              ))
                                             : ''}
                                     </p>
                                 </div>

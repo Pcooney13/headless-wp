@@ -5,11 +5,11 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import App from '../App'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
-import Photos from '../components/pages/Photos'
-import Resume from '../components/pages/Resume'
-import Weather from "../components/pages/Weather";
-import Users from "../components/pages/Users";
-import User from "../components/pages/Users";
+import Photos from '../pages/Photos'
+import Resume from '../pages/Resume'
+import Weather from "../pages/Weather";
+import Users from "../pages/Users";
+import User from "../pages/Users";
 import Notfound from '../components/pages/404'
 import '../App.css';
 import Cookies from 'js-cookie';
