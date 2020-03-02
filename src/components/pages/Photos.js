@@ -29,7 +29,7 @@ class Photos extends React.Component {
 
     loadPosts() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/wp/v2/photography?per_page=50&_embed';
+            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos?per_page=50';
 
         fetch(dataPosts)
         .then(value => value.json())
@@ -51,7 +51,6 @@ class Photos extends React.Component {
 
     lazyLoad() {
         var lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
-        console.log(lazyImages);
         if ('IntersectionObserver' in window) {
             let lazyImageObserver = new IntersectionObserver(function(
                 entries,
@@ -76,13 +75,12 @@ class Photos extends React.Component {
         }
     }
 
-    handleCategories(tag) {
+    handleCategories(category) {
         let categoryPosts = [];
 
         this.state.allPosts.map(post =>
-            post.categories.map(
-                category =>
-                    category === tag.id && categoryPosts.push(post)
+            post.categories.map(clickedCategory =>
+                category.title === clickedCategory.title && categoryPosts.push(post)
             )
         );
         this.setState({
@@ -107,7 +105,7 @@ class Photos extends React.Component {
         if (e.target.className !== "delete-trash") {
             image
             ?
-                e.target.srcset = image.url
+                e.target.srcset = image.full
             :
                 e.target.srcset = "https:via.placeholder.com/1200x800/" + e.target.src.substring(36)
 
@@ -160,7 +158,6 @@ class Photos extends React.Component {
 
     postshit = (e) => {
         e.preventDefault();
-        console.log(e.preventDefault());
         const newTitle = document.getElementById('new-post-title');
         const newColor = document.getElementById('new-post-image').value.slice(1,7);
 
@@ -175,7 +172,7 @@ class Photos extends React.Component {
         // const fileName = 'poop'
         categories.map(category => 
             category.checked &&
-                categoryArray.push(category.name)
+                categoryArray.push(category.title)
         );
         // fetch('https://pat-cooney.com/wp/wp-json/wp/v2/media', {
         //     method: 'POST',
@@ -208,7 +205,7 @@ class Photos extends React.Component {
                 title: newTitle.value,
                 content: newColor,
                 status: 'publish',
-                categories: categoryArray,         
+                // categories: categoryArray,         
             }),
         }).then((res) => {
             if (res.status === 201) {
@@ -268,7 +265,7 @@ class Photos extends React.Component {
         // e.target.parentElement.classList.contains('not-liked') &&
         //     e.target.parentElement.classList.remove('not-liked');
             // ?
-            //     e.target.tagName === 'svg' || e.target.tagName === 'path'
+            //     e.target.categoryName === 'svg' || e.target.categoryName === 'path'
             //         ? console.table("yes")
             //         : console.table(e.target.type)
             // :
@@ -379,46 +376,39 @@ class Photos extends React.Component {
                                     <Link
                                         to={`/photos/${post.slug}`}
                                         className="card-image-link"
-                                        onClick={e =>
-                                            this.handleImage(e, post.acf.image)
-                                        }>
+                                        // onClick={e =>
+                                        //     this.handleImage(e, post.image)
+                                        // }
+                                        >
                                         <img
                                             data-src={
-                                                post.acf.image
-                                                    ? post.acf.image.sizes
-                                                          .medium
-                                                    : `https:via.placeholder.com/300x200/${post.content.rendered.slice(
-                                                          3,
-                                                          9
-                                                      )}/ffffff'`
+                                                post.image
+                                                    ? post.image.medium
+                                                    : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                             }
                                             data-srcset={
-                                                post.acf.image
-                                                    ? post.acf.image.sizes
-                                                          .medium
-                                                    : `https:via.placeholder.com/300x200/${post.content.rendered.slice(
-                                                          3,
-                                                          9
-                                                      )}/ffffff'`
+                                                post.image
+                                                    ? post.image.medium
+                                                    : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                             }
                                             height="200"
                                             width="300"
                                             className="card-image lazy"
-                                            alt={post.title.rendered
+                                            alt={post.title
                                                 .replace('#038;', '')
                                                 .replace('&#8217;', "'")}></img>
                                         <div className="author-box">
                                             <div
                                                 className="author-image"
                                                 style={{
-                                                    backgroundImage: `url(${post._embedded.author[0]['avatar_urls']['24']})`,
+                                                    backgroundImage: `url(${post.author.avatar})`,
                                                 }}></div>
                                             <p className="author">
-                                                {post._embedded.author[0].name}
+                                                {post.author.title}
                                             </p>
-                                            {post._embedded.author[0].slug ===
+                                            {post.author.slug ===
                                                 Cookies.get('username') && (
-                                                <button
+                                                    <button
                                                     className="delete-trash"
                                                     onClick={e =>
                                                         this.deleteshit(post.id)
@@ -435,7 +425,7 @@ class Photos extends React.Component {
                                                             fillRule="evenodd"
                                                             d="M16.5 5a1 1 0 01-1 1H15v9a2 2 0 01-2 2H7a2 2 0 01-2-2V6h-.5a1 1 0 01-1-1V4a1 1 0 011-1H8a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM6.118 6L6 6.059V15a1 1 0 001 1h6a1 1 0 001-1V6.059L13.882 6H6.118zM4.5 5V4h11v1h-11z"
                                                             clipRule="evenodd"
-                                                        />
+                                                            />
                                                     </svg>
                                                 </button>
                                             )}
@@ -447,7 +437,7 @@ class Photos extends React.Component {
                                     <div className="card-titlebox">
                                         <div className="text-container">
                                             <h4 className="card-title">
-                                                {post.title.rendered
+                                                {post.title
                                                     .replace('#038;', '')
                                                     .replace('&#8217;', "'")}
                                             </h4>
@@ -500,32 +490,32 @@ class Photos extends React.Component {
                                         </div>
                                     </div>
                                     <p className="card-categories">
-                                        {post._embedded['wp:term']
-                                            ? post._embedded['wp:term'][0].map(
-                                                  tag => (
+                                        {post.categories
+                                            ? post.categories.map(
+                                                  category => (
                                                       <Link
                                                           key={counter++}
                                                           className="card-category"
                                                           style={{
                                                               backgroundColor:
-                                                                  tag.acf.color,
+                                                                  category.color,
                                                               borderTopColor:
-                                                                  tag.acf.color,
+                                                                  category.color,
                                                           }}
-                                                          to={`/photos/${tag.slug}`}
+                                                          to={`/photos/${category.slug}`}
                                                           onClick={() =>
                                                               this.handleCategories(
-                                                                  tag
+                                                                  category
                                                               )
                                                           }
                                                           data-tooltip={
-                                                              tag.name
+                                                              category.title
                                                                   .charAt(0)
                                                                   .toUpperCase() +
-                                                              tag.name.slice(1)
+                                                              category.title.slice(1)
                                                           }
                                                           aria-hidden="true">
-                                                          {tag.name
+                                                          {category.title
                                                               .slice(0, 1)
                                                               .toUpperCase()}
                                                       </Link>
