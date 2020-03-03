@@ -261,15 +261,17 @@ class Photos extends React.Component {
             heartSVG.classList.toggle('not-liked');
 
 
-        fetch(`https://pat-cooney.com/wp/wp-json/pcd/v1/photos/${slug}`, {
+        fetch(`https://pat-cooney.com/wp/wp-json/wp/v2/users/${user}`, {
             method: 'PUT',
             headers: {
+                'Access-Control-Allow-Methods': 'PUT',
+                'Access-Control-Request-Headers': 'X-Custom-Header',
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
             },
             body: JSON.stringify({
-                likes: user,
+                likes: slug,
             }),
         })
         .then(res => {
@@ -342,6 +344,7 @@ class Photos extends React.Component {
                                     <h2 id="modal-title">Add New Photo</h2>
                                     <label className="main-label">Title:</label>
                                     <input
+                                        maxlength="24"
                                         id="new-post-title"
                                         className="username"
                                         type="text"
@@ -427,7 +430,13 @@ class Photos extends React.Component {
                                             <div
                                                 className="author-image"
                                                 style={{
-                                                    backgroundImage: `url(${post.author.custom_avatar ? post.author.custom_avatar : post.author.avatar})`,
+                                                    backgroundImage: `url(${
+                                                        post.author
+                                                            .custom_avatar
+                                                            ? post.author
+                                                                  .custom_avatar
+                                                            : post.author.avatar
+                                                    })`,
                                                 }}></div>
                                             <p className="author">
                                                 {post.author.title}
@@ -462,11 +471,23 @@ class Photos extends React.Component {
                                     {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
                                     <div className="card-titlebox">
                                         <div className="text-container">
+                                            {console.log(post.title.length)}
                                             <h4 className="card-title">
                                                 {post.title
                                                     .replace('#038;', '')
                                                     .replace('&#8217;', "'")}
                                             </h4>
+                                            {post.location &&
+                                                post.location.city &&
+                                                post.location.state_short && (
+                                                    <p className="card-location">
+                                                        {post.location.city},{' '}
+                                                        {
+                                                            post.location
+                                                                .state_short
+                                                        }
+                                                    </p>
+                                                )}
                                         </div>
                                         {/* <input className="likes" type="checkbox" /> */}
                                         <div className="heart-box">

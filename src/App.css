@@ -18,7 +18,7 @@
 }
 
 html {scroll-behavior: smooth; }
-body { background-color: var(--white); margin: 0; width:100vw; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x:hidden;}
+body { color: var(--black); background-color: var(--white); margin: 0; width:100vw; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x:hidden;}
 
 
 
@@ -158,14 +158,14 @@ footer{
     text-align: left;
     display: flex;
     flex-direction: column;
+    min-height:85px;
 }
 .card-textbox a {
-    color: var(--black);
     text-decoration: none;
     transition: all .5s;
 }
 .card-title{
-    margin-top:0;
+    margin:0;
     font-size:16px;
     font-weight:500;
 }
@@ -213,6 +213,7 @@ footer{
 .card-categories {
     text-align: right;
     margin-bottom: 0;
+    margin-top:auto;
 }
 .card-category {
     padding-left:8px;
@@ -473,4 +474,9 @@ a.image-big{
 }
 .heart-svg {
     margin-top:-18px;
+    fill:var(--black);
+}
+.card-location {
+    font-size:12px;
+    opacity:0.5;
 }

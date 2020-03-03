@@ -10,7 +10,7 @@ import Resume from '../pages/Resume'
 import Weather from "../pages/Weather";
 import Users from "../pages/Users";
 import User from "../pages/Users";
-import Notfound from '../components/pages/404'
+import Notfound from '../pages/404'
 import '../App.css';
 import Cookies from 'js-cookie';
 
