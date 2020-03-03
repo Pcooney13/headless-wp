@@ -344,7 +344,7 @@ class Photos extends React.Component {
                                     <h2 id="modal-title">Add New Photo</h2>
                                     <label className="main-label">Title:</label>
                                     <input
-                                        maxlength="24"
+                                        maxLength="24"
                                         id="new-post-title"
                                         className="username"
                                         type="text"
@@ -471,23 +471,35 @@ class Photos extends React.Component {
                                     {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
                                     <div className="card-titlebox">
                                         <div className="text-container">
-                                            {console.log(post.title.length)}
                                             <h4 className="card-title">
                                                 {post.title
                                                     .replace('#038;', '')
                                                     .replace('&#8217;', "'")}
                                             </h4>
-                                            {post.location &&
-                                                post.location.city &&
-                                                post.location.state_short && (
-                                                    <p className="card-location">
-                                                        {post.location.city},{' '}
-                                                        {
-                                                            post.location
-                                                                .state_short
-                                                        }
-                                                    </p>
-                                                )}
+                                            {/* {post.location && post.location.city && post.location.state_short ? (
+                                                <p className="card-location">
+                                                    {post.location.city},{' '}
+                                                    {post.location.state_short}
+                                                </p>
+                                            ) 
+                                            : 
+                                            post.location && post.location.city && post.location.country && (
+                                                <p className="card-location">
+                                                    {post.location.city},{' '}
+                                                    {post.location.country}
+                                                </p>
+                                            )} */}
+                                            <p className="card-location">
+                                                {post.location &&
+                                                    post.location.city
+                                                    ? 
+                                                        `${post.location.city}, ${post.location && post.location.state_short && post.location.state_short}`
+                                                    : post.location && post.location.state &&
+                                                        `${post.location.state}, `
+                                                }
+                                                {post.location && post.location.country &&
+                                                    `${post.location.country}`}
+                                            </p>
                                         </div>
                                         {/* <input className="likes" type="checkbox" /> */}
                                         <div className="heart-box">

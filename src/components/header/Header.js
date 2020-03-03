@@ -128,7 +128,7 @@ class Header extends React.Component {
                                 id="username"
                                 className="username"
                                 type="text"
-                                maxlength="16"
+                                maxLength="16"
                                 name="username"
                             />
                         </div>
