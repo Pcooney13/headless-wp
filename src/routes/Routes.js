@@ -99,6 +99,7 @@ class Routes extends React.Component {
         this.changeUser();
     };
     handleSignIn = () => {
+        console.table(document.getElementById('username').value, document.getElementById('password').value, document.getElementById('email').value)
         fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/register', {
             method: 'POST',
             headers: {

@@ -24,14 +24,14 @@ class Photos extends React.Component {
 
     loadPosts() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos?per_page=50';
+            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
 
         fetch(dataPosts)
         .then(value => value.json())
         .then(value => {
             this.setState({
                 isLoaded: true,
-                posts: value,
+                posts: value, 
                 allPosts: value,
             },
             error => {
@@ -497,7 +497,7 @@ class Photos extends React.Component {
                                                     : post.location && post.location.state &&
                                                         `${post.location.state}, `
                                                 }
-                                                {post.location && post.location.country &&
+                                                {post.location && post.location.country !== 'United States' &&
                                                     `${post.location.country}`}
                                             </p>
                                         </div>
