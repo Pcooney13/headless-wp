@@ -155,6 +155,17 @@ class Photos extends React.Component {
         );
     }
 
+    sortAlpha() {
+        const sorted = this.state.posts.sort(function(a, b) {
+            var textA = a.slug.toUpperCase();
+            var textB = b.slug.toUpperCase();
+            return textA < textB ? -1 : textA > textB ? 1 : 0;
+        });
+        this.setState({
+            posts: sorted,
+        })
+    }
+
     postshit = (e) => {
         e.preventDefault();
         const newTitle = document.getElementById('new-post-title');
@@ -399,6 +410,8 @@ class Photos extends React.Component {
                             </div>
                         </div>
                     )}
+                    <button onClick={() => {this.sortAlpha()}}>Sort Alphabetically</button>
+                    <button onClick={() => {this.loadPosts()}}>Sort By Date</button>
                     <div className="card-container">
                         {this.state.posts.map(post => (
                             <div key={post.slug} className="card">
