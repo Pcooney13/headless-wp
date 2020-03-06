@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 
 const mapStyles = {
@@ -18,6 +19,16 @@ export class MapContainer extends React.Component {
             error: null,
             posts: null,
         };
+    }
+
+    showPostModal(){
+        document.getElementById('map-modal').style.display = 'block';
+        document.getElementById('modal-bg').style.display = 'block';
+    }
+
+    hidePostModal() {
+        document.getElementById('map-modal').style.display = 'none';
+        document.getElementById('modal-bg').style.display = 'none';
     }
 
     showMap() {
@@ -133,14 +144,22 @@ export class MapContainer extends React.Component {
             return (
                 <div className="App">
                     {console.log(this.state)}
-                    {this.state.posts && this.state.posts[0].location.lat &&
-                        console.log(this.state.posts[0].location.lat)
-                    }
+                    {this.state.posts &&
+                        this.state.posts[0].location.lat &&
+                        console.log(this.state.posts[0].location.lat)}
                     <h1>Photos Map</h1>
+                    <Link to="/map">View Gallery Photos</Link>
                     {this.showMap()}
                     <div id="map-modal">
-                        <p id="map-photo-title">howdy folks</p>
-                        <img id="map-photo-image" src=""/>
+                        <span
+                            onClick={() => {
+                                this.hidePostModal();
+                            }}
+                            className="close-modal">
+                            &times;
+                        </span>
+                        <h2 id="map-photo-title">howdy folks</h2>
+                        <img id="map-photo-image" src="" />
                     </div>
                 </div>
             );

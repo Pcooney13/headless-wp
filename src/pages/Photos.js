@@ -18,14 +18,18 @@ class Photos extends React.Component {
         };
     }
 
-    componentDidMount() {
+    componentDidMount() {    
         this.loadPosts()
     }
-
+    
     loadPosts() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
+        'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
 
+        let splitURL = window.location.pathname.split('/');
+        let pathnameURL = splitURL[splitURL.length - 1];
+        console.log(pathnameURL);
+        
         fetch(dataPosts)
         .then(value => value.json())
         .then(value => {
@@ -40,7 +44,46 @@ class Photos extends React.Component {
                     error,
                 });
             });
-        });
+        }).then(() =>
+            this.state.posts.forEach(post => post.slug === pathnameURL && this.setState({
+                active: post,
+            },
+            error => {
+                this.setState({
+                    isLoaded: true,
+                    error,
+                });
+            }))
+        );
+    }
+    
+    activeImage(post, e) {    
+        console.log(e.target.tagName);
+        // e.preventDefault();
+        this.state.active === post 
+        ?
+            this.setState({
+                    active: null,
+                },
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error,
+                    });
+                }
+            )
+        :
+            this.setState({
+                    active: post,
+                },
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error,
+                    });
+                }
+            )
+        ;
     }
 
     lazyLoad() {
@@ -70,7 +113,7 @@ class Photos extends React.Component {
     }
 
     handleCategories(category, e) {
-        e.preventDefault();
+        // e.preventDefault();
         console.log(category);
         console.log(this.state);
         let categoryPosts = [];
@@ -94,66 +137,55 @@ class Photos extends React.Component {
         });
     }
 
-    handleImage(e, image) {
-        let card = document.querySelectorAll('.card');
-        for (var i = 0; i < card.length; i++) {
-            if (!e.target.parentElement.parentElement.parentElement.classList.contains('clicked-full')) {
-                card[i].classList.remove('clicked-full');
-            }
-        }
-        if (e.target.className !== "delete-trash") {
-            image
-            ?
-                e.target.srcset = image.full
-            :
-                e.target.srcset = "https:via.placeholder.com/1200x800/" + e.target.src.substring(36)
+    // handleImage = (posts) => {
 
-            e.target.parentElement.parentElement.parentElement.classList.toggle('clicked-full');
-            e.target.classList.toggle('image-full')
-            e.target.parentElement.classList.toggle('image-big')
-            //Put image title in secondary nav
+    //     // image
+    //     // ?
+    //     // :
+    //     //     e.target.srcset = "https:via.placeholder.com/1200x800/" + e.target.src.substring(36)
 
-            // for (var i = 0; i < cardLinks.length; i++) {
-            //         showSecondaryNav++;
-            //         secondaryNav.children[0].children[0].innerHTML =
-            //             card.children[1].children[0].innerHTML;
+    //     //Put image title in secondary nav
 
-            //         //Makes image full-width of the page
-            //         if (!card.classList.contains('clicked-full')) {
-            //             card.classList.add('clicked-full');
-            //             cardLinks[i].style.height = 'unset';
-            //             cardImage.style.maxWidth = '100%';
-            //             cardImage.style.width = '100%';
-            //             cardImage.style.height = '100%';
-            //         } else {
-            //             card.classList.remove('clicked-full');
-            //             cardImage.style.minWidth = 'unset';
-            //             cardImage.style.maxWidth = 'unset';
-            //         }
-            //     } else {
-            //         card.classList.remove('clicked-full');
-            //         // console.log(this);
-            //     }
-            //     if (showSecondaryNav) {
-            //         secondaryNav.classList.add('show-secondary-nav');
-            //     } else {
-            //         secondaryNav.classList.remove('show-secondary-nav');
-            //     }
-            // }
-        }
-        this.setState(
-            {
-                isLoaded: true,
-                active: image,
-            },
-            error => {
-                this.setState({
-                    isLoaded: true,
-                    error,
-                });
-            }
-        );
-    }
+    //     // for (var i = 0; i < cardLinks.length; i++) {
+    //     //         showSecondaryNav++;
+    //     //         secondaryNav.children[0].children[0].innerHTML =
+    //     //             card.children[1].children[0].innerHTML;
+
+    //     //         //Makes image full-width of the page
+    //     //         if (!card.classList.contains('clicked-full')) {
+    //     //             card.classList.add('clicked-full');
+    //     //             cardLinks[i].style.height = 'unset';
+    //     //             cardImage.style.maxWidth = '100%';
+    //     //             cardImage.style.width = '100%';
+    //     //             cardImage.style.height = '100%';
+    //     //         } else {
+    //     //             card.classList.remove('clicked-full');
+    //     //             cardImage.style.minWidth = 'unset';
+    //     //             cardImage.style.maxWidth = 'unset';
+    //     //         }
+    //     //     } else {
+    //     //         card.classList.remove('clicked-full');
+    //     //         // console.log(this);
+    //     //     }
+    //     //     if (showSecondaryNav) {
+    //     //         secondaryNav.classList.add('show-secondary-nav');
+    //     //     } else {
+    //     //         secondaryNav.classList.remove('show-secondary-nav');
+    //     //     }
+    //     // // }
+    //     // this.setState(
+    //     //     {
+    //     //         isLoaded: true,
+    //     //         active: image,
+    //     //     },
+    //     //     error => {
+    //     //         this.setState({
+    //     //             isLoaded: true,
+    //     //             error,
+    //     //         });
+    //     //     }
+    //     // );
+    // }
 
     sortAlpha() {
         const sorted = this.state.posts.sort(function(a, b) {
@@ -165,15 +197,17 @@ class Photos extends React.Component {
             posts: sorted,
         })
     }
-
+    
     sortNewest() {
         const sorted = this.state.posts.sort(function(a, b) {
-            var textA = a.date;
-            var textB = b.date;
+            
+            var textA = a.orderdate;
+            var textB = b.orderdate;
+                        
             return textA < textB ? -1 : textA > textB ? 1 : 0;
         });
         this.setState({
-            posts: sorted,
+            posts: sorted.reverse(),
         })
     }
 
@@ -249,7 +283,7 @@ class Photos extends React.Component {
         document.getElementById('modal-bg').style.display = 'none';
     }
 
-    deleteshit(image) {
+    deleteshit(image, e) {
         fetch(
             `https://pat-cooney.com/wp/wp-json/wp/v2/photography/${image}`,
             {
@@ -423,30 +457,37 @@ class Photos extends React.Component {
                     )}
                     <button onClick={() => {this.sortAlpha()}}>Sort Alphabetically</button>
                     <button onClick={() => {this.sortNewest()}}>Sort By Date</button>
+                    <Link to="/map">View Map</Link>
                     <div className="card-container">
                         {this.state.posts.map(post => (
-                            <div key={post.slug} className="card">
+                            <div key={post.slug} className={`card ${post.slug} ${this.state.active === post && 'clicked-full'}`}>
+                                {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */}
                                 <div className="card-imagebox">
                                     <Link
-                                        to={`/photos/${post.slug}`}
-                                        className="card-image-link"
+                                        to={`${this.state.active === post ? '/photos' : '/photos/' + post.slug}`}
+                                        className={`card-image-link ${this.state.active === post && 'image-big'}`}
                                         onClick={e =>
-                                            this.handleImage(e, post.image)
-                                        }>
+                                            this.activeImage(post, e)
+                                        }
+                                        >
                                         <img
                                             data-src={
-                                                post.image
-                                                    ? post.image.medium
-                                                    : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
+                                                this.state.active === post 
+                                                    ? post.image.full 
+                                                    : post.image
+                                                        ? post.image.medium
+                                                        : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                             }
                                             data-srcset={
-                                                post.image
-                                                    ? post.image.medium
-                                                    : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
+                                                this.state.active === post 
+                                                    ? post.image.full 
+                                                    : post.image
+                                                        ? post.image.medium
+                                                        : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                             }
                                             height="200"
                                             width="300"
-                                            className="card-image lazy"
+                                            className={`card-image lazy ${this.state.active === post && 'clicked-full'}`}
                                             alt={post.title
                                                 .replace('#038;', '')
                                                 .replace('&#8217;', "'")}></img>
@@ -465,12 +506,12 @@ class Photos extends React.Component {
                                             <p className="author">
                                                 {post.author.title}
                                             </p>
-                                            {post.author.slug ===
-                                                Cookies.get('username') && (
-                                                <button
+                                            {post.author.slug === Cookies.get('username') && (
+                                                <Link
+                                                    to="/photos"
                                                     className="delete-trash"
                                                     onClick={e =>
-                                                        this.deleteshit(post.id)
+                                                        this.deleteshit(post.id, e)
                                                     }>
                                                     <svg
                                                         className="bi bi-trash"
@@ -486,7 +527,7 @@ class Photos extends React.Component {
                                                             clipRule="evenodd"
                                                         />
                                                     </svg>
-                                                </button>
+                                                </Link>
                                             )}
                                         </div>
                                     </Link>
