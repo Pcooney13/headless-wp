@@ -7,7 +7,7 @@
 
 
 :root {
-    --white:       #eef1f0;
+    --off-white:   #eef1f0;
     --black:       #484848;
     --dark-red:    #B42D3C;
     --light-red:   #ff6f61;
@@ -23,7 +23,7 @@
 }
 
 html {scroll-behavior: smooth; }
-body { color: var(--black); background-color: var(--white); margin: 0; width:100vw; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x:hidden;}
+body { color: var(--black); background-color: var(--off-white); margin: 0; width:100vw; font-family: "Roboto", sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x:hidden;}
 
 
 
@@ -32,7 +32,7 @@ h1 { margin-top:0;font-family: 'Dunks', 'Roboto Condensed', sans-serif;font-weig
 .container { width: 1060px; margin: 0 auto; display: flex; }
 
 .App{ padding:30px; max-width: 1060px; margin: 0 auto; position:relative; min-height:75vh;}
-
+.App h1{ line-height:.75;}
 .header {
     z-index: 1000;
     display: flex;
@@ -118,7 +118,63 @@ footer{
 #modal-btn-right{
     margin-left:auto;
 }
-
+.filter-bar{
+    background-color:white;
+    display:flex;
+    margin-bottom:30px;
+    padding:20px;
+    box-shadow:3px 3px 5px rgba(150, 150, 150, .2)
+}
+.filter-bar button {
+    padding-right:30px;
+}
+.filter-button {
+    transition:all .5s;
+    color:var(--darker-green);
+    opacity: 0.5;
+}
+.filter-button:hover{
+    opacity: 1;
+    color:var(--dark-green);
+}
+.search {
+    width: 200px;
+    margin-left:auto;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction:column;
+}
+input.search__input {
+    margin:-20px -20px -20px -20px;
+    padding:20px 20px 20px 20px;
+    border-left: 2px solid var(--off-white);;
+}
+.search__results {
+    position:absolute;
+    margin:-20px -20px -20px -20px;
+    background:white;
+    top:65px;
+    z-index:9;
+}
+.search__results li {
+    padding:10px 20px;
+}
+.search__results li:nth-child(odd){
+    background:var(--off-white);
+}
+.search__results li span {
+    display:block;
+    font-size:14px;
+}
+.has-children:after{
+    content:url(arrow.svg);
+    width:8px;
+    display:inline-block;
+    margin-left:5px;
+    transition:all .5s;
+    transform: rotate(180deg);
+}
 .card-container {
     display: flex;
     justify-content: space-between;

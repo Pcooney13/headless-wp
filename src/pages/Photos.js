@@ -18,64 +18,53 @@ class Photos extends React.Component {
         };
     }
 
-    componentDidMount() {    
+    componentDidMount() {
         this.loadPosts()
     }
-    
+
     loadPosts() {
         const dataPosts =
-        'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
+            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
 
         let splitURL = window.location.pathname.split('/');
         let pathnameURL = splitURL[splitURL.length - 1];
         console.log(pathnameURL);
-        
+
         fetch(dataPosts)
-        .then(value => value.json())
-        .then(value => {
-            this.setState({
-                isLoaded: true,
-                posts: value, 
-                allPosts: value,
-            },
-            error => {
+            .then(value => value.json())
+            .then(value => {
                 this.setState({
                     isLoaded: true,
-                    error,
-                });
-            });
-        }).then(() =>
-            this.state.posts.forEach(post => post.slug === pathnameURL && this.setState({
-                active: post,
-            },
-            error => {
-                this.setState({
-                    isLoaded: true,
-                    error,
-                });
-            }))
-        );
-    }
-    
-    activeImage(post, e) {    
-        console.log(e.target.tagName);
-        // e.preventDefault();
-        this.state.active === post 
-        ?
-            this.setState({
-                    active: null,
+                    posts: value,
+                    allPosts: value,
                 },
-                error => {
-                    this.setState({
-                        isLoaded: true,
-                        error,
+                    error => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
                     });
-                }
-            )
-        :
-            this.setState({
+            }).then(() =>
+                this.state.posts.forEach(post => post.slug === pathnameURL && this.setState({
                     active: post,
                 },
+                    error => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
+                    }))
+            );
+    }
+
+    activeImage(post, e) {
+        console.log(e.target.tagName);
+        // e.preventDefault();
+        this.state.active === post
+            ?
+            this.setState({
+                active: null,
+            },
                 error => {
                     this.setState({
                         isLoaded: true,
@@ -83,17 +72,28 @@ class Photos extends React.Component {
                     });
                 }
             )
-        ;
+            :
+            this.setState({
+                active: post,
+            },
+                error => {
+                    this.setState({
+                        isLoaded: true,
+                        error,
+                    });
+                }
+            )
+            ;
     }
 
     lazyLoad() {
         var lazyImages = [].slice.call(document.querySelectorAll('img.lazy'));
         if ('IntersectionObserver' in window) {
-            let lazyImageObserver = new IntersectionObserver(function(
+            let lazyImageObserver = new IntersectionObserver(function (
                 entries,
                 observer
             ) {
-                entries.forEach(function(entry) {
+                entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
                         let lazyImage = entry.target;
                         lazyImage.src = lazyImage.dataset.src;
@@ -104,7 +104,7 @@ class Photos extends React.Component {
                 });
             });
 
-            lazyImages.forEach(function(lazyImage) {
+            lazyImages.forEach(function (lazyImage) {
                 lazyImageObserver.observe(lazyImage);
             });
         } else {
@@ -129,12 +129,12 @@ class Photos extends React.Component {
             isLoaded: true,
             posts: categoryPosts,
         },
-        error => {
-            this.setState({
-                isLoaded: true,
-                error,
+            error => {
+                this.setState({
+                    isLoaded: true,
+                    error,
+                });
             });
-        });
     }
 
     // handleImage = (posts) => {
@@ -188,7 +188,7 @@ class Photos extends React.Component {
     // }
 
     sortAlpha() {
-        const sorted = this.state.posts.sort(function(a, b) {
+        const sorted = this.state.posts.sort(function (a, b) {
             var textA = a.slug.toUpperCase();
             var textB = b.slug.toUpperCase();
             return textA < textB ? -1 : textA > textB ? 1 : 0;
@@ -197,13 +197,13 @@ class Photos extends React.Component {
             posts: sorted,
         })
     }
-    
+
     sortNewest() {
-        const sorted = this.state.posts.sort(function(a, b) {
-            
+        const sorted = this.state.posts.sort(function (a, b) {
+
             var textA = a.orderdate;
             var textB = b.orderdate;
-                        
+
             return textA < textB ? -1 : textA > textB ? 1 : 0;
         });
         this.setState({
@@ -214,7 +214,7 @@ class Photos extends React.Component {
     postshit = (e) => {
         e.preventDefault();
         const newTitle = document.getElementById('new-post-title');
-        const newColor = document.getElementById('new-post-image').value.slice(1,7);
+        const newColor = document.getElementById('new-post-image').value.slice(1, 7);
 
         const categories = [
             document.getElementById('new-post-category--dogs'),
@@ -225,9 +225,9 @@ class Photos extends React.Component {
 
         let categoryArray = []
         // const fileName = 'poop'
-        categories.map(category => 
+        categories.map(category =>
             category.checked &&
-                categoryArray.push(category.title)
+            categoryArray.push(category.title)
         );
         // fetch('https://pat-cooney.com/wp/wp-json/wp/v2/media', {
         //     method: 'POST',
@@ -273,7 +273,7 @@ class Photos extends React.Component {
 
     }
 
-    showPostModal(){
+    showPostModal() {
         document.getElementById('post-modal').style.display = 'block';
         document.getElementById('modal-bg').style.display = 'block';
     }
@@ -299,10 +299,10 @@ class Photos extends React.Component {
                 this.loadPosts()
             }
         })
-        .catch(error => {
-            console.error(error);
-        });
-        
+            .catch(error => {
+                console.error(error);
+            });
+
     }
 
     clickedHeart(e, user, slug) {
@@ -312,9 +312,9 @@ class Photos extends React.Component {
         } else if (e.target.parentElement.classList.contains('heart-svg')) {
             heartSVG = e.target.parentElement;
         }
-            console.log(heartSVG);
+        console.log(heartSVG);
 
-            heartSVG.classList.toggle('not-liked');
+        heartSVG.classList.toggle('not-liked');
 
 
         fetch(`https://pat-cooney.com/wp/wp-json/wp/v2/users/${user}`, {
@@ -330,15 +330,15 @@ class Photos extends React.Component {
                 likes: slug,
             }),
         })
-        .then(res => {
-            console.log(res.status);
-            if (res.status === 200) {
-                this.loadPosts();
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+            .then(res => {
+                console.log(res.status);
+                if (res.status === 200) {
+                    this.loadPosts();
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
 
 
 
@@ -347,17 +347,119 @@ class Photos extends React.Component {
         //     e.target.classList.remove('not-liked');
         // e.target.parentElement.classList.contains('not-liked') &&
         //     e.target.parentElement.classList.remove('not-liked');
-            // ?
-            //     e.target.categoryName === 'svg' || e.target.categoryName === 'path'
-            //         ? console.table("yes")
-            //         : console.table(e.target.type)
-            // :
-            // console.log('otherthing');
+        // ?
+        //     e.target.categoryName === 'svg' || e.target.categoryName === 'path'
+        //         ? console.table("yes")
+        //         : console.table(e.target.type)
+        // :
+        // console.log('otherthing');
 
         // e.target.classList.contains('not-liked')
         //     ? e.target.classList.remove('not-liked')
         //     : e.target.classList.add('not-liked');
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    findMatches(photos, wordToMatch) {
+        console.log(wordToMatch)
+        if (photos.length > 0) {
+            return photos.filter(pokemon => {
+                // console.log(pokemon)
+                //search shit
+                const regex = new RegExp(wordToMatch, 'gi');
+                return pokemon.title.match(regex)
+            });
+        }
+    }
+
+    displayMatches(value, e) {
+        this.setState({
+            posts: this.state.allPosts,
+        })
+        console.log(e.charCode)
+        if (e.key === 'delete') {
+            console.log("delete button")
+        }
+        let cards = document.querySelectorAll('.card');
+        if (e.target.value) {
+            document.querySelector('.search__results').style.display = "block";
+        } else {
+            document.querySelector('.search__results').style.display = "none";
+        }
+        const suggestions = document.querySelector('.suggestions');
+        suggestions.innerHTML = '';
+        const matchArray = this.findMatches(value, e.target.value);
+        let searchPosts = [];
+        if (matchArray && matchArray.length > 1 && e.target.value) {
+            console.log("bigger than 1");
+            matchArray.map(pokemon => {
+                for (var i = 0; i < cards.length; i++) {
+                    // console.log(cards[i]);
+                    // console.log(i);
+                    if (cards[i].classList.contains(pokemon.slug)) {
+                        // console.log("MATCH" + pokemon.title)
+                        // cards[i].style.display = "block";
+                        searchPosts.push(pokemon)
+                    } else {
+                        // cards[i].style.display = "none";
+                    }
+                }
+                this.setState({
+                    posts: searchPosts,
+                })
+            });
+        } else if (!e.target.value) {
+            console.log("pooch")
+            this.setState({
+                posts: this.state.allPosts,
+            })
+        } else {
+            this.setState({
+                posts: 0,
+            })
+        }
+        //     return `
+        //     <li>
+        //     <a href="/photos/${pokemon.slug}">
+        //         <span class="name">${pokemon.title}</span>
+        //         <span class="name">${pokemon.author.title}</span>
+        //     </a>
+        //     </li>
+        //     `;
+        // }).join('');
+        // suggestions.innerHTML = html;
+        // <span class="sprite"><img src="${pokemon.url}" height="96" width="96"></span>
+        // console.log(html);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     render() {
         const { error, isLoaded } = this.state;
@@ -374,7 +476,12 @@ class Photos extends React.Component {
             window.scrollTo(0, 0);
             this.lazyLoad();
             let counter = 1;
-            
+            let mapOver;
+
+            !this.state.searchPosts === null
+                ? mapOver = this.state.searchPosts
+                : mapOver = this.state.posts
+
             return (
                 <div className="App">
                     {console.log(this.state)}
@@ -455,93 +562,107 @@ class Photos extends React.Component {
                             </div>
                         </div>
                     )}
-                    <button onClick={() => {this.sortAlpha()}}>Sort Alphabetically</button>
-                    <button onClick={() => {this.sortNewest()}}>Sort By Date</button>
-                    <Link to="/map">View Map</Link>
+                    <div className="filter-bar">
+                        <button className="filter-button has-children" onClick={() => { this.sortAlpha() }}>Sort Alphabetically</button>
+                        <button className="filter-button has-children" onClick={() => { this.sortNewest() }}>Sort By Date</button>
+                        <Link className="filter-button" to="/map">View Map</Link>
+                        <form className="search">
+                            <input className="search__input" value={this.state.value} autoComplete="off" onChange={(e) => this.displayMatches(this.state.posts, e)} type="text" placeholder="Search..." name="search" />
+                            <input style={{ position: "absolute", left: "-9999px" }} type="submit" />
+                            <div className="search__results" style={{ display: "none" }}>
+                                <ul className="suggestions">
+                                    <li>Filter by Name</li>
+                                    <li>and by Number</li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+
                     <div className="card-container">
-                        {this.state.posts.map(post => (
-                            <div key={post.slug} className={`card ${post.slug} ${this.state.active === post && 'clicked-full'}`}>
-                                {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */}
-                                <div className="card-imagebox">
-                                    <Link
-                                        to={`${this.state.active === post ? '/photos' : '/photos/' + post.slug}`}
-                                        className={`card-image-link ${this.state.active === post && 'image-big'}`}
-                                        onClick={e =>
-                                            this.activeImage(post, e)
-                                        }
+                        {mapOver === 0 ? <p>No matches</p> :
+                            mapOver.map(post => (
+                                <div key={post.slug} className={`card ${post.slug} ${this.state.active === post && 'clicked-full'}`}>
+                                    {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */}
+                                    <div className="card-imagebox">
+                                        <Link
+                                            to={`${this.state.active === post ? '/photos' : '/photos/' + post.slug}`}
+                                            className={`card-image-link ${this.state.active === post && 'image-big'}`}
+                                            onClick={e =>
+                                                this.activeImage(post, e)
+                                            }
                                         >
-                                        <img
-                                            data-src={
-                                                this.state.active === post 
-                                                    ? post.image.full 
-                                                    : post.image
-                                                        ? post.image.medium
-                                                        : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
-                                            }
-                                            data-srcset={
-                                                this.state.active === post 
-                                                    ? post.image.full 
-                                                    : post.image
-                                                        ? post.image.medium
-                                                        : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
-                                            }
-                                            height="200"
-                                            width="300"
-                                            className={`card-image lazy ${this.state.active === post && 'clicked-full'}`}
-                                            alt={post.title
-                                                .replace('#038;', '')
-                                                .replace('&#8217;', "'")}></img>
-                                        <div className="author-box">
-                                            <div
-                                                className="author-image"
-                                                style={{
-                                                    backgroundImage: `url(${
-                                                        post.author
-                                                            .custom_avatar
-                                                            ? post.author
-                                                                  .custom_avatar
-                                                            : post.author.avatar
-                                                    })`,
-                                                }}></div>
-                                            <p className="author">
-                                                {post.author.title}
-                                            </p>
-                                            {post.author.slug === Cookies.get('username') && (
-                                                <Link
-                                                    to="/photos"
-                                                    className="delete-trash"
-                                                    onClick={e =>
-                                                        this.deleteshit(post.id, e)
-                                                    }>
-                                                    <svg
-                                                        className="bi bi-trash"
-                                                        width="24px"
-                                                        height="24px"
-                                                        viewBox="0 0 20 20"
-                                                        fill="white"
-                                                        xmlns="http://www.w3.org/2000/svg">
-                                                        <path d="M7.5 7.5A.5.5 0 018 8v6a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V8z" />
-                                                        <path
-                                                            fillRule="evenodd"
-                                                            d="M16.5 5a1 1 0 01-1 1H15v9a2 2 0 01-2 2H7a2 2 0 01-2-2V6h-.5a1 1 0 01-1-1V4a1 1 0 011-1H8a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM6.118 6L6 6.059V15a1 1 0 001 1h6a1 1 0 001-1V6.059L13.882 6H6.118zM4.5 5V4h11v1h-11z"
-                                                            clipRule="evenodd"
-                                                        />
-                                                    </svg>
-                                                </Link>
-                                            )}
-                                        </div>
-                                    </Link>
-                                </div>
-                                <div className="card-textbox">
-                                    {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
-                                    <div className="card-titlebox">
-                                        <div className="text-container">
-                                            <h4 className="card-title">
-                                                {post.title
+                                            <img
+                                                data-src={
+                                                    this.state.active === post
+                                                        ? post.image.full
+                                                        : post.image
+                                                            ? post.image.medium
+                                                            : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
+                                                }
+                                                data-srcset={
+                                                    this.state.active === post
+                                                        ? post.image.full
+                                                        : post.image
+                                                            ? post.image.medium
+                                                            : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
+                                                }
+                                                height="200"
+                                                width="300"
+                                                className={`card-image lazy ${this.state.active === post && 'clicked-full'}`}
+                                                alt={post.title
                                                     .replace('#038;', '')
-                                                    .replace('&#8217;', "'")}
-                                            </h4>
-                                            {/* {post.location && post.location.city && post.location.state_short ? (
+                                                    .replace('&#8217;', "'")}></img>
+                                            <div className="author-box">
+                                                <div
+                                                    className="author-image"
+                                                    style={{
+                                                        backgroundImage: `url(${
+                                                            post.author
+                                                                .custom_avatar
+                                                                ? post.author
+                                                                    .custom_avatar
+                                                                : post.author.avatar
+                                                            })`,
+                                                    }}></div>
+                                                <p className="author">
+                                                    {post.author.title}
+                                                </p>
+                                                {post.author.slug === Cookies.get('username') && (
+                                                    <Link
+                                                        to="/photos"
+                                                        className="delete-trash"
+                                                        onClick={e =>
+                                                            this.deleteshit(post.id, e)
+                                                        }>
+                                                        <svg
+                                                            className="bi bi-trash"
+                                                            width="24px"
+                                                            height="24px"
+                                                            viewBox="0 0 20 20"
+                                                            fill="white"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.5 7.5A.5.5 0 018 8v6a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V8a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V8z" />
+                                                            <path
+                                                                fillRule="evenodd"
+                                                                d="M16.5 5a1 1 0 01-1 1H15v9a2 2 0 01-2 2H7a2 2 0 01-2-2V6h-.5a1 1 0 01-1-1V4a1 1 0 011-1H8a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM6.118 6L6 6.059V15a1 1 0 001 1h6a1 1 0 001-1V6.059L13.882 6H6.118zM4.5 5V4h11v1h-11z"
+                                                                clipRule="evenodd"
+                                                            />
+                                                        </svg>
+                                                    </Link>
+                                                )}
+                                            </div>
+                                        </Link>
+                                    </div>
+                                    <div className="card-textbox">
+                                        {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
+                                        <div className="card-titlebox">
+                                            <div className="text-container">
+                                                <h4 className="card-title">
+                                                    {post.title
+                                                        .replace('#038;', '')
+                                                        .replace('&#8217;', "'")}
+                                                </h4>
+                                                {/* {post.location && post.location.city && post.location.state_short ? (
                                                 <p className="card-location">
                                                     {post.location.city},{' '}
                                                     {post.location.state_short}
@@ -554,35 +675,35 @@ class Photos extends React.Component {
                                                     {post.location.country}
                                                 </p>
                                             )} */}
-                                            <p className="card-location">
-                                                {post.location &&
-                                                    post.location.city
-                                                    ? 
+                                                <p className="card-location">
+                                                    {post.location &&
+                                                        post.location.city
+                                                        ?
                                                         `${post.location.city}, ${post.location && post.location.state_short && post.location.state_short}`
-                                                    : post.location && post.location.state &&
+                                                        : post.location && post.location.state &&
                                                         `${post.location.state}, `
-                                                }
-                                                {post.location && post.location.country !== 'United States' &&
-                                                    `${post.location.country}`}
-                                            </p>
-                                        </div>
-                                        {/* <input className="likes" type="checkbox" /> */}
-                                        <div className="heart-box">
-                                            <input
-                                                id={`hrt-${post.slug}`}
-                                                className="heart-input"
-                                                type="checkbox"
-                                            />
-                                            <label
-                                                onClick={e => {
-                                                    this.clickedHeart(
-                                                        e,
-                                                        this.props.username,
-                                                        post.slug
-                                                    );
-                                                }}
-                                                htmlFor={`hrt-${post.slug}`}>
-                                                {/* <svg
+                                                    }
+                                                    {post.location && post.location.country !== 'United States' &&
+                                                        `${post.location.country}`}
+                                                </p>
+                                            </div>
+                                            {/* <input className="likes" type="checkbox" /> */}
+                                            <div className="heart-box">
+                                                <input
+                                                    id={`hrt-${post.slug}`}
+                                                    className="heart-input"
+                                                    type="checkbox"
+                                                />
+                                                <label
+                                                    onClick={e => {
+                                                        this.clickedHeart(
+                                                            e,
+                                                            this.props.username,
+                                                            post.slug
+                                                        );
+                                                    }}
+                                                    htmlFor={`hrt-${post.slug}`}>
+                                                    {/* <svg
                                                         viewBox="0 0 20 20"
                                                         fill="currentColor"
                                                         xmlns="http://www.w3.org/2000/svg">
@@ -593,65 +714,66 @@ class Photos extends React.Component {
                                                             />
                                                     </svg> */}
 
-                                                <svg
-                                                    width="18px"
-                                                    height="18px"
-                                                    className="heart-svg not-liked"
-                                                    data-name="Layer 1"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 34 29.7">
-                                                    <path
-                                                        className="outline"
-                                                        d="M21,35.85l-.6-.5C7.5,24.85,4,21.15,4,15.15a9,9,0,0,1,9-9c4.1,0,6.4,2.3,8,4.1,1.6-1.8,3.9-4.1,8-4.1a9,9,0,0,1,9,9c0,6-3.5,9.7-16.4,20.2ZM13,8.15a7,7,0,0,0-7,7c0,5.1,3.2,8.5,15,18.1,11.8-9.6,15-13,15-18.1a7,7,0,0,0-7-7c-3.5,0-5.4,2.1-6.9,3.8L21,13.25,19.9,12C18.4,10.25,16.5,8.15,13,8.15Z"
-                                                        transform="translate(-4 -6.15)"
-                                                    />
-                                                    <path
-                                                        className="fill"
-                                                        d="M20.37,34.18C8.46,24.49,5,20.84,5,15.31a7.91,7.91,0,0,1,8-8c4,0,6.2,2.49,7.65,4.13l.35.42.34-.4C22.8,9.8,25,7.31,29,7.31a7.91,7.91,0,0,1,8,8c0,5.53-3.46,9.18-15.37,18.87l-.63.51Z"
-                                                        transform="translate(-4 -6.15)"
-                                                    />
-                                                </svg>
-                                            </label>
+                                                    <svg
+                                                        width="18px"
+                                                        height="18px"
+                                                        className="heart-svg not-liked"
+                                                        data-name="Layer 1"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        viewBox="0 0 34 29.7">
+                                                        <path
+                                                            className="outline"
+                                                            d="M21,35.85l-.6-.5C7.5,24.85,4,21.15,4,15.15a9,9,0,0,1,9-9c4.1,0,6.4,2.3,8,4.1,1.6-1.8,3.9-4.1,8-4.1a9,9,0,0,1,9,9c0,6-3.5,9.7-16.4,20.2ZM13,8.15a7,7,0,0,0-7,7c0,5.1,3.2,8.5,15,18.1,11.8-9.6,15-13,15-18.1a7,7,0,0,0-7-7c-3.5,0-5.4,2.1-6.9,3.8L21,13.25,19.9,12C18.4,10.25,16.5,8.15,13,8.15Z"
+                                                            transform="translate(-4 -6.15)"
+                                                        />
+                                                        <path
+                                                            className="fill"
+                                                            d="M20.37,34.18C8.46,24.49,5,20.84,5,15.31a7.91,7.91,0,0,1,8-8c4,0,6.2,2.49,7.65,4.13l.35.42.34-.4C22.8,9.8,25,7.31,29,7.31a7.91,7.91,0,0,1,8,8c0,5.53-3.46,9.18-15.37,18.87l-.63.51Z"
+                                                            transform="translate(-4 -6.15)"
+                                                        />
+                                                    </svg>
+                                                </label>
+                                            </div>
                                         </div>
+                                        <p className="card-categories">
+                                            {post.categories
+                                                ? post.categories.map(category => (
+                                                    <Link
+                                                        key={counter++}
+                                                        className="card-category"
+                                                        style={{
+                                                            backgroundColor:
+                                                                category.color,
+                                                            borderTopColor:
+                                                                category.color,
+                                                        }}
+                                                        to={`/photos/${category.slug}`}
+                                                        onClick={e =>
+                                                            this.handleCategories(
+                                                                category,
+                                                                e
+                                                            )
+                                                        }
+                                                        data-tooltip={
+                                                            category.title
+                                                                .charAt(0)
+                                                                .toUpperCase() +
+                                                            category.title.slice(
+                                                                1
+                                                            )
+                                                        }
+                                                        aria-hidden="true">
+                                                        {category.title
+                                                            .slice(0, 1)
+                                                            .toUpperCase()}
+                                                    </Link>
+                                                ))
+                                                : ''}
+                                        </p>
                                     </div>
-                                    <p className="card-categories">
-                                        {post.categories
-                                            ? post.categories.map(category => (
-                                                  <Link
-                                                      key={counter++}
-                                                      className="card-category"
-                                                      style={{
-                                                          backgroundColor:
-                                                              category.color,
-                                                          borderTopColor:
-                                                              category.color,
-                                                      }}
-                                                      to={`/photos/${category.slug}`}
-                                                      onClick={e =>
-                                                          this.handleCategories(
-                                                              category,
-                                                              e
-                                                          )
-                                                      }
-                                                      data-tooltip={
-                                                          category.title
-                                                              .charAt(0)
-                                                              .toUpperCase() +
-                                                          category.title.slice(
-                                                              1
-                                                          )
-                                                      }
-                                                      aria-hidden="true">
-                                                      {category.title
-                                                          .slice(0, 1)
-                                                          .toUpperCase()}
-                                                  </Link>
-                                              ))
-                                            : ''}
-                                    </p>
                                 </div>
-                            </div>
-                        ))}
+                            ))
+                        }
                     </div>
                 </div>
             );

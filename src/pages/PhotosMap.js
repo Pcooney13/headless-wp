@@ -128,6 +128,7 @@ export class MapContainer extends React.Component {
                 document.getElementById('map-modal').style.display = 'block';
                 document.getElementById('map-photo-title').innerHTML = post.info.title;
                 document.getElementById('map-photo-image').src = post.info.image.medium;
+                document.getElementById('map-photo-image').alt = post.info.title;
             }
 
     render() {
@@ -148,7 +149,7 @@ export class MapContainer extends React.Component {
                         this.state.posts[0].location.lat &&
                         console.log(this.state.posts[0].location.lat)}
                     <h1>Photos Map</h1>
-                    <Link to="/map">View Gallery Photos</Link>
+                    <Link to="/photos">View Gallery Photos</Link>
                     {this.showMap()}
                     <div id="map-modal">
                         <span
@@ -159,7 +160,7 @@ export class MapContainer extends React.Component {
                             &times;
                         </span>
                         <h2 id="map-photo-title">howdy folks</h2>
-                        <img id="map-photo-image" src="" />
+                        <img id="map-photo-image" src="" alt="placeholder" />
                     </div>
                 </div>
             );
