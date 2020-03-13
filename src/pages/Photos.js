@@ -464,11 +464,29 @@ class Photos extends React.Component {
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <div>Error: { error.message }</div>;
         } else if (!isLoaded) {
             return (
                 <div className="App">
                     <h1>Photos</h1>
+                    <div className="filter-bar">
+                        <button className="filter-button has-children">Sort Alphabetically</button>
+                        <button className="filter-button has-children">Sort By Date</button>
+                        <Link className="filter-button" to="/map">View Map</Link>
+                        <form className="search">
+                            <input className="search__input" value={ this.state.value } autoComplete="off" onChange={ (e) => this.displayMatches(this.state.posts, e) } type="text" placeholder="Search..." name="search" />
+                            <input style={ { position: "absolute", left: "-9999px" } } type="submit" />
+                            <div className="search__results" style={ { display: "none" } }>
+                                <ul className="suggestions">
+                                    <li>Filter by Name</li>
+                                    <li>and by Number</li>
+                                </ul>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="card-container">
+                        <p>Loading</p>
+                    </div>
                 </div>
             );
         } else {
@@ -484,26 +502,26 @@ class Photos extends React.Component {
 
             return (
                 <div className="App">
-                    {console.log(this.state)}
+                    { console.log(this.state) }
                     <div className="photo-title-flex">
                         <h1>Photos</h1>
-                        {this.props.username && (
-                            <button onClick={() => this.showPostModal()}>
+                        { this.props.username && (
+                            <button onClick={ () => this.showPostModal() }>
                                 +
                             </button>
-                        )}
+                        ) }
                     </div>
-                    {this.props.username && (
+                    { this.props.username && (
                         <div>
                             <div id="post-modal">
                                 <span
-                                    onClick={() => {
+                                    onClick={ () => {
                                         this.hidePostModal();
-                                    }}
+                                    } }
                                     className="close-modal">
                                     &times;
                                 </span>
-                                <form className="form" onSubmit={this.postshit}>
+                                <form className="form" onSubmit={ this.postshit }>
                                     <h2 id="modal-title">Add New Photo</h2>
                                     <label className="main-label">Title:</label>
                                     <input
@@ -561,15 +579,15 @@ class Photos extends React.Component {
                                 </form>
                             </div>
                         </div>
-                    )}
+                    ) }
                     <div className="filter-bar">
-                        <button className="filter-button has-children" onClick={() => { this.sortAlpha() }}>Sort Alphabetically</button>
-                        <button className="filter-button has-children" onClick={() => { this.sortNewest() }}>Sort By Date</button>
+                        <button className="filter-button has-children" onClick={ () => { this.sortAlpha() } }>Sort Alphabetically</button>
+                        <button className="filter-button has-children" onClick={ () => { this.sortNewest() } }>Sort By Date</button>
                         <Link className="filter-button" to="/map">View Map</Link>
                         <form className="search">
-                            <input className="search__input" value={this.state.value} autoComplete="off" onChange={(e) => this.displayMatches(this.state.posts, e)} type="text" placeholder="Search..." name="search" />
-                            <input style={{ position: "absolute", left: "-9999px" }} type="submit" />
-                            <div className="search__results" style={{ display: "none" }}>
+                            <input className="search__input" value={ this.state.value } autoComplete="off" onChange={ (e) => this.displayMatches(this.state.posts, e) } type="text" placeholder="Search..." name="search" />
+                            <input style={ { position: "absolute", left: "-9999px" } } type="submit" />
+                            <div className="search__results" style={ { display: "none" } }>
                                 <ul className="suggestions">
                                     <li>Filter by Name</li>
                                     <li>and by Number</li>
@@ -579,15 +597,15 @@ class Photos extends React.Component {
                     </div>
 
                     <div className="card-container">
-                        {mapOver === 0 ? <p>No matches</p> :
+                        { mapOver === 0 ? <p>No matches</p> :
                             mapOver.map(post => (
-                                <div key={post.slug} className={`card ${post.slug} ${this.state.active === post && 'clicked-full'}`}>
-                                    {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */}
+                                <div key={ post.slug } className={ `card ${post.slug} ${this.state.active === post && 'clicked-full'}` }>
+                                    {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */ }
                                     <div className="card-imagebox">
                                         <Link
-                                            to={`${this.state.active === post ? '/photos' : '/photos/' + post.slug}`}
-                                            className={`card-image-link ${this.state.active === post && 'image-big'}`}
-                                            onClick={e =>
+                                            to={ `${this.state.active === post ? '/photos' : '/photos/' + post.slug}` }
+                                            className={ `card-image-link ${this.state.active === post && 'image-big'}` }
+                                            onClick={ e =>
                                                 this.activeImage(post, e)
                                             }
                                         >
@@ -608,14 +626,14 @@ class Photos extends React.Component {
                                                 }
                                                 height="200"
                                                 width="300"
-                                                className={`card-image lazy ${this.state.active === post && 'clicked-full'}`}
-                                                alt={post.title
+                                                className={ `card-image lazy ${this.state.active === post && 'clicked-full'}` }
+                                                alt={ post.title
                                                     .replace('#038;', '')
-                                                    .replace('&#8217;', "'")}></img>
+                                                    .replace('&#8217;', "'") }></img>
                                             <div className="author-box">
                                                 <div
                                                     className="author-image"
-                                                    style={{
+                                                    style={ {
                                                         backgroundImage: `url(${
                                                             post.author
                                                                 .custom_avatar
@@ -623,15 +641,15 @@ class Photos extends React.Component {
                                                                     .custom_avatar
                                                                 : post.author.avatar
                                                             })`,
-                                                    }}></div>
+                                                    } }></div>
                                                 <p className="author">
-                                                    {post.author.title}
+                                                    { post.author.title }
                                                 </p>
-                                                {post.author.slug === Cookies.get('username') && (
+                                                { post.author.slug === Cookies.get('username') && (
                                                     <Link
                                                         to="/photos"
                                                         className="delete-trash"
-                                                        onClick={e =>
+                                                        onClick={ e =>
                                                             this.deleteshit(post.id, e)
                                                         }>
                                                         <svg
@@ -649,18 +667,18 @@ class Photos extends React.Component {
                                                             />
                                                         </svg>
                                                     </Link>
-                                                )}
+                                                ) }
                                             </div>
                                         </Link>
                                     </div>
                                     <div className="card-textbox">
-                                        {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */}
+                                        {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */ }
                                         <div className="card-titlebox">
                                             <div className="text-container">
                                                 <h4 className="card-title">
-                                                    {post.title
+                                                    { post.title
                                                         .replace('#038;', '')
-                                                        .replace('&#8217;', "'")}
+                                                        .replace('&#8217;', "'") }
                                                 </h4>
                                                 {/* {post.location && post.location.city && post.location.state_short ? (
                                                 <p className="card-location">
@@ -676,33 +694,33 @@ class Photos extends React.Component {
                                                 </p>
                                             )} */}
                                                 <p className="card-location">
-                                                    {post.location &&
+                                                    { post.location &&
                                                         post.location.city
                                                         ?
                                                         `${post.location.city}, ${post.location && post.location.state_short && post.location.state_short}`
                                                         : post.location && post.location.state &&
                                                         `${post.location.state}, `
                                                     }
-                                                    {post.location && post.location.country !== 'United States' &&
-                                                        `${post.location.country}`}
+                                                    { post.location && post.location.country !== 'United States' &&
+                                                        `${post.location.country}` }
                                                 </p>
                                             </div>
-                                            {/* <input className="likes" type="checkbox" /> */}
+                                            {/* <input className="likes" type="checkbox" /> */ }
                                             <div className="heart-box">
                                                 <input
-                                                    id={`hrt-${post.slug}`}
+                                                    id={ `hrt-${post.slug}` }
                                                     className="heart-input"
                                                     type="checkbox"
                                                 />
                                                 <label
-                                                    onClick={e => {
+                                                    onClick={ e => {
                                                         this.clickedHeart(
                                                             e,
                                                             this.props.username,
                                                             post.slug
                                                         );
-                                                    }}
-                                                    htmlFor={`hrt-${post.slug}`}>
+                                                    } }
+                                                    htmlFor={ `hrt-${post.slug}` }>
                                                     {/* <svg
                                                         viewBox="0 0 20 20"
                                                         fill="currentColor"
@@ -736,19 +754,19 @@ class Photos extends React.Component {
                                             </div>
                                         </div>
                                         <p className="card-categories">
-                                            {post.categories
+                                            { post.categories
                                                 ? post.categories.map(category => (
                                                     <Link
-                                                        key={counter++}
+                                                        key={ counter++ }
                                                         className="card-category"
-                                                        style={{
+                                                        style={ {
                                                             backgroundColor:
                                                                 category.color,
                                                             borderTopColor:
                                                                 category.color,
-                                                        }}
-                                                        to={`/photos/${category.slug}`}
-                                                        onClick={e =>
+                                                        } }
+                                                        to={ `/photos/${category.slug}` }
+                                                        onClick={ e =>
                                                             this.handleCategories(
                                                                 category,
                                                                 e
@@ -763,12 +781,12 @@ class Photos extends React.Component {
                                                             )
                                                         }
                                                         aria-hidden="true">
-                                                        {category.title
+                                                        { category.title
                                                             .slice(0, 1)
-                                                            .toUpperCase()}
+                                                            .toUpperCase() }
                                                     </Link>
                                                 ))
-                                                : ''}
+                                                : '' }
                                         </p>
                                     </div>
                                 </div>

@@ -12,7 +12,7 @@ import Weather from "../pages/Weather";
 import Users from "../pages/Users";
 import User from "../pages/Users";
 import Notfound from '../pages/404'
-import '../App.css';
+import '../components/styles/App.scss';
 import Cookies from 'js-cookie';
 
 
