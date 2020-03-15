@@ -238,6 +238,9 @@ html {
     -moz-column-break-inside: avoid;
     break-inside: avoid;
 }
+.hide{
+    display:none;
+}
 .hyphens-manual {
     -webkit-hyphens: manual;
     -ms-hyphens: manual;

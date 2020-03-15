@@ -386,63 +386,53 @@ class Photos extends React.Component {
     }
 
     displayMatches(value, e) {
-        this.setState({
-            posts: this.state.allPosts,
-        })
-        console.log(e.charCode)
-        if (e.key === 'delete') {
-            console.log("delete button")
-        }
         let cards = document.querySelectorAll('.card');
-        if (e.target.value) {
-            document.querySelector('.search__results').style.display = "block";
-        } else {
-            document.querySelector('.search__results').style.display = "none";
-        }
-        const suggestions = document.querySelector('.suggestions');
-        suggestions.innerHTML = '';
         const matchArray = this.findMatches(value, e.target.value);
         let searchPosts = [];
-        if (matchArray && matchArray.length > 1 && e.target.value) {
-            console.log("bigger than 1");
-            matchArray.map(pokemon => {
-                for (var i = 0; i < cards.length; i++) {
-                    // console.log(cards[i]);
-                    // console.log(i);
-                    if (cards[i].classList.contains(pokemon.slug)) {
-                        // console.log("MATCH" + pokemon.title)
-                        // cards[i].style.display = "block";
-                        searchPosts.push(pokemon)
+        // if (e.target.value) {
+        //     document.querySelector('.search__results').style.display = "block";
+        // } else {
+        //     document.querySelector('.search__results').style.display = "none";
+        // }
+        if (matchArray && matchArray.length >= 1 && e.target.value) {
+            console.table(matchArray)
+            // matchArray.map(pokemon => {
+            for (var i = 0; i < matchArray.length; i++) {
+                for (var k = 0; k < cards.length; k++) {
+                    cards[k].classList.add('hide');
+                    if (cards[k].classList.contains(matchArray[i].slug)) {
+                        console.log(matchArray[i]);
+                        searchPosts.push(cards[k]);
+                        cards[k].classList.remove('hide');
                     } else {
-                        // cards[i].style.display = "none";
+                        cards[k].classList.add('hide')
                     }
                 }
-                this.setState({
-                    posts: searchPosts,
-                })
-            });
+            }
+            // });
         } else if (!e.target.value) {
-            console.log("pooch")
-            this.setState({
-                posts: this.state.allPosts,
-            })
+            // console.log("NO MATCHES")
+            // for (var n = 0; n < cards.length; n++) {
+            //     cards[n].classList.add('hidden')
+            // }
         } else {
-            this.setState({
-                posts: 0,
-            })
+            console.log("NO MATCHES")
+            searchPosts = null;
         }
-        //     return `
-        //     <li>
-        //     <a href="/photos/${pokemon.slug}">
-        //         <span class="name">${pokemon.title}</span>
-        //         <span class="name">${pokemon.author.title}</span>
-        //     </a>
-        //     </li>
-        //     `;
-        // }).join('');
-        // suggestions.innerHTML = html;
-        // <span class="sprite"><img src="${pokemon.url}" height="96" width="96"></span>
-        // console.log(html);
+        if (searchPosts) {
+            for (var m = 0; m < searchPosts.length; m++) {
+                searchPosts[m].classList.remove('hide')
+            }
+        } else {
+            for (var n = 0; n < cards.length; n++) {
+                cards[n].classList.add('hide')
+            }
+            //need to fix this up a wee bit
+            var para = document.createElement("p");
+            var node = document.createTextNode("No Matches Found");
+            para.appendChild(node);
+            document.querySelector('.card-container').appendChild(para);
+        }
     }
 
 
@@ -494,11 +484,11 @@ class Photos extends React.Component {
             window.scrollTo(0, 0);
             this.lazyLoad();
             let counter = 1;
-            let mapOver;
+            // let mapOver;
 
-            !this.state.searchPosts === null
-                ? mapOver = this.state.searchPosts
-                : mapOver = this.state.posts
+            // !this.state.searchPosts === null
+            //     ? mapOver = this.state.searchPosts
+            //     : mapOver = this.state.posts
 
             return (
                 <div className="App">
@@ -597,8 +587,8 @@ class Photos extends React.Component {
                     </div>
 
                     <div className="card-container">
-                        { mapOver === 0 ? <p>No matches</p> :
-                            mapOver.map(post => (
+                        { this.state.posts === 0 ? <p>No matches</p> :
+                            this.state.posts.map(post => (
                                 <div key={ post.slug } className={ `card ${post.slug} ${this.state.active === post && 'clicked-full'}` }>
                                     {/* {pathnameURL === post.slug ? this.handleImage(post.image) : ``} */ }
                                     <div className="card-imagebox">
