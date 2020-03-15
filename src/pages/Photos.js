@@ -386,6 +386,9 @@ class Photos extends React.Component {
     }
 
     displayMatches(value, e) {
+        if (document.querySelector('.no-match')) {
+            document.querySelector('.no-match').remove()
+        }
         let cards = document.querySelectorAll('.card');
         const matchArray = this.findMatches(value, e.target.value);
         let searchPosts = [];
@@ -428,7 +431,8 @@ class Photos extends React.Component {
                 cards[n].classList.add('hide')
             }
             //need to fix this up a wee bit
-            var para = document.createElement("p");
+            var para = document.createElement("p")
+            para.classList.add('no-match');
             var node = document.createTextNode("No Matches Found");
             para.appendChild(node);
             document.querySelector('.card-container').appendChild(para);
