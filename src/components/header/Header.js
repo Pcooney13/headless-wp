@@ -122,7 +122,36 @@ class Header extends React.Component {
                     </span>
                     <form className="form" onSubmit={this.props.handlelogin}>
                         <h2 id="modal-title">Log in</h2>
-                        <div id="modal-username">
+                        <div className="input input__half" id="modal-firstname">
+                            <label>First Name:</label>
+                            <input
+                                id="firstname"
+                                className="firstname"
+                                type="text"
+                                maxLength="16"
+                                name="firstname"
+                            />
+                        </div>
+                        <div className="input input__half" id="modal-lastname">
+                            <label>Last Name:</label>
+                            <input
+                                id="lastname"
+                                className="lastname"
+                                type="text"
+                                maxLength="16"
+                                name="lastname"
+                            />
+                        </div>
+                        <div className="input" id="modal-email">
+                            <label>Email:</label>
+                            <input
+                                id="email"
+                                className="email"
+                                type="email"
+                                name="email"
+                            />
+                        </div>
+                        <div className="input" id="modal-username">
                             <label>Username:</label>
                             <input
                                 id="username"
@@ -132,7 +161,7 @@ class Header extends React.Component {
                                 name="username"
                             />
                         </div>
-                        <div id="modal-password">
+                        <div className="input input__half" id="modal-password">
                             <label>Password:</label>
                             <input
                                 id="password"
@@ -141,13 +170,13 @@ class Header extends React.Component {
                                 name="password"
                             />
                         </div>
-                        <div id="modal-email">
-                            <label>Email:</label>
+                        <div className="input input__half" id="modal-re-password">
+                            <label>Confirm Password:</label>
                             <input
-                                id="email"
-                                className="email"
-                                type="email"
-                                name="email"
+                                id="re-password"
+                                className="re-password"
+                                type="password"
+                                name="re-password"
                             />
                         </div>
                         <button
@@ -156,7 +185,6 @@ class Header extends React.Component {
                             className="submit">
                             Login
                         </button>
-                        <div className="modal-btns">
                             <p
                                 onClick={e => {
                                     this.props.showModal(e);
@@ -171,7 +199,6 @@ class Header extends React.Component {
                                 id="modal-btn-right">
                                 Forgot Password
                             </p>
-                        </div>
                     </form>
                 </div>
                 <div id="modal-bg"></div>

@@ -66,8 +66,8 @@ class WeatherApp extends Component {
                 sunrise[0] = sunrise[0] - 10
                 sunset[0] = sunset[0] - 10
             }
-            if (sunrise[0] < 1) {sunrise[0] += 12};
-            if (sunset[0] < 1) {sunset[0] += 12};
+            if (sunrise[0] < 1) { sunrise[0] += 12 };
+            if (sunset[0] < 1) { sunset[0] += 12 };
             if (sunset[0] > 12) { sunset[0] = sunset[0] - 12 };
             //Daylight Savings Time Adjustment - Start
             sunset[0] = sunset[0] - 1;
@@ -108,9 +108,9 @@ class WeatherApp extends Component {
                 error: "Please enter a city and state and try again."
             });
         }
-        
+
     };
-    
+
     render() {
         return (
             <div className="App">
@@ -124,7 +124,7 @@ class WeatherApp extends Component {
                             state={this.state.state}
                             long={this.state.long}
                             lat={this.state.lat}
-                            timezone= {this.state.timezone}
+                            timezone={this.state.timezone}
                             sunrise={this.state.sunrise}
                             sunset={this.state.sunset}
                             humidity={this.state.humidity}

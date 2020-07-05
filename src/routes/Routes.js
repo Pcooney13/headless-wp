@@ -139,6 +139,10 @@ class Routes extends React.Component {
         if (e.target.innerHTML === "Log In") {
             document.getElementById('modal-username').style.display = 'block';
             document.getElementById('modal-password').style.display = 'block';
+            document.getElementById('modal-password').classList.remove('input__half');
+            document.getElementById('modal-re-password').style.display = 'none';
+            document.getElementById('modal-firstname').style.display = 'none';
+            document.getElementById('modal-lastname').style.display = 'none';
             document.getElementById('modal-email').style.display = 'none';
             document.getElementById('modal-btn-left').innerHTML = 'Sign Up';
             document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
@@ -146,6 +150,10 @@ class Routes extends React.Component {
         } else if (e.target.innerHTML === "Sign Up") {
             document.getElementById('modal-username').style.display = 'block';
             document.getElementById('modal-password').style.display = 'block';
+            document.getElementById('modal-password').classList.add('input__half');
+            document.getElementById('modal-firstname').style.display = 'block';
+            document.getElementById('modal-re-password').style.display = 'block';
+            document.getElementById('modal-lastname').style.display = 'block';
             document.getElementById('modal-email').style.display = 'block';
             document.getElementById('modal-btn-left').innerHTML = 'Log In';
             document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
@@ -156,6 +164,10 @@ class Routes extends React.Component {
             document.getElementById('modal-email').style.display = 'block';
             document.getElementById('modal-btn-left').innerHTML = 'Log In';
             document.getElementById('modal-btn-right').innerHTML = 'Sign Up';
+            document.getElementById('modal-firstname').style.display = 'none';
+            document.getElementById('modal-lastname').style.display = 'none';
+            document.getElementById('modal-re-password').style.display = 'none';
+            document.getElementById('modal-password').classList.remove('input__half');
             // document.getElementById('modal-btn-left').addEventListener("click", (e) => { this.showModal(e) });
             // document.getElementById('modal-btn-right').innerHTML = 'login';
             // document.getElementById('modal-btn-left').addEventListener("click", () => { this.showModal("Login") });

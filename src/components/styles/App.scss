@@ -1,8 +1,11 @@
 /* Resume - Pull out the essentials and ditch the rest. Better naming for css */
 /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
+$lightgreen: #4b957b;
 $green: #126b4c;
 $darkgreen: #284b3e;
+$white: #eef1f0;
+$white-50: rgba(238, 241, 240, .5);
 
 :root {
     --off-white: #eef1f0;
@@ -17,7 +20,19 @@ $darkgreen: #284b3e;
     --light-blue: #6bc4c6;
     --purple: #6f62ab;
 }
-
+// .header a:focus {
+//     background-color:$darkgreen;
+//     padding:21px;
+//     margin:-21px;
+//     outline:0;
+// }
+// .header #log-out:focus {
+//     background-color: #284b3e;
+//     padding: 20px;
+//     margin: -20px;
+//     outline: 0;
+//     border-radius: 0;
+// }
 html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
@@ -539,6 +554,7 @@ h1 {
 .header .active {
     font-weight: 600;
     opacity: 1;
+    color:$white;
 }
 .header li {
     color: white;
@@ -559,8 +575,7 @@ h1 {
     margin-bottom: -10px;
 }
 .header li a {
-    color: white;
-    opacity: 0.5;
+    color: $white-50;
     text-decoration: none;
 }
 .header li img {
@@ -642,30 +657,60 @@ footer {
     opacity: 1;
     transform: scale(1.5);
 }
-.modal-btns {
-    display: flex;
-}
 #modal-btn-right {
     margin-left: auto;
 }
 .filter-bar {
     background-color: white;
     display: flex;
-    margin-bottom: 30px;
     padding: 20px;
     box-shadow: 3px 3px 5px rgba(150, 150, 150, 0.2);
+    position: absolute;
+    width: 100%;
+    z-index: 3;
+}
+.filter-bar img {
+    background-color: $lightgreen;
+    margin-right:20px;
+}
+.filter-drawer {
+    padding:20px;
+    background-color: white;
+    transition: all .5s;
+    z-index: 1;
+    position: relative;
+}
+.drawer-open {
+    padding-top:84px;
+}
+#filter-svg {
+    position: relative;
+}
+#filter-svg-blur {
+    position: absolute;
+}
+.svg-blur{
+    filter:blur(1px);
+}
+.filter-bars {
+    margin-bottom: 30px;
+    position: relative;
 }
 .filter-bar button {
     padding-right: 30px;
 }
 .filter-button {
     transition: all 0.5s;
-    color: $darkgreen;
-    opacity: 0.5;
+    color: $lightgreen;
 }
 .filter-button:hover {
     opacity: 1;
     color: $green;
+}
+#filter-click{
+    padding:20px;
+    margin:-20px;
+    line-height: 0;
 }
 .search {
     width: 200px;
@@ -1082,4 +1127,18 @@ a.image-big {
 .card-location {
     font-size: 12px;
     opacity: 0.5;
+}
+#modal-title {
+    width:100%;
+}
+.input {
+    width:100%;
+}
+.input__half {
+    width:49%;
+}
+.form {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
 }

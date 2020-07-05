@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 const mapStyles = {
     width: 'calc(100% - 60px)',
@@ -18,24 +18,34 @@ export class MapContainer extends React.Component {
             mapCoords: [],
             error: null,
             posts: null,
+            showingInfoWindow: false,
+            activeMarker: {},
+            selectedPlace: {},
         };
     }
 
-    showPostModal(){
-        document.getElementById('map-modal').style.display = 'block';
-        document.getElementById('modal-bg').style.display = 'block';
-    }
+    onMarkerClick = (props, marker, e) => {
+        this.setState({
+            selectedPlace: props,
+            activeMarker: marker,
+            showingInfoWindow: true
+        });
+    };
 
-    hidePostModal() {
-        document.getElementById('map-modal').style.display = 'none';
-        document.getElementById('modal-bg').style.display = 'none';
-    }
+    onMapClicked = (props) => {
+        if (this.state.showingInfoWindow) {
+            this.setState({
+                showingInfoWindow: false,
+                activeMarker: null
+            })
+        }
+    };
 
     showMap() {
         return (
             <div id="the-map">
-                <Map
-                    google={this.props.google}
+                <Map google={this.props.google}
+                    onClick={this.onMapClicked}
                     zoom={8}
                     style={mapStyles}
                     initialCenter={{
@@ -43,10 +53,41 @@ export class MapContainer extends React.Component {
                         lng: -71.1504676,
                     }}>
                     {this.displayMarkers()}
+                    <InfoWindow
+                        marker={this.state.activeMarker}
+                        visible={this.state.showingInfoWindow}>
+                        <div>
+                            <h1>{this.state.selectedPlace.name}</h1>
+                            {console.log(this.state.selectedPlace.info)}
+                            {this.state.selectedPlace.info && <img src={this.state.selectedPlace.info.image.medium} alt={this.state.selectedPlace.info.title}/>}
+                            
+                        </div>
+                    </InfoWindow>
                 </Map>
             </div>
         );
     }
+
+    displayMarkers = () => {
+        return this.state.posts.map((post, index) => {
+            return (
+                post.location && (
+                    <Marker
+                        key={index}
+                        id={index}
+                        info={post}
+                        name={post.title}
+                        position={{
+                            lat: post.location.lat,
+                            lng: post.location.lng,
+                        }}
+                        // onClick={(post) => this.displayInfoWindows(post)}
+                        onClick={this.onMarkerClick}
+                    />
+                )
+            );
+        });
+    };
 
     componentDidMount() {
         this.loadPosts();
@@ -101,36 +142,6 @@ export class MapContainer extends React.Component {
     //     }
     // }
 
-    displayMarkers = () => {
-        return this.state.posts.map((post, index) => {
-            return (
-                post.location && (
-                    <Marker
-                    key={index}
-                    id={index}
-                    info={post}
-                    position={{
-                        lat: post.location.lat,
-                        lng: post.location.lng,
-                    }}
-                    onClick={(post) => this.markerClicked(post)}
-                    />
-                )
-            );
-        });
-    };
-            
-            
-            markerClicked = (post) => {
-                const theMap = document.getElementById('the-map').children;
-                console.log(theMap[0]);
-                // theMap[0].setCenter({ lat: post.position.lat, lng: post.position.lng }); 
-                document.getElementById('map-modal').style.display = 'block';
-                document.getElementById('map-photo-title').innerHTML = post.info.title;
-                document.getElementById('map-photo-image').src = post.info.image.medium;
-                document.getElementById('map-photo-image').alt = post.info.title;
-            }
-
     render() {
         const { error, isLoaded, map } = this.state;
         if (error) {
@@ -151,17 +162,6 @@ export class MapContainer extends React.Component {
                     <h1>Photos Map</h1>
                     <Link to="/photos">View Gallery Photos</Link>
                     {this.showMap()}
-                    <div id="map-modal">
-                        <span
-                            onClick={() => {
-                                this.hidePostModal();
-                            }}
-                            className="close-modal">
-                            &times;
-                        </span>
-                        <h2 id="map-photo-title">howdy folks</h2>
-                        <img id="map-photo-image" src="" alt="placeholder" />
-                    </div>
                 </div>
             );
         }
