@@ -25,6 +25,7 @@ class Routes extends React.Component {
             loggedIn: false,
             token: 'wp-token',
             username: undefined,
+            user:undefined,
             modalState: undefined,
         };
         this.changeUser = this.changeUser.bind(this);
@@ -51,6 +52,7 @@ class Routes extends React.Component {
         }
     };
 
+    // Add api call to /:user and setState: {user: res.apidata}
     handlelogin = (e) => {
         e.preventDefault();
         console.log(this.state);
@@ -72,7 +74,7 @@ class Routes extends React.Component {
                 password: document.getElementById('password').value,
             }),
         })
-            .then(function(response) {
+            .then(response => {
                 console.log(response);
                 if (200 === response.status) {
                     console.log(response.token);
@@ -82,10 +84,26 @@ class Routes extends React.Component {
                     return response.json();
                 }
             })
-            .then(function(post) {
+            .then(post => {
                 Cookies.set('wp-auth-token', post.token);
                 console.log(post.token); //token response
                 // loginFunction();
+                return fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/me', {
+                    headers: {
+                        Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+                    }
+                }).then(boobs => {
+                    return boobs.json()
+                }).then(data => {
+                    Cookies.remove("userImageLink")
+                    if (data.profile_image) {
+                        Cookies.set("userImageLink", data.profile_image)
+                    }
+                    console.log(Cookies.get("userImageLink"))
+                    this.setState({
+                        user:data
+                    })
+                })
             });
             user &&
                 this.changeUser(user);
@@ -94,13 +112,9 @@ class Routes extends React.Component {
             this.hideModal();
             console.log(this.state);
     };
-    handlelogout = () => {
-        Cookies.remove('wp-auth-token');
-        Cookies.remove('username');
-        this.changeUser();
-    };
-    handleSignIn = () => {
-        console.table(document.getElementById('username').value, document.getElementById('password').value, document.getElementById('email').value)
+ 
+    handleSignIn = (e) => {
+        e.preventDefault();
         fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/register', {
             method: 'POST',
             headers: {
@@ -109,6 +123,8 @@ class Routes extends React.Component {
             body: JSON.stringify({
                 username: document.getElementById('username').value,
                 password: document.getElementById('password').value,
+                first_name: document.getElementById('firstname').value,
+                last_name: document.getElementById('lastname').value,
                 email: document.getElementById('email').value,
             }),
         })
@@ -121,10 +137,31 @@ class Routes extends React.Component {
             // Cookies.set('wp-auth-token', post.token);
         });
         document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
         document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('re-password').value = '';
+        document.getElementById('firstname').value = '';
+        document.getElementById('lastname').value = '';
         this.hideModal();
     };
+    handlelogout = () => {
+        Cookies.remove('wp-auth-token');
+        Cookies.remove('username');
+        Cookies.remove('userImageLink');
+        this.changeUser();
+    };
+    handleAccountForm = (e) => {
+        e.preventDefault()
+        console.log(e.target.children[0].innerHTML)
+        if (e.target.children[0].innerHTML === "Log In") {
+            this.handlelogin(e)
+        } else if (e.target.children[0].innerHTML === "Sign Up") {
+            this.handleSignIn(e)
+        } else if (e.target.children[0].innerHTML === "Forgot Password") {
+            //figure out forgot password
+            alert("sucks to suck... Still need to make this")
+        }
+    }
     hideModal = () => {
         document.getElementById('modal').style.display = 'none';
         document.getElementById('modal-bg').style.display = 'none';
@@ -145,7 +182,8 @@ class Routes extends React.Component {
             document.getElementById('modal-lastname').style.display = 'none';
             document.getElementById('modal-email').style.display = 'none';
             document.getElementById('modal-btn-left').innerHTML = 'Sign Up';
-            document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
+            
+            // document.getElementById('account-form').onsubmit = e => this.handlelogin(e);
             // document.getElementById('modal-btn-left').addEventListener("click", (e) => {this.showModal(e)});
         } else if (e.target.innerHTML === "Sign Up") {
             document.getElementById('modal-username').style.display = 'block';
@@ -157,6 +195,8 @@ class Routes extends React.Component {
             document.getElementById('modal-email').style.display = 'block';
             document.getElementById('modal-btn-left').innerHTML = 'Log In';
             document.getElementById('modal-btn-right').innerHTML = 'Forgot Password';
+            
+            // document.getElementById('account-form').onsubmit = e => this.handleSignIn(e);
             // document.getElementById('modal-btn-left').addEventListener("click", (e) => { this.showModal(e) });
         } else if (e.target.innerHTML === "Forgot Password") {
             document.getElementById('modal-username').style.display = 'none';
@@ -168,6 +208,8 @@ class Routes extends React.Component {
             document.getElementById('modal-lastname').style.display = 'none';
             document.getElementById('modal-re-password').style.display = 'none';
             document.getElementById('modal-password').classList.remove('input__half');
+            Cookies.set('account-form', 'forgotpw');
+            console.log(Cookies.get())
             // document.getElementById('modal-btn-left').addEventListener("click", (e) => { this.showModal(e) });
             // document.getElementById('modal-btn-right').innerHTML = 'login';
             // document.getElementById('modal-btn-left').addEventListener("click", () => { this.showModal("Login") });
@@ -184,7 +226,9 @@ class Routes extends React.Component {
                     handlelogin={this.handlelogin}
                     handleSignIn={this.handleSignIn}
                     username={this.state.username}
+                    user={this.state.user}
                     modalState={this.modalState}
+                    handleAccountForm = {this.handleAccountForm}
                 />
                 <Switch>
                     <Route exact path="/" component={App} />

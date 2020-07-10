@@ -16,50 +16,11 @@ class Photos extends React.Component {
             count: 0,
             active: null,
         };
+        this.postshit = this.postshit.bind(this)
     }
 
     componentDidMount() {
         this.loadPosts()
-        // this.setState({
-        //     isLoaded: true,
-        //     posts: 0,
-        //     allPosts: 0,
-        // });
-    }
-
-    loadPosts() {
-        const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
-
-        let splitURL = window.location.pathname.split('/');
-        let pathnameURL = splitURL[splitURL.length - 1];
-        console.log(pathnameURL);
-
-        fetch(dataPosts)
-            .then(value => value.json())
-            .then(value => {
-                this.setState({
-                    isLoaded: true,
-                    posts: value,
-                    allPosts: value,
-                },
-                    error => {
-                        this.setState({
-                            isLoaded: true,
-                            error,
-                        });
-                    });
-            }).then(() =>
-                this.state.posts.forEach(post => post.slug === pathnameURL && this.setState({
-                    active: post,
-                },
-                    error => {
-                        this.setState({
-                            isLoaded: true,
-                            error,
-                        });
-                    }))
-            );
     }
 
     activeImage(post, e) {
@@ -89,6 +50,40 @@ class Photos extends React.Component {
                 }
             )
             ;
+    }
+
+    loadPosts() {
+        const dataPosts =
+            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
+
+        let splitURL = window.location.pathname.split('/');
+        let pathnameURL = splitURL[splitURL.length - 1];
+
+        fetch(dataPosts)
+            .then(value => value.json())
+            .then(value => {
+                this.setState({
+                    isLoaded: true,
+                    posts: value,
+                    allPosts: value,
+                },
+                    error => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
+                    });
+            }).then(() =>
+                this.state.posts.forEach(post => post.slug === pathnameURL && this.setState({
+                    active: post,
+                },
+                    error => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
+                    }))
+            );
     }
 
     lazyLoad() {
@@ -164,144 +159,6 @@ class Photos extends React.Component {
         this.setState({
             posts: sorted.reverse(),
         })
-    }
-
-    postshit2 = (e) => {
-        e.preventDefault()
-        console.log(this)
-        const mediaEndpoint = "https://pat-cooney.com/wp/wp-json/wp/v2/media";
-        const form = document.getElementById("postshit");
-        const profilePicInput = document.getElementById("main_image");
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append("file", profilePicInput.files[0]);
-            formData.append("title", "Hello World!");
-            formData.append("caption", "Have a wonderful day!");
-            console.log(profilePicInput.files[0])
-            console.log(formData)
-            //display spinner
-            //send image to media library
-            fetch(mediaEndpoint, {
-                method: "POST",
-                headers: {
-                    //when using FormData(), the 'Content-Type' will automatically be set to 'form/multipart'
-                    //so there's no need to set it here
-                    Authorization: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcGF0LWNvb25leS5jb21cL3dwIiwiaWF0IjoxNTkzODk0MTI0LCJuYmYiOjE1OTM4OTQxMjQsImV4cCI6MTU5NDQ5ODkyNCwiZGF0YSI6eyJ1c2VyIjp7ImlkIjoiMSJ9fX0.fChxSR2nFeC-0jZ5r62BTr22jgn4FTazObaKMwqrzJU'
-                },
-                body: formData
-            })
-                .then(res => res.json())
-                .then(data => {
-                    const input = {
-                        profile_image: data.source_url
-                    }
-                    //send image url to backend
-                    console.log(input)
-                    fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                            Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-                        },
-                        body: JSON.stringify({
-                            title: "newTitle.value",
-                            'acf.image': input.profile_image,
-                            status: 'publish',
-                            // categories: categoryArray,         
-                        }),
-                    }).then((res) => {
-                        if (res.status === 201) {
-                            // this.hidePostModal()
-                            console.log(this);
-                            console.log(this.state);
-                            console.log(window);
-                            console.log(window.state);
-                            // window.this.loadPosts()
-                        }
-                    }).catch(error => {
-                        console.error(error);
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        });
-    }
-    //BLOCKED BY CORS - Request header field content-disposition is not allowed by Access-Control-Allow-Headers in preflight response.
-    postshit = (e) => {
-        e.preventDefault();
-        console.log(e)
-        console.log(this)
-        const newTitle = document.getElementById('new-post-title');
-        const newColor = document.getElementById('new-post-color').value.slice(1, 7);
-        // const newImage = document.getElementById('new-post-image');
-        const newPost = document.getElementById('postshit');
-
-        var data = new FormData(newPost);
-        
-        console.log([...data.keys()].length);
-        console.log([...data.keys()]);
-        console.log([...data][2][1]);
-
-        const categories = [
-            document.getElementById('new-post-category--dogs'),
-            document.getElementById('new-post-category--cats'),
-            document.getElementById('new-post-category--landscape'),
-            document.getElementById('new-post-category--people')
-        ]
-
-        let categoryArray = []
-        categories.map(category =>
-            category.checked &&
-            categoryArray.push(category.title)
-        );
-
-        // var formdata = new FormData(newImage);
-        // console.log(formdata);
-        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/media', {
-            method: 'POST',
-            headers: {
-                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-                'Content-Type': 'image/jpeg',
-                Accept: 'application/json',
-                // 'Content-Disposition': newImage.name,
-                'Content-Disposition': 'form-data; filename=' + [...data][2][1].name,
-            },
-            body: [...data][2][1],
-        })
-            // .then(res => {
-            //     if (res.status === 201) {
-            //         this.hidePostModal();
-            //         this.loadPosts();
-            //     }
-            // })
-            .catch(error => {
-                console.error(error);
-            }).then(
-        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-            },
-            body: JSON.stringify({
-                title: newTitle.value,
-                content: newColor,
-                status: 'publish',
-                // categories: categoryArray,         
-            }),
-        })).then((res) => {
-            if (res.status === 201) {
-                this.hidePostModal()
-                this.loadPosts()
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-
     }
 
     showPostModal() {
@@ -457,6 +314,125 @@ class Photos extends React.Component {
         }
     }
 
+    postshit = (e) => {
+        e.preventDefault()
+        // console.log(this)
+
+        const inputDogs = document.getElementById('new-post-category--dogs')
+        const inputCats = document.getElementById('new-post-category--cats')
+        const inputLandscape = document.getElementById('new-post-category--landscape')
+        const inputPeople = document.getElementById('new-post-category--people')
+        let categoryArray = []
+
+        if(inputDogs.checked === true) {
+            categoryArray.push(inputDogs.name)
+        }
+        if (inputCats.checked === true) {
+            categoryArray.push(inputCats.name)
+        }
+        if (inputLandscape.checked === true) {
+            categoryArray.push(inputLandscape.name)
+        }
+        if (inputPeople.checked === true) {
+            categoryArray.push(inputPeople.name)
+        }
+
+        const mediaEndpoint = "https://pat-cooney.com/wp/wp-json/wp/v2/media";
+        const postTitle = document.getElementById("new-post-title").value;
+        const profilePicInput = document.getElementById("main_image");
+
+        // console.log(postTitle)
+
+        const formData = new FormData();
+        formData.append("file", profilePicInput.files[0]);
+        formData.append("title", postTitle);
+        // console.log(profilePicInput.files[0])
+
+
+        //send image to media library
+        fetch(mediaEndpoint, {
+            method: "POST",
+            headers: {
+                //when using FormData(), the 'Content-Type' will automatically be set to 'form/multipart'
+                //so there's no need to set it here
+                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+            },
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => {
+                const input = {
+                    id: data.id,
+                    post_image: data.source_url,
+                    title: postTitle,
+                    data: data,
+                }
+                //send image url to backend
+                if (input) {
+                    this.createPost(input, categoryArray)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
+    createPost(input, categoryArray) {
+        console.log(input)
+
+        const uploadedImage = `https://pat-cooney.com/wp/wp-json/wp/v2/media/${input.id}`
+
+        fetch(uploadedImage)
+            .then(value => value.json())
+            .then(data => {
+                console.log(data)
+                return fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
+                    },
+                    body: JSON.stringify({
+                        title: input.title,
+                        featured_media:554,
+                        // 'acf.image.id': data.id,
+                        'acf.image.id': 554,
+                        'acf.location': {
+                            "address": "30 W Broad St, Stamford, CT 06902, USA",
+                            "lat": 41.05548280000000005429683369584381580352783203125,
+                            "lng": -73.5458043999999944162482279352843761444091796875,
+                            "zoom": 14,
+                            "place_id": "ChIJHzX4a-WhwokRFKxPV7pX0ao",
+                            "street_number": "30",
+                            "street_name": "West Broad Street",
+                            "street_name_short": "W Broad St",
+                            "city": "Stamford",
+                            "state": "Connecticut",
+                            "state_short": "CT",
+                            "post_code": "06902",
+                            "country": "United States",
+                            "country_short": "US"
+                        },
+                        status: 'publish',
+                        // Need to get the ID of the categories...
+                        categories: categoryArray,
+                    }),
+                })
+                .then((res) => {
+                    if (res.status === 201) {
+                        // confused on _this2
+                        this.loadPosts()
+                    }
+                })
+            }
+            )
+            .catch(error => {
+                console.error(error);
+            });
+        alert("new Post Created!");
+    }
+
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
@@ -494,7 +470,6 @@ class Photos extends React.Component {
 
             return (
                 <div className="App">
-                    { console.log(this.state) }
                     <div className="photo-title-flex">
                         <h1>Photos</h1>
                         { this.props.username && (
@@ -513,7 +488,7 @@ class Photos extends React.Component {
                                     className="close-modal">
                                     &times;
                                 </span>
-                                <form id="postshit" className="form" encType="multipart/form-data" onSubmit={ this.postshit2 }>
+                                <form id="postshit" className="form" encType="multipart/form-data" onSubmit={this.postshit }>
                                     <h2 id="modal-title">Add New Photo</h2>
                                     <label className="main-label">Title:</label>
                                     <input
@@ -645,17 +620,18 @@ class Photos extends React.Component {
                         { this.state.posts === 0 ? <p>No matches</p> :
                             this.state.posts.map(post => (
                                 <div key={ post.slug } className={ `card ${post.slug} ${this.state.active === post && 'clicked-full'}` }>
+                                    {/* {console.log(post)} */}
                                     <div className="card-imagebox">
-                                        <Link
-                                            to={ `${this.state.active === post ? '/photos' : '/photos/' + post.slug}` }
+                                        <div
+                                            // to={ `${this.state.active === post ? '/photos' : '/photos/' + post.slug}` }
                                             className={ `card-image-link ${this.state.active === post && 'image-big'}` }
-                                            onClick={ e =>
-                                                this.activeImage(post, e)
-                                            }
+                                            // onClick={ e =>
+                                            //     this.activeImage(post, e)
+                                            // }
                                         >
                                             <img
                                                 data-src={
-                                                    this.state.active === post
+                                                    this.state.active === post 
                                                         ? post.image.full
                                                         : post.image
                                                             ? post.image.medium
@@ -689,7 +665,7 @@ class Photos extends React.Component {
                                                 <p className="author">
                                                     { post.author.title }
                                                 </p>
-                                                { post.author.slug === Cookies.get('username') && (
+                                                {Cookies.get('username') && post.author.slug.toLowerCase() === Cookies.get('username').toLowerCase() && (
                                                     <Link
                                                         to="/photos"
                                                         className="delete-trash"
@@ -713,7 +689,7 @@ class Photos extends React.Component {
                                                     </Link>
                                                 ) }
                                             </div>
-                                        </Link>
+                                        </div>
                                     </div>
                                     <div className="card-textbox">
                                         {/* {this.props.username ? <button onClick={() => "boobs"}>♡</button>: '' } */ }
@@ -828,6 +804,7 @@ class Photos extends React.Component {
                                                         { category.title
                                                             .slice(0, 1)
                                                             .toUpperCase() }
+                                                            {/* {console.log(category)} */}
                                                     </Link>
                                                 ))
                                                 : '' }

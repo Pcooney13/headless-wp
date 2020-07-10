@@ -608,9 +608,16 @@ footer {
     padding: 5px 20px;
     border-radius: 5px;
     margin: -5px 0px;
+    padding-right:0;
+}
+#log-out {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding-left:10px;
 }
 #log-in {
-    margin-right: 5px;
+    margin-right: 15px;
 }
 #sign-in {
     background-color: $darkgreen;
@@ -1141,4 +1148,9 @@ a.image-big {
     display:flex;
     flex-wrap:wrap;
     justify-content: space-between;
+}
+.avatar-image {
+    height:32px;
+    width:32px;
+    margin-right:8px;
 }
