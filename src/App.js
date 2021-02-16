@@ -10,6 +10,7 @@ function App() {
                     return (
                         <div className="App">
                             <h1>Home</h1>
+                            <p className="text-xl color-red bg-yellow my-12">zeet</p>
                         </div>
                     );
                 }}

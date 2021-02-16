@@ -775,7 +775,7 @@ class Photos extends React.Component {
                                                     </svg>
                                                 </label>
                                             </div>
-                                        </div>
+                                        </div>                                        
                                         <p className="card-categories">
                                             { post.categories
                                                 ? post.categories.map(category => (

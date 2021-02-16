@@ -5,11 +5,13 @@
   "dependencies": {
     "acorn": "^7.1.1",
     "animated": "^0.2.2",
+    "chokidar-cli": "^2.1.0",
     "file-loader": "^3.0.1",
     "google-map-react": "^1.1.6",
     "google-maps-react": "^2.0.2",
     "js-cookie": "^2.2.1",
     "node-sass": "^4.13.1",
+    "npm-run-all": "^4.1.5",
     "react": "^16.12.0",
     "react-dom": "^16.8.6",
     "react-lazyload": "^2.6.5",
@@ -17,14 +19,22 @@
     "react-scripts": "2.1.8",
     "react-transition-group": "^4.0.0",
     "styled-components": "3.1.6",
+    "tailwindcss": "^2.0.3",
     "typescript": "^3.4.5",
     "url-loader": "^1.1.2"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+ "scripts": {
+  "build:tailwind": "tailwind build src/tailwind.css -o src/tailwind.output.css",
+  "watch:tailwind": "chokidar 'src/**/*.css' 'src/**/*.scss' --ignore src/tailwind.output.css -c 'npm run build:tailwind'",
+
+  "start": "npm-run-all build:tailwind --parallel watch:tailwind start:react",
+  "start:react": "react-scripts start",
+
+  "prebuild": "run-s build:tailwind",
+
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
