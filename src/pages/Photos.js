@@ -54,7 +54,7 @@ class Photos extends React.Component {
 
     loadPosts() {
         const dataPosts =
-            'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
+            'https://pat-cooney.com/wp-json/wp/v2/recipes?per_page=100';
 
         let splitURL = window.location.pathname.split('/');
         let pathnameURL = splitURL[splitURL.length - 1];
@@ -251,7 +251,7 @@ class Photos extends React.Component {
         if (photos.length > 0) {
             return photos.filter(pokemon => {
                 const regex = new RegExp(wordToMatch, 'gi');
-                return pokemon.title.match(regex)
+                return pokemon.title.rendered.match(regex)
             });
         }
     }
@@ -434,6 +434,9 @@ class Photos extends React.Component {
     }
 
     render() {
+        console.log(this.state.posts);
+        console.log('bewbs');
+
         const { error, isLoaded } = this.state;
         if (error) {
             return <div>Error: { error.message }</div>;
@@ -647,7 +650,7 @@ class Photos extends React.Component {
                                                 height="200"
                                                 width="300"
                                                 className={ `card-image lazy ${this.state.active === post && 'clicked-full'}` }
-                                                alt={ post.title
+                                                alt={ post.title.rendered
                                                     .replace('#038;', '')
                                                     .replace('&#8217;', "'") }></img>
                                             <div className="author-box">
@@ -696,7 +699,7 @@ class Photos extends React.Component {
                                         <div className="card-titlebox">
                                             <div className="text-container">
                                                 <h4 className="card-title">
-                                                    { post.title
+                                                    { post.title.rendered
                                                         .replace('#038;', '')
                                                         .replace('&#8217;', "'") }
                                                 </h4>

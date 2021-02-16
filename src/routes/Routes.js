@@ -63,7 +63,7 @@ class Routes extends React.Component {
             user = this.state.username;
         }
         console.log(user);
-        fetch('https://pat-cooney.com/wp/wp-json/jwt-auth/v1/token', {
+        fetch('https://pat-cooney.com/wp-json/jwt-auth/v1/token', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ class Routes extends React.Component {
                 Cookies.set('wp-auth-token', post.token);
                 console.log(post.token); //token response
                 // loginFunction();
-                return fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/me', {
+                return fetch('https://pat-cooney.com/wp-json/wp/v2/users/me', {
                     headers: {
                         Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
                     }
@@ -115,7 +115,7 @@ class Routes extends React.Component {
  
     handleSignIn = (e) => {
         e.preventDefault();
-        fetch('https://pat-cooney.com/wp/wp-json/wp/v2/users/register', {
+        fetch('https://pat-cooney.com/wp-json/wp/v2/users/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
