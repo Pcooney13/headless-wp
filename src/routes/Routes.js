@@ -6,6 +6,7 @@ import App from '../App'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
+import Recipes from '../pages/Recipes'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import Weather from "../pages/Weather";
@@ -230,6 +231,11 @@ class Routes extends React.Component {
                     modalState={this.modalState}
                     handleAccountForm = {this.handleAccountForm}
                 />
+                <div className="max-w-screen-lg pb-5 border-b border-black-200 mt-5 font-gotham-light lg:m-auto mx-4 lg:mt-5 lg:mb-12">
+                    <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                        Home
+                    </a> / <span className="font-gotham-bold text-gray-400">
+                        Recipes</span></div>
                 <Switch>
                     <Route exact path="/" component={App} />
                     <Route path="/photos/:category" render={props => (
@@ -243,6 +249,7 @@ class Routes extends React.Component {
                     <Route exact path="/map" component={PhotosMap} />
                     <Route path="/users/:id" component={User} />
                     <Route exact path="/users" component={Users} />
+                    <Route exact path="/recipes" component={Recipes} />
 
                     <Route
                         exact
