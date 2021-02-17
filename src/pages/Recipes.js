@@ -54,7 +54,8 @@ class Recipes extends React.Component {
 
     loadPosts() {
         const dataPosts =
-            'https://pat-cooney.com/wp-json/wp/v2/recipes?per_page=100';
+            // 'https://pat-cooney.com/wp-json/wp/v2/recipes?per_page=100';
+            'https://pat-cooney.com/wp-json/v1/recipes?per_page=100';
 
         let splitURL = window.location.pathname.split('/');
         let pathnameURL = splitURL[splitURL.length - 1];
@@ -251,7 +252,7 @@ class Recipes extends React.Component {
         if (photos.length > 0) {
             return photos.filter(pokemon => {
                 const regex = new RegExp(wordToMatch, 'gi');
-                return pokemon.title.rendered.match(regex)
+                return pokemon.title.match(regex)
             });
         }
     }
@@ -434,6 +435,7 @@ class Recipes extends React.Component {
     }
 
     render() {
+        console.log("state posts")
         console.log(this.state.posts);
 
         const { error, isLoaded } = this.state;
@@ -475,55 +477,55 @@ class Recipes extends React.Component {
 
                     <div className="flex justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-4 flex-1 width-full max-w-screen-md font-gotham">
-                            <div class="relative filter-card flex bg-white p-4 shadow-md mb-4 apple basil spinach cucumber lime ">
-                                <div class="absolute bottom-0 left-0 w-32 h-32 bg-center bg-cover mr-4" style={{background:"#bbe06b"}}>
+                            <div className="relative filter-card flex bg-white p-4 shadow-md mb-4 apple basil spinach cucumber lime ">
+                                <div className="absolute bottom-0 left-0 w-32 h-32 bg-center bg-cover mr-4" style={{background:"#bbe06b"}}>
                                 </div>
-                        	    <a href="https://pat-cooney.com/recipes/dont-basil-ly/" class="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:"url('https://pat-cooney.com/app/uploads/2020/10/25076.jpg')"}}>
+                        	    <a href="https://pat-cooney.com/recipes/dont-basil-ly/" className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:"url('https://pat-cooney.com/app/uploads/2020/10/25076.jpg')"}}>
                                 </a>
                     
-                                <div class="flex-1 flex flex-col justify-center">
-                                    <a class="no-underline mb-2 text-black" href="https://pat-cooney.com/recipes/dont-basil-ly/">
-                                        <h2 style={{textDecorationColor:"#bbe06b"}} class="underline font-gotham-bold leading-tight mb-1">
+                                <div className="flex-1 flex flex-col justify-center">
+                                    <a className="no-underline mb-2 text-black" href="https://pat-cooney.com/recipes/dont-basil-ly/">
+                                        <h2 style={{textDecorationColor:"#bbe06b"}} className="underline font-gotham-bold leading-tight mb-1">
                                             Don't Basil-ly
                                         </h2>
                                     </a>
-	                	            <div class="flex mb-2">
-                                        <div class="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
-                        	                <a class="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/apple/">Apple</a>
+	                	            <div className="flex mb-2">
+                                        <div className="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
+                        	                <a className="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/apple/">Apple</a>
                                         </div>
-                                        <div class="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
-                        	                <a class="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/basil/">Basil</a>
+                                        <div className="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
+                        	                <a className="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/basil/">Basil</a>
                                         </div>
-                                        <div class="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
-                        	                <a class="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/spinach/">Spinach</a>
+                                        <div className="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
+                        	                <a className="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/spinach/">Spinach</a>
                                         </div>
-                                        <div class="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
-                        	                <a class="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/cucumber/">Cucumber</a>
+                                        <div className="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
+                        	                <a className="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/cucumber/">Cucumber</a>
                                         </div>
-                                        <div class="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
-                        	                <a class="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/lime/">Lime</a>
+                                        <div className="inline-flex mr-2 p-px rounded-md bg-black-200 hover:bg-black-300 duration-300 transition-all">
+                        	                <a className="no-underline mt-px mx-2 text-xs font-gotham" href="https://pat-cooney.com/lime/">Lime</a>
                                         </div>
                                     </div>
 	                            </div>
                             </div>
                         </main>
                         <aside className="flex-1 ml-4 mt-4 max-w-screen-xs">
-                            <section class="bg-white shadow-md">
-                                <h3 class="sidebar__header p-4 bg-blue-200 font-gotham-medium text-blue">Ingredient Type</h3>
+                            <section className="bg-white shadow-md">
+                                <h3 className="sidebar__header p-4 bg-blue-200 font-gotham-medium text-blue">Ingredient Type</h3>
                                 <ul>
-                                    <li class="mx-4 py-4 border-b border-black-100">            
-                                        <a class="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/fruits/">
-                                            <p class="font-gotham-medium">Fruits</p>
+                                    <li className="mx-4 py-4 border-b border-black-100">            
+                                        <a className="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/fruits/">
+                                            <p className="font-gotham-medium">Fruits</p>
                                         </a>    
                                     </li>        
-                                    <li class="mx-4 py-4 border-b border-black-100">
-                                        <a class="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/herbs/">
-                                            <p class="font-gotham-medium">Herbs</p>
+                                    <li className="mx-4 py-4 border-b border-black-100">
+                                        <a className="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/herbs/">
+                                            <p className="font-gotham-medium">Herbs</p>
                                         </a>
                                     </li>
-                                    <li class="mx-4 py-4 border-b border-black-100">
-                                        <a class="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/vegetables/">
-                                            <p class="font-gotham-medium">Vegetables</p>
+                                    <li className="mx-4 py-4 border-b border-black-100">
+                                        <a className="flex text-black-700 transition-all duration-300 hover:text-" href="https://pat-cooney.com/category/vegetables/">
+                                            <p className="font-gotham-medium">Vegetables</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -696,20 +698,20 @@ class Recipes extends React.Component {
                                                     this.state.active === post 
                                                         ? post.image.full
                                                         : post.image
-                                                            ? post.image.medium
+                                                            ? post.image.thumb
                                                             : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                                 }
                                                 data-srcset={
                                                     this.state.active === post
                                                         ? post.image.full
                                                         : post.image
-                                                            ? post.image.medium
+                                                            ? post.image.thumb
                                                             : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                                 }
                                                 height="200"
                                                 width="300"
                                                 className={ `card-image lazy ${this.state.active === post && 'clicked-full'}` }
-                                                alt={ post.title.rendered
+                                                alt={ post.title
                                                     .replace('#038;', '')
                                                     .replace('&#8217;', "'") }></img>
                                             <div className="author-box">
@@ -758,7 +760,7 @@ class Recipes extends React.Component {
                                         <div className="card-titlebox">
                                             <div className="text-container">
                                                 <h4 className="card-title">
-                                                    { post.title.rendered
+                                                    { post.title
                                                         .replace('#038;', '')
                                                         .replace('&#8217;', "'") }
                                                 </h4>
