@@ -6,7 +6,6 @@
 
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import Logo from "./Logo";
 import Cookies from 'js-cookie';
 import UserLogIn from './UserLogIn';
 
@@ -130,7 +129,7 @@ class Header extends React.Component {
 
         function checkPosition() {
             let windowY = window.scrollY;
-            if (window.scrollY < 95) {
+            if (window.scrollY < 115) {
                 document.querySelector('.header').classList.add('is-visible');
                 document.querySelector('.header').classList.remove('is-hidden');
             } else if (windowY < scrollPos) {
@@ -152,7 +151,7 @@ class Header extends React.Component {
                 <ul id="header" className="header primary-header is-visible">
                     <li>
                         <NavLink to="/">
-                            <Logo />
+                            <h1 class="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
                         </NavLink>
                     </li>
                     <li>

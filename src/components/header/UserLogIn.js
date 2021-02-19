@@ -30,14 +30,16 @@ class Header extends React.Component {
                                 onClick={e => {
                                     this.props.showModal(e);
                                 }}
-                                id="log-in">
+                                id="log-in"
+                                className="hidden md:inline-block">
                                 Log In
                                             </button>
                             <button
                                 onClick={e => {
                                     this.props.showModal(e);
                                 }}
-                                id="sign-up">
+                                id="sign-up"
+                                className="pl-4 md:pl-0">
                                 Sign Up
                                             </button>
                         </div>

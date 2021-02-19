@@ -219,9 +219,7 @@ svg {
         font-size: 12.288px !important;
     }
 }
-html {
-    font-size: 13.176471px;
-}
+
 @media (min-width: 640px) {
     html {
         font-size: calc(13.17647px + (282.3529vw - 1807.05856px) / 176);
@@ -604,11 +602,6 @@ h1 {
     display: inline-block;
     padding-right: 30px;
 }
-.header li:first-child {
-    width: 30px;
-    margin-right: 30px;
-    position: relative;
-}
 .primary-header li:last-child {
     margin-left: auto;
     padding-right: 0;
@@ -764,15 +757,9 @@ footer {
 }
 .search {
     width: 200px;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     display: flex;
     flex-direction: column;
-}
-input.search__input {
-    margin: -20px -20px -20px -20px;
-    padding: 20px 20px 20px 20px;
-    border-right: 2px solid var(--off-white);
 }
 .search__results {
     position: absolute;
