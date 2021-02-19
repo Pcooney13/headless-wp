@@ -637,14 +637,14 @@ class Photos extends React.Component {
                                                     this.state.active === post 
                                                         ? post.image.full
                                                         : post.image
-                                                            ? post.image.medium
+                                                            ? post.image.thumb
                                                             : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                                 }
                                                 data-srcset={
                                                     this.state.active === post
                                                         ? post.image.full
                                                         : post.image
-                                                            ? post.image.medium
+                                                            ? post.image.thumb
                                                             : `https:via.placeholder.com/300x200/${post.color}/ffffff'`
                                                 }
                                                 height="200"

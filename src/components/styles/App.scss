@@ -254,7 +254,7 @@ html {
     break-inside: avoid;
 }
 .hide{
-    display:none;
+    display:none!important;
 }
 .hyphens-manual {
     -webkit-hyphens: manual;
@@ -503,6 +503,49 @@ body main article .icon-parent:before {
     src: url('../fonts/dunks-font.ttf');
 }
 
+@font-face{
+    font-family:GothamPro;
+    src:
+        url(../fonts/GothamPro.eot?) format('eot'),
+        url(../fonts/GothamPro.otf) format('opentype'),
+        url(../fonts/GothamPro.woff) format('woff'),
+        url(../fonts/GothamPro.ttf) format('truetype'),
+        url(../fonts/GothamPro.svg#GothamPro) format('svg')
+}
+@font-face{
+    font-family:GothamProLight;
+    src:
+        url(../fonts/GothamPro-Light.eot?) format('eot'),
+        url(../fonts/GothamPro-Light.woff) format('woff'),
+        url(../fonts/GothamPro-Light.ttf) format('truetype'),
+        url(../fonts/GothamPro-Light.svg#GothamPro-Medium) format('svg')
+}
+@font-face{
+    font-family:GothamProMedium;
+    src:
+        url(../fonts/GothamPro-Medium.eot?) format('eot'),
+        url(../fonts/GothamPro-Medium.otf) format('opentype'),
+        url(../fonts/GothamPro-Medium.woff) format('woff'),
+        url(../fonts/GothamPro-Medium.ttf) format('truetype'),
+        url(../fonts/GothamPro-Medium.svg#GothamPro-Medium) format('svg')
+}
+@font-face{font-family:GothamProBold;
+    src:
+        url(../fonts/GothamPro-Bold.eot?) format('eot'),
+        url(../fonts/GothamPro-Bold.otf) format('opentype'),
+        url(../fonts/GothamPro-Bold.woff) format('woff'),
+        url(../fonts/GothamPro-Bold.ttf) format('truetype'),
+        url(../fonts/GothamPro-Bold.svg#GothamPro-Bold) format('svg')
+}
+@font-face{font-family:GothamProBlack;
+    src:
+        url(../fonts/GothamPro-Black.eot?) format('eot'),
+        url(../fonts/GothamPro-Black.otf) format('opentype'),
+        url(../fonts/GothamPro-Black.woff) format('woff'),
+        url(../fonts/GothamPro-Black.ttf) format('truetype'),
+        url(../fonts/GothamPro-Black.svg#GothamPro-Black) format('svg')
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -531,7 +574,7 @@ h1 {
 }
 
 .App {
-    padding: 30px;
+    padding:1.5rem;
     max-width: 1060px;
     margin: 0 auto;
     position: relative;
@@ -700,7 +743,6 @@ footer {
     filter:blur(1px);
 }
 .filter-bars {
-    margin-bottom: 30px;
     position: relative;
 }
 .filter-bar button {
@@ -718,11 +760,11 @@ footer {
     padding:20px;
     margin:-20px;
     line-height: 0;
+    margin-left:auto;
 }
 .search {
     width: 200px;
-    margin-left: auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -730,7 +772,7 @@ footer {
 input.search__input {
     margin: -20px -20px -20px -20px;
     padding: 20px 20px 20px 20px;
-    border-left: 2px solid var(--off-white);
+    border-right: 2px solid var(--off-white);
 }
 .search__results {
     position: absolute;
@@ -765,15 +807,15 @@ input.search__input {
     height: auto;
     transition: all 0.5s;
 }
-.card {
-    background-color: white;
-    width: calc(100% / 3 - 1em);
-    margin-bottom: 30px;
-    max-width: 300px;
-    border-radius: 8px;
-    box-shadow: 3px 3px 5px rgba(150, 150, 150, 0.2);
-    transition: all 0.5s;
-}
+// .card {
+//     background-color: white;
+//     width: calc(100% / 3 - 1em);
+//     margin-bottom: 30px;
+//     max-width: 300px;
+//     border-radius: 8px;
+//     box-shadow: 3px 3px 5px rgba(150, 150, 150, 0.2);
+//     transition: all 0.5s;
+// }
 /* .card:hover { box-shadow: 10px 10px 20px rgba(100, 100, 100, .2); } */
 .delete-trash {
     margin-left: auto;
@@ -895,9 +937,12 @@ input.search__input {
     }
 }
 @media (max-width: 650px) {
-    .card {
-        width: calc(100% / 2 - 1em);
+    .App {
+        padding: 1.5rem 1rem;
     }
+    // .card {
+    //     width: calc(100% / 2 - 1em);
+    // }
     .card-categories {
         margin-top: 8px;
     }
@@ -907,10 +952,10 @@ input.search__input {
     }
 }
 @media (max-width: 360px) {
-    .card {
-        width: 100%;
-        max-width: 100%;
-    }
+    // .card {
+    //     width: 100%;
+    //     max-width: 100%;
+    // }
 }
 
 a.card-category:hover {

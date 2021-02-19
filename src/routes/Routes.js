@@ -231,7 +231,7 @@ class Routes extends React.Component {
                     modalState={this.modalState}
                     handleAccountForm = {this.handleAccountForm}
                 />
-                <div className="max-w-screen-lg pb-5 border-b border-black-200 mt-5 font-gotham-light lg:m-auto mx-4 lg:mt-5 lg:mb-12">
+                <div className="py-6 mx-6 max-w-screen-lg border-b border-black-200 font-gotham-light lg:m-auto">
                     <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
                         Home
                     </a> / <span className="font-gotham-bold text-gray-400">
