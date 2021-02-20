@@ -169,50 +169,6 @@ class Resume extends React.Component {
                                         </span>
                                     </p>
                                 </article>
-
-                                <article class="mb-4 col-break-avoid">
-                                    <header>
-                                        <h3 class="text-lg text-gray-700 font-semibold leading-heading">
-                                            Exquisite Systems d.o.o.
-                                        </h3>
-                                        <p class="text-m text-gray-600 leading-normal">
-                                            May 2015 – Dec 2016 | Software QA
-                                            Specialist
-                                        </p>
-                                    </header>
-                                    <p class="mt-1.5 flex items-start justify-start text-m text-gray-700 leading-normal">
-                                        <span class="icon-parent flex items-center justify-center flex-shrink-0">
-                                            <svg
-                                                class="w-4.5 h-4.5 print:pb-0.5"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
-                                                <path
-                                                    class="text-gray-600 print:text-gray-900 fill-current"
-                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path>
-                                            </svg>
-                                        </span>
-                                        <span class="ml-1.5">
-                                            Handled shankle frankfurter t-bone
-                                            brisket short paloin
-                                        </span>
-                                    </p>
-                                    <p class="mt-1.5 flex items-start justify-start text-m text-gray-700 leading-normal">
-                                        <span class="icon-parent flex items-center justify-center flex-shrink-0">
-                                            <svg
-                                                class="w-4.5 h-4.5 print:pb-0.5"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
-                                                <path
-                                                    class="text-gray-600 print:text-gray-900 fill-current"
-                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path>
-                                            </svg>
-                                        </span>
-                                        <span class="ml-1.5">
-                                            Monitored salami sprge ribs brisket
-                                            flank, pork 5+ meat
-                                        </span>
-                                    </p>
-                                </article>
                             </section>
 
                             <section class="mt-7">

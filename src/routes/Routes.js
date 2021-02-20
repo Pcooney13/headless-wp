@@ -7,6 +7,7 @@ import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
 import Recipes from '../pages/Recipes'
+import Ingredients from '../pages/Ingredients'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import Weather from "../pages/Weather";
@@ -250,6 +251,7 @@ class Routes extends React.Component {
                     <Route path="/users/:id" component={User} />
                     <Route exact path="/users" component={Users} />
                     <Route exact path="/recipes" component={Recipes} />
+                    <Route exact path="/ingredients" component={Ingredients} />
 
                     <Route
                         exact

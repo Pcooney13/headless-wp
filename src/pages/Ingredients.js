@@ -6,7 +6,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
-class Recipes extends React.Component {
+class Ingredients extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -55,7 +55,7 @@ class Recipes extends React.Component {
     loadPosts() {
         const dataPosts =
             // 'https://pat-cooney.com/wp-json/wp/v2/recipes?per_page=100';
-            'https://pat-cooney.com/wp-json/v1/recipes?per_page=100';
+            'https://pat-cooney.com/wp-json/v1/ingredients?per_page=100';
 
         let splitURL = window.location.pathname.split('/');
         let pathnameURL = splitURL[splitURL.length - 1];
@@ -445,7 +445,7 @@ class Recipes extends React.Component {
             return (
                 <div className="App">
                 {console.log(Cookies.get('wp-auth-token'))}
-                    <h2 class="text-2xl mb-8 font-bold" >Recipes</h2>
+                    <h2 class="text-2xl mb-8 font-bold" >Ingredients</h2>
                     
                     <div className="card-container">
                         <p>Loading</p>
@@ -460,7 +460,7 @@ class Recipes extends React.Component {
 
             return (
                 <div className="App">
-                    <h2 class="text-2xl mb-8 font-bold" >Recipes</h2>
+                    <h2 class="text-2xl mb-8 font-bold" >Ingredients</h2>
 
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-md font-gotham">
@@ -478,24 +478,17 @@ class Recipes extends React.Component {
 
                             { this.state.posts === 0 ? <p>No matches</p> :
                                     this.state.posts.map(post => (
-                                        <div className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white md:p-4 shadow-md mb-6` }>
-                                            <div className="absolute bottom-0 left-2 md:left-0 w-32 h-32 bg-center bg-cover mr-4" style={{background:post.color}}>
+                                        <div className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white shadow-md mb-6` }>
+                                            <div className="absolute bottom-0 left-2 w-32 h-32 bg-center bg-cover mr-4" style={{background:post.color}}>
                                             </div>
-                        	                <a href={`https://pat-cooney.com/recipes/${post.slug}/`} className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`}}>
+                        	                <a href={`https://pat-cooney.com/ingredients/${post.slug}/`} className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`}}>
                                             </a>
-                                            <div className="pl-2 md:pl-0 flex-1 flex flex-col justify-center">
-                                                <a className="no-underline text-black" href={`https://pat-cooney.com/recipes/${post.slug}/`}>
+                                            <div className="pl-2 flex-1 flex flex-col justify-center">
+                                                <a className="no-underline text-black" href={`https://pat-cooney.com/ingredients/${post.slug}/`}>
                                                     <h2 style={{textDecorationColor:post.color}} className="underline text-2xl font-gotham-medium md:font-gotham-bold leading-tight mb-1">
                                                         {post.title}
                                                     </h2>
-                                                </a>
-                                                <div className="flex-wrap flex mb-2">
-                                                    {post.items.map(item => (                                                        
-                                                        <div className="mt-0 md:mt-2 bg-transparent inline-flex mr-2 p-px rounded-md md:bg-black-100 hover:bg-black-200 duration-300 transition-all">                        	                                
-                                                            <a className="no-underline mt-px mx-0 md:mx-2 text-black-500 md:text-black text-xs font-gotham" href={`https://pat-cooney.com/${item.ingredient.ingredient[0].post_name}/`}>{item.ingredient.ingredient[0].post_title}</a>
-                                                        </div>
-                                                    ))}                                                    
-                                                </div>
+                                                </a>                                                
 	                                        </div>
                                         </div>
                                     ))
@@ -569,9 +562,9 @@ class Recipes extends React.Component {
                                             <p className="font-gotham-medium">Vegetables</p>
                                         </a>
                                     </li>
-                                    <li className="mx-4 py-4 border-b border-black-100">
-                                        <Link  className="flex text-black-700 transition-all duration-300 hover:text-" to="/ingredients">
-                                            <p className="font-gotham-medium">Ingredients</p>
+                                     <li className="mx-4 py-4 border-b border-black-100">
+                                        <Link  className="flex text-black-700 transition-all duration-300 hover:text-" to="/recipes">
+                                            <p className="font-gotham-medium">Recipes</p>
                                         </Link>
                                     </li>
                                 </ul>
@@ -586,4 +579,4 @@ class Recipes extends React.Component {
     }
 }
 
-export default Recipes;
+export default Ingredients;
