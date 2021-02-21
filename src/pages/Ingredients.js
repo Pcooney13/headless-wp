@@ -445,7 +445,7 @@ class Ingredients extends React.Component {
             return (
                 <div className="App">
                 {console.log(Cookies.get('wp-auth-token'))}
-                    <h2 class="text-2xl mb-8 font-bold" >Ingredients</h2>
+                    <h2 className="text-2xl mb-8 font-bold" >Ingredients</h2>
                     
                     <div className="card-container">
                         <p>Loading</p>
@@ -457,10 +457,11 @@ class Ingredients extends React.Component {
             window.scrollTo(0, 0);
             this.lazyLoad();
             let counter = 1;
+            let colorArray = []
 
             return (
                 <div className="App">
-                    <h2 class="text-2xl mb-8 font-bold" >Ingredients</h2>
+                    <h2 className="text-2xl mb-8 font-bold" >Ingredients</h2>
 
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-md font-gotham">
@@ -477,28 +478,31 @@ class Ingredients extends React.Component {
                             </form>
 
                             { this.state.posts === 0 ? <p>No matches</p> :
-                                    this.state.posts.map(post => (
-                                        <div className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white shadow-md mb-6` }>
-                                            <div className="absolute bottom-0 left-2 w-32 h-32 bg-center bg-cover mr-4" style={{background:post.color}}>
-                                            </div>
-                        	                <a href={`https://pat-cooney.com/ingredients/${post.slug}/`} className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`}}>
-                                            </a>
-                                            <div className="pl-2 flex-1 flex flex-col justify-center">
-                                                <a className="no-underline text-black" href={`https://pat-cooney.com/ingredients/${post.slug}/`}>
-                                                    <h2 style={{textDecorationColor:post.color}} className="underline text-2xl font-gotham-medium md:font-gotham-bold leading-tight mb-1">
-                                                        {post.title}
-                                                    </h2>
-                                                </a>                                                
-	                                        </div>
+                                this.state.posts.map(post => (
+                                    <div key={counter++} className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white shadow-md mb-6` }>
+                                        <div className="absolute bottom-0 left-2 w-28 h-28 bg-center bg-cover mr-4" style={{background:post.color}}>
                                         </div>
-                                    ))
-                                }
-                            
+                                        {colorArray.push(post.color)}
+                                        <div className="absolute bottom-0 left-2 w-28 h-28 bg-center bg-cover mr-4" style={{background:'linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0), rgba(0, 0, 0, .20))'}}>
+                                        </div>
+                        	            <a href={`https://pat-cooney.com/ingredients/${post.slug}/`} className="w-28 z-10 h-28 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`}}>
+                                        </a>
+                                        <div className="pl-2 flex-1 flex flex-col justify-center">
+                                            <a className="no-underline text-black" href={`https://pat-cooney.com/ingredients/${post.slug}/`}>
+                                                <h2 style={{textDecorationColor:post.color}} className="underline text-2xl font-gotham-medium md:font-gotham-bold leading-tight mb-1">
+                                                    {post.title}
+                                                </h2>
+                                            </a>                                                
+	                                    </div>
+                                    </div>
+                                ))
+                            }
+                            {console.log(colorArray)}
                         </main>
                         <aside className="pl-4 flex-1 ml-4 mt-4 max-w-screen-xs">
                             <div className="mb-6 filter-bars">
                                 <div className="filter-bar">
-                                    <p class="text-sm mt-px" style={{marginLeft: "5px"}}>Filters</p>                            
+                                    <p className="text-sm mt-px" style={{marginLeft: "5px"}}>Filters</p>                            
                                     <button id="filter-click" onClick={() => this.filterDrawer()}>
                                         <svg id="filter-svg-blur" version="1.1" width="1.5em" height="1.5em" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 980 982">
                                             <path id="filter-path-1" fill="#484848" d="M980,103.96c-0.85,4.04-1.54,8.11-2.56,12.11c-5.53,21.71-16.71,40.45-32.53,55.88

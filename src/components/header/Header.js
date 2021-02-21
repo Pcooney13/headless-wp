@@ -94,7 +94,7 @@ class Header extends React.Component {
             name.innerHTML = `${data.last_name} ${data.first_name}`;
             description.innerHTML = data.description;
             profilePic.innerHTML = data.profile_image
-                ? `<img class="card-img-top" src="${data.profile_image}" alt="${data.last_name}" />`
+                ? `<img className="card-img-top" src="${data.profile_image}" alt="${data.last_name}" />`
                 : 'No Image found';
         })
         .catch(err => {
@@ -151,7 +151,7 @@ class Header extends React.Component {
                 <ul id="header" className="header primary-header is-visible">
                     <li>
                         <NavLink to="/">
-                            <h1 class="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
+                            <h1 className="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
                         </NavLink>
                     </li>
                     <li>

@@ -251,6 +251,7 @@ class Routes extends React.Component {
                     <Route path="/users/:id" component={User} />
                     <Route exact path="/users" component={Users} />
                     <Route exact path="/recipes" component={Recipes} />
+                    <Route path="/recipes/:ingredient" component={Recipes} />
                     <Route exact path="/ingredients" component={Ingredients} />
 
                     <Route

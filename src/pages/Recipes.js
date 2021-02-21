@@ -16,7 +16,7 @@ class Recipes extends React.Component {
             count: 0,
             active: null,
         };
-        this.postshit = this.postshit.bind(this)
+        // this.postshit = this.postshit.bind(this)
     }
 
     componentDidMount() {
@@ -120,7 +120,7 @@ class Recipes extends React.Component {
         let categoryPosts = [];
 
         this.state.allPosts.map(post =>
-            post.categories && post.categories.map(
+            post.items && post.items.map(
                 clickedCategory =>
                     category.title === clickedCategory.title &&
                     categoryPosts.push(post)
@@ -130,12 +130,12 @@ class Recipes extends React.Component {
             isLoaded: true,
             posts: categoryPosts,
         },
-            error => {
-                this.setState({
-                    isLoaded: true,
-                    error,
-                });
+        error => {
+            this.setState({
+                isLoaded: true,
+                error,
             });
+        });
     }
 
     sortAlpha() {
@@ -160,92 +160,6 @@ class Recipes extends React.Component {
         this.setState({
             posts: sorted.reverse(),
         })
-    }
-
-    showPostModal() {
-        document.getElementById('post-modal').style.display = 'block';
-        document.getElementById('modal-bg').style.display = 'block';
-    }
-
-    hidePostModal() {
-        document.getElementById('post-modal').style.display = 'none';
-        document.getElementById('modal-bg').style.display = 'none';
-    }
-
-    deleteshit(image, e) {
-        fetch(
-            `https://pat-cooney.com/wp/wp-json/wp/v2/photography/${image}`,
-            {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-                },
-            }
-        ).then((res) => {
-            if (res.status === 200) {
-                this.loadPosts()
-            }
-        })
-            .catch(error => {
-                console.error(error);
-            });
-
-    }
-
-    clickedHeart(e, user, slug) {
-        let heartSVG;
-        if (e.target.classList.contains('heart-svg')) {
-            heartSVG = e.target
-        } else if (e.target.parentElement.classList.contains('heart-svg')) {
-            heartSVG = e.target.parentElement;
-        }
-        console.log(heartSVG);
-
-        heartSVG.classList.toggle('not-liked');
-
-
-        fetch(`https://pat-cooney.com/wp/wp-json/wp/v2/users/${user}`, {
-            method: 'PUT',
-            headers: {
-                'Access-Control-Allow-Methods': 'PUT',
-                'Access-Control-Request-Headers': 'X-Custom-Header',
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-            },
-            body: JSON.stringify({
-                likes: slug,
-            }),
-        })
-            .then(res => {
-                console.log(res.status);
-                if (res.status === 200) {
-                    this.loadPosts();
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-
-
-
-
-        // e.target.classList.contains('not-liked') &&
-        //     e.target.classList.remove('not-liked');
-        // e.target.parentElement.classList.contains('not-liked') &&
-        //     e.target.parentElement.classList.remove('not-liked');
-        // ?
-        //     e.target.categoryName === 'svg' || e.target.categoryName === 'path'
-        //         ? console.table("yes")
-        //         : console.table(e.target.type)
-        // :
-        // console.log('otherthing');
-
-        // e.target.classList.contains('not-liked')
-        //     ? e.target.classList.remove('not-liked')
-        //     : e.target.classList.add('not-liked');
     }
 
     findMatches(photos, wordToMatch) {
@@ -315,125 +229,6 @@ class Recipes extends React.Component {
         }
     }
 
-    postshit = (e) => {
-        e.preventDefault()
-        // console.log(this)
-
-        const inputDogs = document.getElementById('new-post-category--dogs')
-        const inputCats = document.getElementById('new-post-category--cats')
-        const inputLandscape = document.getElementById('new-post-category--landscape')
-        const inputPeople = document.getElementById('new-post-category--people')
-        let categoryArray = []
-
-        if(inputDogs.checked === true) {
-            categoryArray.push(inputDogs.name)
-        }
-        if (inputCats.checked === true) {
-            categoryArray.push(inputCats.name)
-        }
-        if (inputLandscape.checked === true) {
-            categoryArray.push(inputLandscape.name)
-        }
-        if (inputPeople.checked === true) {
-            categoryArray.push(inputPeople.name)
-        }
-
-        const mediaEndpoint = "https://pat-cooney.com/wp/wp-json/wp/v2/media";
-        const postTitle = document.getElementById("new-post-title").value;
-        const profilePicInput = document.getElementById("main_image");
-
-        // console.log(postTitle)
-
-        const formData = new FormData();
-        formData.append("file", profilePicInput.files[0]);
-        formData.append("title", postTitle);
-        // console.log(profilePicInput.files[0])
-
-
-        //send image to media library
-        fetch(mediaEndpoint, {
-            method: "POST",
-            headers: {
-                //when using FormData(), the 'Content-Type' will automatically be set to 'form/multipart'
-                //so there's no need to set it here
-                Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-            },
-            body: formData
-        })
-            .then(res => res.json())
-            .then(data => {
-                const input = {
-                    id: data.id,
-                    post_image: data.source_url,
-                    title: postTitle,
-                    data: data,
-                }
-                //send image url to backend
-                if (input) {
-                    this.createPost(input, categoryArray)
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-    }
-
-    createPost(input, categoryArray) {
-        console.log(input)
-
-        const uploadedImage = `https://pat-cooney.com/wp/wp-json/wp/v2/media/${input.id}`
-
-        fetch(uploadedImage)
-            .then(value => value.json())
-            .then(data => {
-                console.log(data)
-                return fetch('https://pat-cooney.com/wp/wp-json/wp/v2/photography', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-                    },
-                    body: JSON.stringify({
-                        title: input.title,
-                        featured_media:554,
-                        // 'acf.image.id': data.id,
-                        'acf.image.id': 554,
-                        'acf.location': {
-                            "address": "30 W Broad St, Stamford, CT 06902, USA",
-                            "lat": 41.05548280000000005429683369584381580352783203125,
-                            "lng": -73.5458043999999944162482279352843761444091796875,
-                            "zoom": 14,
-                            "place_id": "ChIJHzX4a-WhwokRFKxPV7pX0ao",
-                            "street_number": "30",
-                            "street_name": "West Broad Street",
-                            "street_name_short": "W Broad St",
-                            "city": "Stamford",
-                            "state": "Connecticut",
-                            "state_short": "CT",
-                            "post_code": "06902",
-                            "country": "United States",
-                            "country_short": "US"
-                        },
-                        status: 'publish',
-                        // Need to get the ID of the categories...
-                        categories: categoryArray,
-                    }),
-                })
-                .then((res) => {
-                    if (res.status === 201) {
-                        // confused on _this2
-                        this.loadPosts()
-                    }
-                })
-            }
-            )
-            .catch(error => {
-                console.error(error);
-            });
-        alert("new Post Created!");
-    }
-
     render() {
         console.log("state posts")
         console.log(this.state.posts);
@@ -445,7 +240,7 @@ class Recipes extends React.Component {
             return (
                 <div className="App">
                 {console.log(Cookies.get('wp-auth-token'))}
-                    <h2 class="text-2xl mb-8 font-bold" >Recipes</h2>
+                    <h2 className="text-2xl mb-8 font-bold" >Recipes</h2>
                     
                     <div className="card-container">
                         <p>Loading</p>
@@ -460,7 +255,7 @@ class Recipes extends React.Component {
 
             return (
                 <div className="App">
-                    <h2 class="text-2xl mb-8 font-bold" >Recipes</h2>
+                    <h2 className="text-2xl mb-8 font-bold" >Recipes</h2>
 
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-md font-gotham">
@@ -478,10 +273,10 @@ class Recipes extends React.Component {
 
                             { this.state.posts === 0 ? <p>No matches</p> :
                                     this.state.posts.map(post => (
-                                        <div className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white md:p-4 shadow-md mb-6` }>
+                                        <div key={`recipe-${counter++}`} className={ `${post.slug} card apple basil spinach cucumber lime p-0 relative filter-card flex bg-white md:p-4 shadow-md mb-6` }>
                                             <div className="absolute bottom-0 left-2 md:left-0 w-32 h-32 bg-center bg-cover mr-4" style={{background:post.color}}>
                                             </div>
-                        	                <a href={`https://pat-cooney.com/recipes/${post.slug}/`} className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`}}>
+                        	                <a href={`https://pat-cooney.com/recipes/${post.slug}/`} className="w-32 z-10 h-32 bg-center bg-cover mr-4" style={{backgroundImage:`url(${post.image.thumb}`, boxShadow: `-.25rem .25rem .5rem rgba(0,0,0,0.25)`}}>
                                             </a>
                                             <div className="pl-2 md:pl-0 flex-1 flex flex-col justify-center">
                                                 <a className="no-underline text-black" href={`https://pat-cooney.com/recipes/${post.slug}/`}>
@@ -491,8 +286,20 @@ class Recipes extends React.Component {
                                                 </a>
                                                 <div className="flex-wrap flex mb-2">
                                                     {post.items.map(item => (                                                        
-                                                        <div className="mt-0 md:mt-2 bg-transparent inline-flex mr-2 p-px rounded-md md:bg-black-100 hover:bg-black-200 duration-300 transition-all">                        	                                
-                                                            <a className="no-underline mt-px mx-0 md:mx-2 text-black-500 md:text-black text-xs font-gotham" href={`https://pat-cooney.com/${item.ingredient.ingredient[0].post_name}/`}>{item.ingredient.ingredient[0].post_title}</a>
+                                                        <div key={`${item.ingredient.ingredient[0].post_name}-${counter}`} className="mt-0 md:mt-2 bg-transparent inline-flex mr-2 p-px rounded-md md:bg-black-100 hover:bg-black-200 duration-300 transition-all">                        	                                
+                                                            
+                                                            <Link 
+                                                                className="no-underline mt-px mx-0 md:mx-2 text-black-500 md:text-black text-xs font-gotham" 
+                                                                to={ `/ingredients/${item.ingredient.ingredient[0].post_name}` }
+                                                                onClick={ e =>
+                                                                    this.handleCategories(
+                                                                        item.ingredient.ingredient[0],
+                                                                        e
+                                                                    )
+                                                                }
+                                                            >
+                                                                {item.ingredient.ingredient[0].post_title}
+                                                            </Link>
                                                         </div>
                                                     ))}                                                    
                                                 </div>
@@ -505,7 +312,7 @@ class Recipes extends React.Component {
                         <aside className="pl-4 flex-1 ml-4 mt-4 max-w-screen-xs">
                             <div className="mb-6 filter-bars">
                                 <div className="filter-bar">
-                                    <p class="text-sm mt-px" style={{marginLeft: "5px"}}>Filters</p>                            
+                                    <p className="text-sm mt-px" style={{marginLeft: "5px"}}>Filters</p>                            
                                     <button id="filter-click" onClick={() => this.filterDrawer()}>
                                         <svg id="filter-svg-blur" version="1.1" width="1.5em" height="1.5em" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 980 982">
                                             <path id="filter-path-1" fill="#484848" d="M980,103.96c-0.85,4.04-1.54,8.11-2.56,12.11c-5.53,21.71-16.71,40.45-32.53,55.88
