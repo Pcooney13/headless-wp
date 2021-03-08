@@ -1,20 +1,23 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 
-class Header extends React.Component {
+class UserLogIn extends React.Component {
     render() {
 
         const { username } = this.props;
         const { user } = this.props;
 
         return (
-            <li id="log">
+            <li class="ml-auto pr-0 border-l border-black pl-2 pr-0 text-white" id="log">
                 {username !== undefined ||
                     Cookies.get('username') !== undefined ? (
-                        <button
+                        <div>
+                            <button
                             id="log-out"
+                            className="text-white"
                             onClick={() => {
                                 this.props.handlelogout();
+
                             }}>
                             {Cookies.get("userImageLink")
                                 ? <img className="avatar-image" src={Cookies.get("userImageLink")} alt="user pic" />
@@ -22,8 +25,13 @@ class Header extends React.Component {
 
                         
                             {console.log(user)}
-                                            logout {username}
+                                logout {username}
                         </button>
+                                <ul className="absolute top-0 mt-16 bg-white max-w-screen-xs w-full right-0">
+                                    <li className="text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
+                                    <li className="text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
+                                </ul>
+                            </div>
                     ) : (
                         <div>
                             <button
@@ -49,4 +57,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default UserLogIn;

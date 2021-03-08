@@ -19,8 +19,8 @@ class Header extends React.Component {
     submitNewAvatar(e) {
         e.preventDefault();
 
-        const rootURL = 'https://pat-cooney.com/wp';
-        const mediaEndpoint = rootURL + '/wp-json/wp/v2/media';
+        const rootURL = 'https://pat-cooney.com';
+        const mediaEndpoint = rootURL + '/wp-json/wp/v2/media/';
         const userEndpoint = rootURL + '/wp-json/wp/v2/users/me';
 
         const wrapper = document.getElementById('profile-wrapper');
@@ -51,13 +51,13 @@ class Header extends React.Component {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Authorization: 'Basic ' + window.btoa('pat:rosco13ROSCO')
                         Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
                     },
                     body: JSON.stringify(input)
                 })
                     .then(res => res.json())
                     .then(data => {
+                        console.log(data);
                         //clear file input text content
                         fileLabel.textContent = '';
                         //re-fetch data from server
@@ -148,46 +148,43 @@ class Header extends React.Component {
 
         return (
             <header className="header-wrap">
-                <ul id="header" className="header primary-header is-visible">
-                    <li>
-                        <NavLink to="/">
-                            <h1 className="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName="active" to="/recipes">
-                            Recipes
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName="active" to="/weather">
-                            Weather
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink activeClassName="active" to="/resume">
-                            Resume
-                        </NavLink>
-                    </li>   
-                    <UserLogIn
-                        user={user}
-                        username = {username}
+                <div className="h-16">
+                    <ul id="header" className="bg-green top-0 p-5 fixed flex m-0 items-center h-16 header primary-header is-visible">
+                        <li className="pr-8 inline-block">
+                            <NavLink to="/">
+                                <h1 className="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
+                            </NavLink>
+                        </li>
+                        <li className="pr-8 inline-block">
+                            <NavLink activeClassName="active" to="/recipes">
+                                Recipes
+                            </NavLink>
+                        </li>
+                        <li className="pr-8 inline-block">
+                            <NavLink activeClassName="active" to="/weather">
+                                Weather
+                            </NavLink>
+                        </li>
+                        <li className="pr-8 inline-block">
+                            <NavLink activeClassName="active" to="/resume">
+                                Resume
+                            </NavLink>
+                        </li>   
+                        <UserLogIn
+                            user={user}
+                            username = {username}
+                            className = "color-white"
+                            modalState={this.props.modalState}
+                            showModal = {this.props.showModal}
+                            hideModal={this.props.hideModal}
 
-                        modalState={this.props.modalState}
-                        showModal = {this.props.showModal}
-                        hideModal={this.props.hideModal}
-                        
-                        handleAccountForm={this.props.handleAccountForm}
-                        handlelogout = {this.props.handlelogout}
-                        handlelogin={this.props.handlelogin}
-                        handleSignIn={this.props.handleSignIn}
-                    />                
-                </ul>
-                <ul className="header secondary-header">
-                    <div className="container">
-                        <li>Photos</li>
-                    </div>
-                </ul>
+                            handleAccountForm={this.props.handleAccountForm}
+                            handlelogout = {this.props.handlelogout}
+                            handlelogin={this.props.handlelogin}
+                            handleSignIn={this.props.handleSignIn}
+                        />                
+                    </ul>
+                </div>
                 <div id="modal">
                     <span
                         onClick={() => {
@@ -280,10 +277,9 @@ class Header extends React.Component {
                 <div id="modal-bg"></div>
                 {username !== undefined || Cookies.get('username') !== undefined ? (
                     
-                    <div style={{padding:"30px", marginTop:"15px"}} id="profile-wrapper" className="card shadow bg-white rounded">
+                    <div id="profile-wrapper" className="card shadow bg-white rounded w-72 p-8 mt-4 hidden">
                         <div id="profile-pic-wrapper" className="position-relative">
                             <div id="profile-pic">
-                                {console.log(Cookies.get("userImageLink"))}                                
                                 <img style={{ maxWidth: "100%" }} className="card-img-top" src={Cookies.get("userImageLink")} alt="user avatar"></img>
                             </div>
                             <button id="edit-image" onChange={e => this.submitNewAvatar(e)} type="button" className="btn btn-secondary position-absolute rounded-0"

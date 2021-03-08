@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch, } from 'react-router-dom';
 
 //Components
 import App from '../App'
@@ -8,6 +8,7 @@ import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
 import Recipes from '../pages/Recipes'
 import Ingredients from '../pages/Ingredients'
+import Ingredient from '../pages/Ingredient'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import Weather from "../pages/Weather";
@@ -32,7 +33,6 @@ class Routes extends React.Component {
         };
         this.changeUser = this.changeUser.bind(this);
     }
-
     componentDidMount() {
         //Check cookies if user is logged in && forces a reload on login
         if (Cookies.get('username')) {
@@ -41,7 +41,6 @@ class Routes extends React.Component {
             });
         }
     }
-
     changeUser = user => {
         if (user) {
             this.setState({
@@ -53,7 +52,6 @@ class Routes extends React.Component {
             });
         }
     };
-
     // Add api call to /:user and setState: {user: res.apidata}
     handlelogin = (e) => {
         e.preventDefault();
@@ -79,7 +77,6 @@ class Routes extends React.Component {
             .then(response => {
                 console.log(response);
                 if (200 === response.status) {
-                    console.log(response.token);
                     Cookies.set('username', user);
                     // Cookies.set('wp-auth-token', response.token);
                     console.log(Cookies.get());
@@ -114,7 +111,6 @@ class Routes extends React.Component {
             this.hideModal();
             console.log(this.state);
     };
- 
     handleSignIn = (e) => {
         e.preventDefault();
         fetch('https://pat-cooney.com/wp-json/wp/v2/users/register', {
@@ -218,6 +214,7 @@ class Routes extends React.Component {
         }
     };
 
+    
     render() {
         return (
             <Router>
@@ -232,12 +229,21 @@ class Routes extends React.Component {
                     modalState={this.modalState}
                     handleAccountForm = {this.handleAccountForm}
                 />
-                <div className="py-6 mx-6 max-w-screen-lg border-b border-black-200 font-gotham-light lg:m-auto">
-                    <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
-                        Home
-                    </a> / <span className="font-gotham-bold text-gray-400">
-                        Recipes</span></div>
+                
                 <Switch>
+                    {/* <Route 
+                        render={({ location }) => {
+                            return (
+                                <div className="py-6 mx-6 max-w-screen-lg border-b border-black-200 font-gotham-light lg:m-auto">
+                                    <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                                        Home
+                                    </a> / <span className="font-gotham-bold text-gray-400">                                
+                                        {location.pathname.substring(1)}                            
+                                    </span>
+                                </div> 
+                            )
+                        }}
+                    /> */}
                     <Route exact path="/" component={App} />
                     <Route path="/photos/:category" render={props => (
                             <Photos {...props} username={this.state.username} />
@@ -251,12 +257,16 @@ class Routes extends React.Component {
                     <Route path="/users/:id" component={User} />
                     <Route exact path="/users" component={Users} />
                     <Route exact path="/recipes" component={Recipes} />
-                    <Route path="/recipes/:ingredient" component={Recipes} />
-                    <Route exact path="/ingredients" component={Ingredients} />
+                    <Route path="/ingredients/:ingredient" component={Ingredient} />
+                    <Route 
+                        exact path="/ingredients" 
+                        render={props => (
+                            <Ingredients {...props} username={this.state.username} />
+                        )}
+                    />
 
                     <Route
-                        exact
-                        path="/photos"
+                        exact path="/photos"
                         render={props => (
                             <Photos {...props} username={this.state.username} />
                         )}

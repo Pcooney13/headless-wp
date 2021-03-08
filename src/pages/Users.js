@@ -8,7 +8,7 @@ class Users extends React.Component {
     // const { url } = this.props.match
     return (
         <div className="App">
-            ><h1>Users</h1>
+            <h1>Users</h1>
             <strong>select a user</strong>
             <ul>
                 <li>

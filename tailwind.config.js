@@ -24,7 +24,7 @@ module.exports = {
 			'absolute-black': '#000',
 			"purple": '#3e0d85',
 			"blue": '#039fda',
-			"green": '#7bbf43',
+			"green": '#126b4c',
 			"orange": '#e09b3d',
 			"red": '#f6511d',
 			"purple-200": '#d8d0e7',
@@ -54,6 +54,9 @@ module.exports = {
     			'112' : '28rem',
     			'128' : '32rem',
     			'144' : '36rem',
+			},
+			width: {
+				'72' : '18rem',
 			},
 			maxHeight: {
 				'0' : '0',

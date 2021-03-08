@@ -20,19 +20,6 @@ $white-50: rgba(238, 241, 240, .5);
     --light-blue: #6bc4c6;
     --purple: #6f62ab;
 }
-// .header a:focus {
-//     background-color:$darkgreen;
-//     padding:21px;
-//     margin:-21px;
-//     outline:0;
-// }
-// .header #log-out:focus {
-//     background-color: #284b3e;
-//     padding: 20px;
-//     margin: -20px;
-//     outline: 0;
-//     border-radius: 0;
-// }
 html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
@@ -46,6 +33,24 @@ main {
 h1 {
     font-size: 2em;
     margin: 0.67em 0;
+}
+
+/* The element to apply the animation to */
+.slide-in-left {
+//   background-color: red;
+  animation-name: slideinleft;
+  animation-duration: .75s;
+}
+/* The animation code */
+@keyframes slideinleft {
+  from {
+        opacity:0;
+        padding-left:10rem;
+    }
+    to {
+        opacity:1;
+        padding-left:2rem;
+    }
 }
 a {
     background-color: transparent;
@@ -582,33 +587,13 @@ h1 {
     line-height: 0.75;
 }
 .header {
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    background: $green;
-    margin: 0;
     width: 100vw;
-    position: fixed;
-    padding: 20px;
     transition: all 0.5s, width 0s;
 }
 .header .active {
     font-weight: 600;
     opacity: 1;
     color:$white;
-}
-.header li {
-    color: white;
-    display: inline-block;
-    padding-right: 30px;
-}
-.primary-header li:last-child {
-    margin-left: auto;
-    padding-right: 0;
-    border-left: 1px solid $darkgreen;
-    padding: 5px;
-    margin-top: -10px;
-    margin-bottom: -10px;
 }
 .header li a {
     color: $white-50;
@@ -717,23 +702,13 @@ footer {
     margin-right:20px;
 }
 .filter-drawer {
-    padding:20px;
     background-color: white;
     transition: all .5s;
     z-index: 1;
     position: relative;
 }
 .drawer-open {
-    padding-top:84px;
-}
-#filter-svg {
-    position: relative;
-}
-#filter-svg-blur {
-    position: absolute;
-}
-.svg-blur{
-    filter:blur(1px);
+    padding-top:64px;
 }
 .filter-bars {
     position: relative;
@@ -932,10 +907,6 @@ footer {
     // }
     .card-categories {
         margin-top: 8px;
-    }
-    .header li:nth-child(3),
-    .header li:nth-child(4) {
-        display: none;
     }
 }
 @media (max-width: 360px) {
