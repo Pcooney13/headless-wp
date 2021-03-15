@@ -22,15 +22,11 @@ module.exports = {
 			'black-900': '#4E4E4E',
     		'black': '#252525',
 			'absolute-black': '#000',
-			"purple": '#3e0d85',
 			"blue": '#039fda',
 			"green": '#126b4c',
-			"orange": '#e09b3d',
-			"red": '#f6511d',
-			"purple-200": '#d8d0e7',
 			"blue-200": '#d0ecf7',
-			"green-200": '#e5f2da',
-			"orange-200": '#f9ebd9',
+			"green-100": '#edefec',
+			"green-200": '#dfe4e0',
 			"red-200": '#fcdcd3',
 			"bright-blue": '#0abeff',
     		'transparent' : 'transparent'
@@ -57,6 +53,7 @@ module.exports = {
 			},
 			width: {
 				'72' : '18rem',
+				'88' : '22rem',
 			},
 			maxHeight: {
 				'0' : '0',

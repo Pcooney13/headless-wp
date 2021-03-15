@@ -156,6 +156,11 @@ class Header extends React.Component {
                             </NavLink>
                         </li>
                         <li className="pr-8 inline-block">
+                            <NavLink activeClassName="active" to="/ingredients">
+                                Ingredients
+                            </NavLink>
+                        </li>
+                        <li className="pr-8 inline-block">
                             <NavLink activeClassName="active" to="/recipes">
                                 Recipes
                             </NavLink>

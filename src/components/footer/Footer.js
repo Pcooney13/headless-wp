@@ -4,7 +4,8 @@ class Footer extends Component {
   render() {
     return (
         <footer>
-		</footer>
+          Patty Petunia's Pretty Neat Website 
+		    </footer>
     );
   }
 }

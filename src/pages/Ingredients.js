@@ -190,7 +190,6 @@ class Ingredients extends React.Component {
 
             return (
                 <div className="App">
-                    <h2 className="text-2xl mb-8 font-bold" >Ingredients</h2>
 
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-md font-gotham">

@@ -7,7 +7,7 @@ class Form extends Component {
             <input type="text" name="city" placeholder="City..." />
             <input
                 type="text"
-                maxlength="2"
+                maxLength="2"
                 name="state"
                 placeholder="State..."
             />

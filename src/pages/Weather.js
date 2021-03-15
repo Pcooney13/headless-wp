@@ -114,7 +114,6 @@ class WeatherApp extends Component {
     render() {
         return (
             <div className="App">
-                <h1>Weather App</h1>
                 <div className="weather-app">
                     <div>
                         <Weather

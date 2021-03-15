@@ -2,7 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Switch, } from 'react-router-dom';
 
 //Components
-import App from '../App'
+import Home from '../Home'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
@@ -214,7 +214,47 @@ class Routes extends React.Component {
         }
     };
 
-    
+    breadcrumbsRegEx = (path) => {
+        path = path.substring(1) // remove slash (/) at beginning
+        let pathArray = path.split("/") //split pathname at each slash (/)
+        path === '' && console.log("PATHARRY")
+        console.log(path)
+        pathArray = pathArray.filter( v => v !== '' );
+        return (
+            <div className="mx-6 max-w-screen-lg lg:m-auto">
+                { path === '' 
+                ?  //home
+                    <div className="py-6 border-b border-black-200 font-gotham-light">
+                        <span className="capitalize font-gotham-bold text-gray-400">                                
+                            home
+                        </span>
+                    </div> 
+                : //all other pages
+                    <div className="py-6 border-b border-black-200 font-gotham-light">
+                        <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                            Home
+                        </a>
+                        <span className="mx-1">/</span>
+                        {pathArray.map((path, i) => (
+                            i + 1 === pathArray.length 
+                            ?
+                                <span className="capitalize font-gotham-bold text-gray-400">                                
+                                    {path}
+                                </span>
+                            :
+                                <span>
+                                    <a href={`/${path}`} className="capitalize underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                                        {path}
+                                    </a>
+                                    <span className="mx-1">/</span>
+                                </span>
+                            ))
+                        }
+                    </div>
+                }
+            </div>
+        )
+    }
     render() {
         return (
             <Router>
@@ -229,22 +269,14 @@ class Routes extends React.Component {
                     modalState={this.modalState}
                     handleAccountForm = {this.handleAccountForm}
                 />
-                
+                <Route 
+                    render={({ location }) => {
+                        return ( this.breadcrumbsRegEx(location.pathname))
+                    }}
+                />
                 <Switch>
-                    {/* <Route 
-                        render={({ location }) => {
-                            return (
-                                <div className="py-6 mx-6 max-w-screen-lg border-b border-black-200 font-gotham-light lg:m-auto">
-                                    <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
-                                        Home
-                                    </a> / <span className="font-gotham-bold text-gray-400">                                
-                                        {location.pathname.substring(1)}                            
-                                    </span>
-                                </div> 
-                            )
-                        }}
-                    /> */}
-                    <Route exact path="/" component={App} />
+                    
+                    <Route exact path="/" component={Home} />
                     <Route path="/photos/:category" render={props => (
                             <Photos {...props} username={this.state.username} />
                         )} />
