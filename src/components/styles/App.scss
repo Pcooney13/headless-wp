@@ -565,8 +565,8 @@ body {
 }
 
 .App {
-    padding:1.5rem;
-    max-width: 1060px;
+    padding:1.5rem 0;
+    max-width: 1024px;
     margin: 0 auto;
     position: relative;
     min-height: 75vh;
@@ -680,8 +680,6 @@ footer {
     background-color: white;
     display: flex;
     padding: 20px;
-    box-shadow: 3px 3px 5px rgba(150, 150, 150, 0.2);
-    position: absolute;
     width: 100%;
     z-index: 3;
 }
@@ -1023,7 +1021,7 @@ a.card-category {
     border-radius: 5px;
     font-size: 16px;
 }
-.form input:focus {
+input:focus {
     outline: solid 2px var(--border-green);
     box-shadow: 0 0 5px $green;
     border: 1px solid var(--border-green);
@@ -1144,4 +1142,10 @@ a.image-big {
     height:32px;
     width:32px;
     margin-right:8px;
+}
+.product {
+    bottom: 2rem;
+top: 2rem;
+left: 2rem;
+right: 2rem;
 }

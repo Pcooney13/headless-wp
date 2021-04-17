@@ -19,7 +19,6 @@
     "react-scripts": "2.1.8",
     "react-transition-group": "^4.0.0",
     "styled-components": "3.1.6",
-    "tailwindcss": "^2.0.3",
     "typescript": "^3.4.5",
     "url-loader": "^1.1.2"
   },
@@ -41,5 +40,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "autoprefixer": "^10.2.5",
+    "postcss": "^8.2.6",
+    "tailwindcss": "^2.0.3"
+  }
 }

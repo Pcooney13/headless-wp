@@ -6,9 +6,9 @@ import Home from '../Home'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
-import Recipes from '../pages/Recipes'
-import Ingredients from '../pages/Ingredients'
+import Archive from '../pages/Archive'
 import Ingredient from '../pages/Ingredient'
+import Recipe from '../pages/Recipe'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import Weather from "../pages/Weather";
@@ -32,6 +32,7 @@ class Routes extends React.Component {
             modalState: undefined,
         };
         this.changeUser = this.changeUser.bind(this);
+        this.userDropdown = this.userDropdown.bind(this);
     }
     componentDidMount() {
         //Check cookies if user is logged in && forces a reload on login
@@ -96,7 +97,8 @@ class Routes extends React.Component {
                 }).then(data => {
                     Cookies.remove("userImageLink")
                     if (data.profile_image) {
-                        Cookies.set("userImageLink", data.profile_image)
+                        console.log(data.profile_image)
+                        Cookies.set("userImageLink", data.acf.profile_image.sizes.thumbnail)
                     }
                     console.log(Cookies.get("userImageLink"))
                     this.setState({
@@ -147,6 +149,9 @@ class Routes extends React.Component {
         Cookies.remove('username');
         Cookies.remove('userImageLink');
         this.changeUser();
+    };
+    userDropdown = (e) => {
+        e.classList.toggle('h-32')
     };
     handleAccountForm = (e) => {
         e.preventDefault()
@@ -215,45 +220,59 @@ class Routes extends React.Component {
     };
 
     breadcrumbsRegEx = (path) => {
+        let prevPost = ''
         path = path.substring(1) // remove slash (/) at beginning
         let pathArray = path.split("/") //split pathname at each slash (/)
-        path === '' && console.log("PATHARRY")
-        console.log(path)
         pathArray = pathArray.filter( v => v !== '' );
+
         return (
             <div className="mx-6 max-w-screen-lg lg:m-auto">
-                { path === '' 
-                ?  //home
+                {path === "" ? (
+                    //home
                     <div className="py-6 border-b border-black-200 font-gotham-light">
-                        <span className="capitalize font-gotham-bold text-gray-400">                                
+                        <span className="capitalize font-gotham-bold text-gray-400">
                             home
                         </span>
-                    </div> 
-                : //all other pages
+                    </div>
+                ) : (
+                    //all other pages
                     <div className="py-6 border-b border-black-200 font-gotham-light">
-                        <a href="/" className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                        <a
+                            href="/"
+                            className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue"
+                            rel="v:url"
+                            property="v:title"
+                        >
                             Home
                         </a>
                         <span className="mx-1">/</span>
-                        {pathArray.map((path, i) => (
-                            i + 1 === pathArray.length 
-                            ?
-                                <span className="capitalize font-gotham-bold text-gray-400">                                
+                        {pathArray.map((path, i) =>
+                            i + 1 === pathArray.length ? (
+                                <span
+                                    key={i}
+                                    className="capitalize font-gotham-bold text-gray-400"
+                                >
                                     {path}
-                                </span>
-                            :
-                                <span>
-                                    <a href={`/${path}`} className="capitalize underline text-black transition-all duration-300 hover:text-blue focus:text-blue" rel="v:url" property="v:title">
+                                </span>                                
+                            ) : (
+                                <span key={i}>
+                                    <a
+                                        href={`/${prevPost}${path.toLowerCase()}${i === 1 ? '/' : ''}`}
+                                        className="capitalize underline text-black transition-all duration-300 hover:text-blue focus:text-blue"
+                                        rel="v:url"
+                                        property="v:title"
+                                    >
                                         {path}
                                     </a>
                                     <span className="mx-1">/</span>
+                                    <p className="hidden">{(prevPost += path.toLowerCase() + "/")}</p>
                                 </span>
-                            ))
-                        }
+                            )
+                        )}
                     </div>
-                }
+                )}
             </div>
-        )
+        );
     }
     render() {
         return (
@@ -262,48 +281,73 @@ class Routes extends React.Component {
                     showModal={this.showModal}
                     hideModal={this.hideModal}
                     handlelogout={this.handlelogout}
+                    userDropdown={this.userDropdown}
                     handlelogin={this.handlelogin}
                     handleSignIn={this.handleSignIn}
                     username={this.state.username}
                     user={this.state.user}
                     modalState={this.modalState}
-                    handleAccountForm = {this.handleAccountForm}
+                    handleAccountForm={this.handleAccountForm}
                 />
-                <Route 
+                <Route
                     render={({ location }) => {
-                        return ( this.breadcrumbsRegEx(location.pathname))
+                        return this.breadcrumbsRegEx(location.pathname);
                     }}
                 />
                 <Switch>
-                    
                     <Route exact path="/" component={Home} />
-                    <Route path="/photos/:category" render={props => (
+                    <Route
+                        path="/photos/:category"
+                        render={(props) => (
                             <Photos {...props} username={this.state.username} />
-                        )} />
-                    <Route path="/photo/:id" render={props => (
+                        )}
+                    />
+                    <Route
+                        path="/photo/:id"
+                        render={(props) => (
                             <Photos {...props} username={this.state.username} />
-                        )} />
+                        )}
+                    />
                     <Route exact path="/weather" component={Weather} />
                     <Route exact path="/resume" component={Resume} />
                     <Route exact path="/map" component={PhotosMap} />
                     <Route path="/users/:id" component={User} />
                     <Route exact path="/users" component={Users} />
-                    <Route exact path="/recipes" component={Recipes} />
-                    <Route path="/ingredients/:ingredient" component={Ingredient} />
-                    <Route 
-                        exact path="/ingredients" 
-                        render={props => (
-                            <Ingredients {...props} username={this.state.username} />
+                    <Route path="/recipes/:recipe" component={Recipe} />
+                    <Route
+                        exact
+                        path="/recipes"
+                        render={(props) => (
+                            <Archive
+                                {...props}
+                                type={"recipes"}
+                                username={this.state.username}
+                            />
+                        )}
+                    />
+                    <Route
+                        path="/ingredients/:ingredient"
+                        component={Ingredient}
+                    />
+                    <Route
+                        exact
+                        path="/ingredients"
+                        render={(props) => (
+                            <Archive
+                                {...props}
+                                type={"ingredients"}
+                                username={this.state.username}
+                            />
                         )}
                     />
 
                     <Route
-                        exact path="/photos"
-                        render={props => (
+                        exact
+                        path="/photos"
+                        render={(props) => (
                             <Photos {...props} username={this.state.username} />
                         )}
                     />
-
                     <Route component={Notfound} />
                 </Switch>
                 <Footer />

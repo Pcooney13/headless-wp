@@ -1,14 +1,10 @@
 // Polish the transition from blurred image taking up screen to full size image
 // Figure out the functionality for zomming from card specifically not just top left corner
 
-// DRINK PICS
-// https://www.drinkfiltered.com/drink/tea
-
 //[LIKE] button that stores an array of usernames that likes the pic
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
 import Archive from "./Archive";
-import Nutrition from "./Nutrition";
 import IngredientRecipes from "./IngredientRecipes";
 
 const Varieties = ({ match }) => (
@@ -21,35 +17,18 @@ const Benefits = ({ match }) => (
         <p>Benefits</p>
     </div>
 );
-
-const Intro = ({ match }) => (
+const Nutrition = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
-        <p className="text-2xl font-gotham-bold mb-4">Lets Talk about some yummy fucking {match.params.ingredient}</p>
-        Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh
-        onion daikon amaranth tatsoi tomatillo melon azuki bean garlic. Gumbo
-        beet greens corn soko endive gumbo gourd. Parsley shallot courgette
-        tatsoi pea sprouts fava bean collard greens dandelion okra wakame
-        tomato. Dandelion cucumber earthnut pea peanut soko zucchini. Turnip
-        greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi
-        amaranth water spinach avocado daikon napa cabbage asparagus winter
-        purslane kale. Celery potato scallion desert raisin horseradish spinach
-        carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot
-        green bean swiss chard seakale pumpkin onion chickpea gram corn pea.
-        Brussels sprout coriander water chestnut gourd swiss chard wakame
-        kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts
-        nori azuki bean chickweed potato bell pepper artichoke. Nori grape
-        silver beet broccoli kombu beet greens fava bean potato quandong celery.
-        Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens
-        parsnip. Sea lettuce lettuce water chestnut eggplant winter purslane
-        fennel azuki bean earthnut pea sierra leone bologi leek soko chicory
-        celtuce parsley jï¿½cama salsify. Celery quandong swiss chard chicory
-        earthnut pea potato. Salsify taro catsear garlic gram celery bitterleaf
-        wattle seed collard greens nori. Grape wattle seed kombu beetroot
-        horseradish carrot squash brussels sprout chard.
+        <p>Nutrition</p>
+    </div>
+);
+const SimilarRecipes = ({ match }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
+        <p>Similar Recipes</p>
     </div>
 );
 
-class Ingredient extends Archive {
+class Recipe extends Archive {
     constructor(props) {
         super(props);
         this.state = {
@@ -66,7 +45,7 @@ class Ingredient extends Archive {
     }
 
     loadPosts() {
-        let recipeArray = []
+        let recipeArray = [];
         Promise.all([
             fetch("https://pat-cooney.com/wp-json/v1/ingredients?per_page=100"),
             fetch("https://pat-cooney.com/wp-json/v1/recipes?per_page=100"),
@@ -80,9 +59,9 @@ class Ingredient extends Archive {
                 );
             })
             .then((value) => {
-                value[0].forEach(
+                value[1].forEach(
                     (post) =>
-                        post.slug === this.props.match.params.ingredient &&
+                    post.slug === this.props.match.params.recipe &&                        
                         this.setState(
                             {
                                 active: post,
@@ -95,25 +74,26 @@ class Ingredient extends Archive {
                             }
                         )
                 );
-                value[1].forEach((recipe) =>
-                    recipe.items.forEach(
-                        (ingreds) =>
-                            this.state.active.slug ===
-                                ingreds.ingredient.ingredient[0].post_name &&
-                           recipeArray.push(recipe) 
-                    )
-                );  
-                this.setState(
-                    {
-                        recipes: recipeArray,
-                    },
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                            error,
-                        });
-                    }
-                )      
+                // value[1].forEach((recipe) =>
+                //     recipe.items.forEach(
+                //         (ingreds) =>
+                //             console.log(this.state.active)
+                //             this.state.active.slug ===
+                //                 ingreds.ingredient.ingredient[0].post_name &&
+                //             recipeArray.push(recipe)
+                //     )
+                // );
+                // this.setState(
+                //     {
+                //         recipes: recipeArray,
+                //     },
+                //     (error) => {
+                //         this.setState({
+                //             isLoaded: true,
+                //             error,
+                //         });
+                //     }
+                // );
             });
     }
 
@@ -210,7 +190,9 @@ class Ingredient extends Archive {
                                                 <img
                                                     alt={`${this.state.active.title}`}
                                                     className="w-16 h-16"
-                                                    src={`https://www.themealdb.com/images/ingredients/${this.state.active.title}.png`}
+                                                    src={`https://via.placeholder.com/64x64/${this.state.active.color.hex.substring(
+                                                        1
+                                                    )}/000000?text=smoothie`}
                                                 />
                                             </div>
                                             <p className="mt-8 flex justify-center">
@@ -222,7 +204,7 @@ class Ingredient extends Archive {
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
-                                                    to={`/ingredients/${this.state.active.slug}/varieties`}
+                                                    to={`/recipes/${this.state.active.slug}/varieties`}
                                                 >
                                                     Varieties
                                                 </NavLink>
@@ -234,7 +216,7 @@ class Ingredient extends Archive {
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
-                                                    to={`/ingredients/${this.state.active.slug}/recipes`}
+                                                    to={`/recipes/${this.state.active.slug}/similar`}
                                                 >
                                                     Recipes
                                                 </NavLink>
@@ -246,7 +228,7 @@ class Ingredient extends Archive {
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
-                                                    to={`/ingredients/${this.state.active.slug}/benefits`}
+                                                    to={`/recipes/${this.state.active.slug}/benefits`}
                                                 >
                                                     Benefits
                                                 </NavLink>
@@ -258,7 +240,7 @@ class Ingredient extends Archive {
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
-                                                    to={`/ingredients/${this.state.active.slug}/nutrition`}
+                                                    to={`/recipes/${this.state.active.slug}/nutrition`}
                                                 >
                                                     Nutrition Info
                                                 </NavLink>
@@ -266,38 +248,20 @@ class Ingredient extends Archive {
                                         </div>
                                     </div>
                                     <Route
-                                        exact path={`/ingredients/:ingredient/`}
-                                        component={Intro}
-                                    />
-                                    <Route
-                                        path={`/ingredients/:ingredient/varieties`}
+                                        path={`/recipes/:recipe/varieties`}
                                         component={Varieties}
                                     />
                                     <Route
-                                        path={`/ingredients/:ingredient/recipes`}
-                                        // component={IngredientRecipes}
-                                        render={(props) => (
-                                            <IngredientRecipes
-                                                {...props}
-                                                ingredient={this.state.active}
-                                                recipes={this.state.recipes}
-                                            />
-                                        )}
+                                        path={`/recipes/:recipe/similar`}
+                                        component={SimilarRecipes}
                                     />
                                     <Route
-                                        path={`/ingredients/:ingredient/benefits`}
+                                        path={`/recipes/:recipe/benefits`}
                                         component={Benefits}
                                     />
                                     <Route
-                                        path={`/ingredients/:ingredient/nutrition`}
-                                        // component={NutritionInfo}
-                                        render={(props) => (
-                                            <Nutrition
-                                                {...props}
-                                                ingredient={this.state.active}
-                                                recipes={this.state.recipes}
-                                            />
-                                        )}
+                                        path={`/recipes/:recipe/nutrition`}
+                                        component={Nutrition}
                                     />
                                 </div>
                             )}
@@ -309,4 +273,4 @@ class Ingredient extends Archive {
     }
 }
 
-export default Ingredient;
+export default Recipe;

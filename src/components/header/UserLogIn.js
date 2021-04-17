@@ -15,10 +15,14 @@ class UserLogIn extends React.Component {
                             <button
                             id="log-out"
                             className="text-white"
-                            onClick={() => {
-                                this.props.handlelogout();
+                            onClick={e => {
+                                this.props.userDropdown(e.target.nextSibling);
+                            }}
+                            // onClick={() => {
+                            //     this.props.handlelogout();
 
-                            }}>
+                            // }}
+                            >
                             {Cookies.get("userImageLink")
                                 ? <img className="avatar-image" src={Cookies.get("userImageLink")} alt="user pic" />
                                 : ''}
@@ -26,10 +30,17 @@ class UserLogIn extends React.Component {
                         
                             {console.log(user)}
                                 logout {username}
-                        </button>
-                                <ul className="absolute top-0 mt-16 bg-white max-w-screen-xs w-full right-0">
-                                    <li className="text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
-                                    <li className="text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
+                            </button >
+                                <ul className="absolute h-0 transition-all duration-300 overflow-hidden top-0 mt-16 bg-white max-w-screen-xs w-full right-0">
+                                    <li className="h-16 text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
+                                    <li 
+                                        onClick={() => {
+                                            this.props.handlelogout();
+                                        }}
+                                        className="h-16 text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"
+                                    >
+                                        <span>Log Out</span>
+                                    </li>
                                 </ul>
                             </div>
                     ) : (

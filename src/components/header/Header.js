@@ -32,7 +32,7 @@ class Header extends React.Component {
 
         const formData = new FormData();
         formData.append('file', profilePicInput.files[0]);
-        console.log(Cookies.get('wp-auth-token'))
+        // console.log(Cookies.get('wp-auth-token'))
         //send image to media library
         fetch(mediaEndpoint, {
             method: 'POST',
@@ -107,7 +107,6 @@ class Header extends React.Component {
 
         const { username } = this.props;
         const { user } = this.props;
-        console.log(Cookies.get());
         let scrollPos = 0;
         window.addEventListener('scroll', debounce(checkPosition));
 
@@ -149,10 +148,15 @@ class Header extends React.Component {
         return (
             <header className="header-wrap">
                 <div className="h-16">
-                    <ul id="header" className="bg-green top-0 p-5 fixed flex m-0 items-center h-16 header primary-header is-visible">
+                    <ul
+                        id="header"
+                        className="bg-green top-0 p-5 fixed flex m-0 items-center h-16 header primary-header is-visible"
+                    >
                         <li className="pr-8 inline-block">
                             <NavLink to="/">
-                                <h1 className="tracking-tighter text-xl font-gotham-bold">Pat Cooney</h1>
+                                <h1 className="tracking-tighter text-xl font-gotham-bold">
+                                    Pat Cooney
+                                </h1>
                             </NavLink>
                         </li>
                         <li className="pr-8 inline-block">
@@ -166,6 +170,11 @@ class Header extends React.Component {
                             </NavLink>
                         </li>
                         <li className="pr-8 inline-block">
+                            <NavLink activeClassName="active" to="/users">
+                                Users
+                            </NavLink>
+                        </li>
+                        <li className="pr-8 inline-block">
                             <NavLink activeClassName="active" to="/weather">
                                 Weather
                             </NavLink>
@@ -174,20 +183,20 @@ class Header extends React.Component {
                             <NavLink activeClassName="active" to="/resume">
                                 Resume
                             </NavLink>
-                        </li>   
+                        </li>
                         <UserLogIn
                             user={user}
-                            username = {username}
-                            className = "color-white"
+                            username={username}
+                            className="color-white"
                             modalState={this.props.modalState}
-                            showModal = {this.props.showModal}
+                            showModal={this.props.showModal}
                             hideModal={this.props.hideModal}
-
+                            userDropdown={this.props.userDropdown}
                             handleAccountForm={this.props.handleAccountForm}
-                            handlelogout = {this.props.handlelogout}
+                            handlelogout={this.props.handlelogout}
                             handlelogin={this.props.handlelogin}
                             handleSignIn={this.props.handleSignIn}
-                        />                
+                        />
                     </ul>
                 </div>
                 <div id="modal">
@@ -195,10 +204,14 @@ class Header extends React.Component {
                         onClick={() => {
                             this.props.hideModal();
                         }}
-                        className="close-modal">
+                        className="close-modal"
+                    >
                         &times;
                     </span>
-                    <form className="form" onSubmit={this.props.handleAccountForm}>
+                    <form
+                        className="form"
+                        onSubmit={this.props.handleAccountForm}
+                    >
                         <h2 id="modal-title">Log in</h2>
                         <div className="input input__half" id="modal-firstname">
                             <label>First Name:</label>
@@ -248,7 +261,10 @@ class Header extends React.Component {
                                 name="password"
                             />
                         </div>
-                        <div className="input input__half" id="modal-re-password">
+                        <div
+                            className="input input__half"
+                            id="modal-re-password"
+                        >
                             <label>Confirm Password:</label>
                             <input
                                 id="re-password"
@@ -260,55 +276,104 @@ class Header extends React.Component {
                         <button
                             type="submit"
                             id="modal-submit"
-                            className="submit">
+                            className="submit"
+                        >
                             Login
                         </button>
-                            <p
-                                onClick={e => {
-                                    this.props.showModal(e);
-                                }}
-                                id="modal-btn-left">
-                                Login
-                            </p>
-                            <p
-                                onClick={e => {
-                                    this.props.showModal(e);
-                                }}
-                                id="modal-btn-right">
-                                Forgot Password
-                            </p>
+                        <p
+                            onClick={(e) => {
+                                this.props.showModal(e);
+                            }}
+                            id="modal-btn-left"
+                        >
+                            Login
+                        </p>
+                        <p
+                            onClick={(e) => {
+                                this.props.showModal(e);
+                            }}
+                            id="modal-btn-right"
+                        >
+                            Forgot Password
+                        </p>
                     </form>
                 </div>
                 <div id="modal-bg"></div>
-                {username !== undefined || Cookies.get('username') !== undefined ? (
-                    
-                    <div id="profile-wrapper" className="card shadow bg-white rounded w-72 p-8 mt-4 hidden">
-                        <div id="profile-pic-wrapper" className="position-relative">
+                {username !== undefined ||
+                Cookies.get("username") !== undefined ? (
+                    <div
+                        id="profile-wrapper"
+                        className="card shadow bg-white rounded w-72 p-8 mt-4 hidden"
+                    >
+                        <div
+                            id="profile-pic-wrapper"
+                            className="position-relative"
+                        >
                             <div id="profile-pic">
-                                <img style={{ maxWidth: "100%" }} className="card-img-top" src={Cookies.get("userImageLink")} alt="user avatar"></img>
+                                <img
+                                    style={{ maxWidth: "100%" }}
+                                    className="card-img-top"
+                                    src={Cookies.get("userImageLink")}
+                                    alt="user avatar"
+                                ></img>
                             </div>
-                            <button id="edit-image" onChange={e => this.submitNewAvatar(e)} type="button" className="btn btn-secondary position-absolute rounded-0"
-                                data-toggle="modal" data-target="#exampleModal">
-                                <span><small>Edit Image</small></span>
+                            <button
+                                id="edit-image"
+                                onChange={(e) => this.submitNewAvatar(e)}
+                                type="button"
+                                className="btn btn-secondary position-absolute rounded-0"
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                            >
+                                <span>
+                                    <small>Edit Image</small>
+                                </span>
                             </button>
                         </div>
                         <div className="card-body">
-                            <h4 className="card-title font-weight-normal" id="name">{Cookies.get('username')}</h4>
-                            <p className="card-text text-muted" id="description"></p>
+                            <h4
+                                className="card-title font-weight-normal"
+                                id="name"
+                            >
+                                {Cookies.get("username")}
+                            </h4>
+                            <p
+                                className="card-text text-muted"
+                                id="description"
+                            ></p>
                         </div>
 
-                        <form className="form" id="profile-form" onSubmit={e => this.submitNewAvatar(e)} >
+                        <form
+                            className="form"
+                            id="profile-form"
+                            onSubmit={(e) => this.submitNewAvatar(e)}
+                        >
                             <div className="input-group">
                                 <div className="custom-file">
-                                    <input id="profile-pic-input" type="file" className="custom-file-input"
-                                        onChange={e => this.showUploadedAvatar(e)} accept=".jpg, .jpeg, .png" />
-                                    <label className="custom-file-label" htmlFor="inputGroupFile04">Choose file</label>
+                                    <input
+                                        id="profile-pic-input"
+                                        type="file"
+                                        className="custom-file-input"
+                                        onChange={(e) =>
+                                            this.showUploadedAvatar(e)
+                                        }
+                                        accept=".jpg, .jpeg, .png"
+                                    />
+                                    <label
+                                        className="custom-file-label"
+                                        htmlFor="inputGroupFile04"
+                                    >
+                                        Choose file
+                                    </label>
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-outline-secondary"
-                                id="inputGroupFileAddon04">
+                            <button
+                                type="submit"
+                                className="btn btn-outline-secondary"
+                                id="inputGroupFileAddon04"
+                            >
                                 Upload
-    						</button>
+                            </button>
                         </form>
                     </div>
                 ) : (
