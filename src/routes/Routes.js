@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch, } from 'react-router-dom';
+import { AnimatePresence } from "framer-motion";
 
 //Components
 import Home from '../Home'
@@ -11,6 +12,7 @@ import Ingredient from '../pages/Ingredient'
 import Recipe from '../pages/Recipe'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
+import List from '../pages/List'
 import Weather from "../pages/Weather";
 import Users from "../pages/Users";
 import User from "../pages/Users";
@@ -30,6 +32,7 @@ class Routes extends React.Component {
             username: undefined,
             user:undefined,
             modalState: undefined,
+            list: undefined,
         };
         this.changeUser = this.changeUser.bind(this);
         this.userDropdown = this.userDropdown.bind(this);
@@ -294,62 +297,88 @@ class Routes extends React.Component {
                         return this.breadcrumbsRegEx(location.pathname);
                     }}
                 />
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route
-                        path="/photos/:category"
-                        render={(props) => (
-                            <Photos {...props} username={this.state.username} />
-                        )}
-                    />
-                    <Route
-                        path="/photo/:id"
-                        render={(props) => (
-                            <Photos {...props} username={this.state.username} />
-                        )}
-                    />
-                    <Route exact path="/weather" component={Weather} />
-                    <Route exact path="/resume" component={Resume} />
-                    <Route exact path="/map" component={PhotosMap} />
-                    <Route path="/users/:id" component={User} />
-                    <Route exact path="/users" component={Users} />
-                    <Route path="/recipes/:recipe" component={Recipe} />
-                    <Route
-                        exact
-                        path="/recipes"
-                        render={(props) => (
-                            <Archive
-                                {...props}
-                                type={"recipes"}
-                                username={this.state.username}
-                            />
-                        )}
-                    />
-                    <Route
-                        path="/ingredients/:ingredient"
-                        component={Ingredient}
-                    />
-                    <Route
-                        exact
-                        path="/ingredients"
-                        render={(props) => (
-                            <Archive
-                                {...props}
-                                type={"ingredients"}
-                                username={this.state.username}
-                            />
-                        )}
-                    />
+                <AnimatePresence exitBeforeEnter>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route
+                            path="/photos/:category"
+                            render={(props) => (
+                                <Photos
+                                    {...props}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/photo/:id"
+                            render={(props) => (
+                                <Photos
+                                    {...props}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
+                        <Route exact path="/weather" component={Weather} />
+                        <Route
+                            exact
+                            path="/list"
+                            render={(props) => <List {...props} />}
+                        />
+                        <Route exact path="/resume" component={Resume} />
+                        <Route exact path="/map" component={PhotosMap} />
+                        <Route path="/users/:id" component={User} />
+                        <Route
+                            exact
+                            path="/users"
+                            render={(props) => (
+                                <List
+                                    {...props}
+                                    type={"users"}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
+                        <Route path="/recipes/:recipe" component={Recipe} />
+                        <Route
+                            exact
+                            path="/recipes"
+                            render={(props) => (
+                                <List
+                                    {...props}
+                                    type={"recipes"}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/ingredients/:ingredient"
+                            component={Ingredient}
+                        />
+                        <Route
+                            exact
+                            path="/ingredients"
+                            render={(props) => (
+                                <List
+                                    {...props}
+                                    type={"ingredients"}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
 
-                    <Route
-                        exact
-                        path="/photos"
-                        render={(props) => (
-                            <Photos {...props} username={this.state.username} />
-                        )}
-                    />
-                    <Route component={Notfound} />
-                </Switch>
+                        <Route
+                            exact
+                            path="/photos"
+                            render={(props) => (
+                                <Photos
+                                    {...props}
+                                    username={this.state.username}
+                                />
+                            )}
+                        />
+                        <Route component={Notfound} />
+                    </Switch>
+                </AnimatePresence>
                 <Footer />
             </Router>
         );

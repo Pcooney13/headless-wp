@@ -1,11 +1,5 @@
 import React from 'react'
 import Sidebar from "../components/sidebar/Sidebar";
-import { Route, Link } from 'react-router-dom'
-
-const User = ({ match }) => <p>{match.params.id}</p>
-
-
-
 
 class Users extends React.Component {
     constructor(props) {
@@ -17,6 +11,70 @@ class Users extends React.Component {
             count: 0,
             active: null,
         };
+        this.findMatches = this.findMatches.bind(this);
+        this.displayMatches = this.displayMatches.bind(this);
+    }
+
+    // SEARCH - matching titles only
+    findMatches(photos, wordToMatch) {
+        if (photos.length > 0) {
+            return photos.filter((pokemon) => {                
+                const regex = new RegExp(wordToMatch, "gi");
+                if (pokemon.last_name.match(regex)) {
+                    return pokemon.last_name.match(regex); 
+                } else if (pokemon.first_name.match(regex)) {
+                    return pokemon.first_name.match(regex); 
+                } else if (pokemon.roles[0].match(regex)) {
+                    return pokemon.roles[0].match(regex);
+                }
+                return ''
+            });
+        }
+    }
+
+    // SEARCH - display only those that match
+    displayMatches(value, e) {
+        const searchMatch = this.findMatches(value, e.target.value);
+        let cards = document.querySelectorAll(".card");
+        let searchPosts = [];
+        //First remove No Match if it is already on screen
+        if (document.querySelector(".no-match"))
+            document.querySelector(".no-match").remove();
+        //Brings all cards back if user inputs text then deletes
+        if (!e.target.value) {
+            for (var n = 0; n < cards.length; n++) {
+                cards[n].classList.remove("hide");
+            }
+        }
+        //Display cards whose title matches the search input text
+        else if (searchMatch && searchMatch.length >= 1 && e.target.value) {
+            for (var i = 0; i < searchMatch.length; i++) {
+                for (var k = 0; k < cards.length; k++) {
+                    cards[k].classList.add("hide");
+                    if (cards[k].classList.contains(searchMatch[i].first_name) || cards[k].classList.contains(searchMatch[i].last_name)) {
+                        searchPosts.push(cards[k]);
+                        cards[k].classList.remove("hide");
+                    } else {
+                        cards[k].classList.add("hide");
+                    }
+                }
+            }
+            for (var m = 0; m < searchPosts.length; m++) {
+                searchPosts[m].classList.remove("hide");
+            }
+            //Display no matches text
+        } else {
+            searchPosts = null;
+            for (var a = 0; a < cards.length; a++) {
+                cards[a].classList.add("hide");
+            }
+            //need to fix this up a wee bit
+            var para = document.createElement("p");
+            para.classList.add("no-match");
+            var node = document.createTextNode("No Matches Found");
+            para.appendChild(node);
+            document.querySelector("main").appendChild(para);
+        }
     }
 
     componentDidMount() {
@@ -62,30 +120,43 @@ class Users extends React.Component {
             );
         } else {
             // const { url } = this.props.match
+            const alphaUsers = this.state.users.sort(function (a, b) {
+                if (a.last_name < b.last_name) {
+                    return -1;
+                }
+                if (a.last_name > b.last_name) {
+                    return 1;
+                }
+                return 0;
+            });
             return (
                 <div className="App max-w-screen-lg p-0 m-auto">
-                    <h3 class="text-2xl font-gotham-medium capitalize my-4">
+                    <h3 className="text-2xl font-gotham-medium capitalize my-4">
                         Users
                     </h3>
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-md m-auto mb-12">
                         <main className="flex-1">
-                            {this.state.users.map((user) => (
-                                <div class="max-w-md mb-2 mx-auto flex items-center bg-white border-black-200 border p-4 rounded-lg">
+                            {alphaUsers.map((user) => (
+                                <div
+                                    key={user.id}
+                                    className={`${user.first_name} ${user.last_name} card max-w-lg mb-4 mx-auto flex items-center bg-white border-black-200 border p-4 rounded-lg`}
+                                >
                                     <img
                                         alt="team"
-                                        class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+                                        className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
                                         src={
                                             user.image.full
                                                 ? user.image.full
                                                 : "https://via.placeholder.com/80x80"
                                         }
                                     />
-                                    {console.log(user)}
-                                    <div class="flex-grow">
-                                        <h2 class="text-gray-900 title-font font-medium">
+                                    <div className="flex-grow">
+                                        <h2 className="-mb-1 text-xl font-gotham-medium md:font-gotham-bold leading-tight mb-1 tracking-tight">
                                             {`${user.first_name} ${user.last_name}`}
                                         </h2>
-                                        <p class="text-gray-500">{user.roles}</p>
+                                        <p className="text-gray-500">
+                                            {user.roles}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

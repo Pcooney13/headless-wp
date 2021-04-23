@@ -135,6 +135,7 @@ class Ingredient extends Archive {
             );
         } else {
             // window.scrollTo(0, 0);
+            console.log(this.state);         
 
             return (
                 <div className="App">
@@ -151,7 +152,6 @@ class Ingredient extends Archive {
                                         <div
                                             className="h-88 -mb-4"
                                             style={{
-                                                backgroundPosition: "cover",
                                                 backgroundSize: "cover",
                                                 backgroundPosition: "center",
                                                 backgroundImage: `linear-gradient( 180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.8) 100%), url('${this.state.active.image.full}')`,

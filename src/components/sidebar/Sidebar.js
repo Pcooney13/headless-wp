@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ReactComponent as SVGSearch } from '../svgs/search.svg';
 import { ReactComponent as SVGFilter } from '../svgs/filters.svg';
 
 class Sidebar extends React.Component {
@@ -36,8 +37,9 @@ class Sidebar extends React.Component {
         return (
             <aside className="pl-4 flex-1 ml-4 max-w-screen-xs">
                 <form className="shadow-md h-16 search mb-6 w-full">
+                    <SVGSearch className="h-16 ml-4 w-6 absolute" />
                     <input
-                        className="text-base border-green-200 border-2 px-4 h-full search__input"
+                        className="text-base pr-4 pl-12 h-full search__input focus:ring-2 focus:ring-green-200"
                         value={this.state.value}
                         autoComplete="off"
                         onChange={(e) =>
@@ -62,7 +64,7 @@ class Sidebar extends React.Component {
                     </div>
                 </form>
                 <div className="mb-6 shadow-md filter-bars">
-                    <div className="filter-bar">
+                    <div className="p-4 flex bg-white h-16">
                         <p
                             className="text-sm mt-px"
                             style={{ marginLeft: "5px" }}
@@ -70,6 +72,7 @@ class Sidebar extends React.Component {
                             Filters
                         </p>
                         <button
+                            className="ml-auto"
                             id="filter-click"
                             onClick={() => this.filterDrawer()}
                         >

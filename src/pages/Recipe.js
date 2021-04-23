@@ -5,7 +5,6 @@
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
 import Archive from "./Archive";
-import IngredientRecipes from "./IngredientRecipes";
 
 const Varieties = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
@@ -20,6 +19,17 @@ const Benefits = ({ match }) => (
 const Nutrition = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
         <p>Nutrition</p>
+    </div>
+);
+const LandingPage = ({ match, recipe }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
+        <p>Recipe</p>
+        {console.log(recipe.items[0].ingredient.ingredient[0].post_title)}
+        <ul class="list-disc pl-4">
+            {recipe.items.map((item) => (
+                <li>{item.ingredient.amount} {item.ingredient.measurement} {item.ingredient.ingredient[0].post_title}</li>
+            ))}
+        </ul>
     </div>
 );
 const SimilarRecipes = ({ match }) => (
@@ -45,7 +55,7 @@ class Recipe extends Archive {
     }
 
     loadPosts() {
-        let recipeArray = [];
+        // let recipeArray = [];
         Promise.all([
             fetch("https://pat-cooney.com/wp-json/v1/ingredients?per_page=100"),
             fetch("https://pat-cooney.com/wp-json/v1/recipes?per_page=100"),
@@ -131,7 +141,6 @@ class Recipe extends Archive {
                                         <div
                                             className="h-88 -mb-4"
                                             style={{
-                                                backgroundPosition: "cover",
                                                 backgroundSize: "cover",
                                                 backgroundPosition: "center",
                                                 backgroundImage: `linear-gradient( 180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.8) 100%), url('${this.state.active.image.full}')`,
@@ -247,6 +256,16 @@ class Recipe extends Archive {
                                             </p>
                                         </div>
                                     </div>
+                                    <Route
+                                        path={`/recipes/:recipe/`}
+                                        render={(props) => (
+                                            <LandingPage
+                                            {...props}
+                                            type={"recipes"}
+                                                recipe={this.state.active}                                                
+                                            />
+                                        )}
+                                    />
                                     <Route
                                         path={`/recipes/:recipe/varieties`}
                                         component={Varieties}

@@ -101,20 +101,20 @@ class Resume extends React.Component {
                                         <p className="mt-1.5 text-m text-gray-700 leading-normal">
                                             <b className="font-normal print:font-medium text-gray-600 print:text-black">
                                                 (1)
-                                            </b>{' '}
-                                            Built doner pork chop;{' '}
+                                            </b>{" "}
+                                            Built doner pork chop;{" "}
                                             <b className="font-normal print:font-medium text-gray-600 print:text-black">
                                                 (2)
-                                            </b>{' '}
+                                            </b>{" "}
                                             Served salmon, cream soft cheese,
-                                            and brisket;{' '}
+                                            and brisket;{" "}
                                             <b className="font-normal print:font-medium text-gray-600 print:text-black">
                                                 (3)
-                                            </b>{' '}
-                                            Acted doner pork chop;{' '}
+                                            </b>{" "}
+                                            Acted doner pork chop;{" "}
                                             <b className="font-normal print:font-medium text-gray-600 print:text-black">
                                                 (4)
-                                            </b>{' '}
+                                            </b>{" "}
                                             Filled burgdoggen frankfurter strip
                                             steak.
                                         </p>
@@ -136,10 +136,12 @@ class Resume extends React.Component {
                                             <svg
                                                 className="w-4.5 h-4.5 print:pb-0.5"
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path
                                                     className="text-gray-600 print:text-gray-900 fill-current"
-                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path>
+                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"
+                                                ></path>
                                             </svg>
                                         </span>
                                         <span className="ml-1.5">
@@ -154,10 +156,12 @@ class Resume extends React.Component {
                                             <svg
                                                 className="w-4.5 h-4.5 print:pb-0.5"
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24">
+                                                viewBox="0 0 24 24"
+                                            >
                                                 <path
                                                     className="text-gray-600 print:text-gray-900 fill-current"
-                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"></path>
+                                                    d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm-2.3-8.7l1.3 1.29 3.3-3.3a1 1 0 0 1 1.4 1.42l-4 4a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.42z"
+                                                ></path>
                                             </svg>
                                         </span>
                                         <span className="ml-1.5">
@@ -179,10 +183,12 @@ class Resume extends React.Component {
                                     <article className="mb-4 col-break-avoid">
                                         <header>
                                             <h3 className="text-lg text-gray-700 font-semibold leading-heading">
-                                                University of Massachusetts Dartmouth
+                                                University of Massachusetts
+                                                Dartmouth
                                             </h3>
                                             <p className="text-m text-gray-600 leading-normal">
-                                                2008 – 2012 | Bachelor's Degree in Fine Arts
+                                                2008 – 2012 | Bachelor's Degree
+                                                in Fine Arts
                                             </p>
                                         </header>
                                     </article>
@@ -194,7 +200,8 @@ class Resume extends React.Component {
                                             Minuteman Vocational High School
                                         </h3>
                                         <p className="text-m text-gray-600 leading-normal">
-                                            2004 – 2008 | Certificate in Graphic Design
+                                            2004 – 2008 | Certificate in Graphic
+                                            Design
                                         </p>
                                     </header>
                                 </article>
@@ -213,7 +220,8 @@ class Resume extends React.Component {
                                                     href="https://www.compassioninactionconference.org/schedule"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="group">
+                                                    className="group"
+                                                >
                                                     <span>
                                                         Conference Schedule
                                                     </span>
@@ -223,10 +231,12 @@ class Resume extends React.Component {
                                                             xmlns="http://www.w3.org/2000/svg"
                                                             viewBox="0 0 24 24"
                                                             width="24"
-                                                            height="24">
+                                                            height="24"
+                                                        >
                                                             <path
                                                                 className="fill-current"
-                                                                d="M19 6.41L8.7 16.71a1 1 0 1 1-1.4-1.42L17.58 5H14a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V6.41zM17 14a1 1 0 0 1 2 0v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h5a1 1 0 0 1 0 2H5v12h12v-5z"></path>
+                                                                d="M19 6.41L8.7 16.71a1 1 0 1 1-1.4-1.42L17.58 5H14a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V6.41zM17 14a1 1 0 0 1 2 0v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h5a1 1 0 0 1 0 2H5v12h12v-5z"
+                                                            ></path>
                                                         </svg>
                                                     </span>
                                                 </a>
@@ -254,7 +264,8 @@ class Resume extends React.Component {
                                                 href="https://projectteachny.org/mmh/"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="group">
+                                                className="group"
+                                            >
                                                 <span>
                                                     Maternal Mental Health
                                                     Consulations
@@ -265,10 +276,12 @@ class Resume extends React.Component {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
-                                                        height="24">
+                                                        height="24"
+                                                    >
                                                         <path
                                                             className="fill-current"
-                                                            d="M19 6.41L8.7 16.71a1 1 0 1 1-1.4-1.42L17.58 5H14a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V6.41zM17 14a1 1 0 0 1 2 0v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h5a1 1 0 0 1 0 2H5v12h12v-5z"></path>
+                                                            d="M19 6.41L8.7 16.71a1 1 0 1 1-1.4-1.42L17.58 5H14a1 1 0 0 1 0-2h6a1 1 0 0 1 1 1v6a1 1 0 0 1-2 0V6.41zM17 14a1 1 0 0 1 2 0v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7c0-1.1.9-2 2-2h5a1 1 0 0 1 0 2H5v12h12v-5z"
+                                                        ></path>
                                                     </svg>
                                                 </span>
                                             </a>
@@ -396,10 +409,12 @@ class Resume extends React.Component {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
-                                                        height="24">
+                                                        height="24"
+                                                    >
                                                         <path
                                                             className="text-gray-600 print:text-gray-900 fill-current"
-                                                            d="M19.48 13.03A4 4 0 0 1 16 19h-4a4 4 0 1 1 0-8h1a1 1 0 0 0 0-2h-1a6 6 0 1 0 0 12h4a6 6 0 0 0 5.21-8.98L21.2 12a1 1 0 1 0-1.72 1.03zM4.52 10.97A4 4 0 0 1 8 5h4a4 4 0 1 1 0 8h-1a1 1 0 0 0 0 2h1a6 6 0 1 0 0-12H8a6 6 0 0 0-5.21 8.98l.01.02a1 1 0 1 0 1.72-1.03z"></path>
+                                                            d="M19.48 13.03A4 4 0 0 1 16 19h-4a4 4 0 1 1 0-8h1a1 1 0 0 0 0-2h-1a6 6 0 1 0 0 12h4a6 6 0 0 0 5.21-8.98L21.2 12a1 1 0 1 0-1.72 1.03zM4.52 10.97A4 4 0 0 1 8 5h4a4 4 0 1 1 0 8h-1a1 1 0 0 0 0 2h1a6 6 0 1 0 0-12H8a6 6 0 0 0-5.21 8.98l.01.02a1 1 0 1 0 1.72-1.03z"
+                                                        ></path>
                                                     </svg>
                                                 </span>
                                                 <span className="ml-1.5">
@@ -413,10 +428,12 @@ class Resume extends React.Component {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
-                                                        height="24">
+                                                        height="24"
+                                                    >
                                                         <path
                                                             className="text-gray-600 print:text-gray-900 fill-current"
-                                                            d="M5.64 16.36a9 9 0 1 1 12.72 0l-5.65 5.66a1 1 0 0 1-1.42 0l-5.65-5.66zm11.31-1.41a7 7 0 1 0-9.9 0L12 19.9l4.95-4.95zM12 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                                                            d="M5.64 16.36a9 9 0 1 1 12.72 0l-5.65 5.66a1 1 0 0 1-1.42 0l-5.65-5.66zm11.31-1.41a7 7 0 1 0-9.9 0L12 19.9l4.95-4.95zM12 14a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-2a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"
+                                                        ></path>
                                                     </svg>
                                                 </span>
                                                 <span className="ml-1.5">
@@ -430,10 +447,12 @@ class Resume extends React.Component {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
-                                                        height="24">
+                                                        height="24"
+                                                    >
                                                         <path
                                                             className="text-gray-600 print:text-gray-900 fill-current"
-                                                            d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2zm16 3.38V6H4v1.38l8 4 8-4zm0 2.24l-7.55 3.77a1 1 0 0 1-.9 0L4 9.62V18h16V9.62z"></path>
+                                                            d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6c0-1.1.9-2 2-2zm16 3.38V6H4v1.38l8 4 8-4zm0 2.24l-7.55 3.77a1 1 0 0 1-.9 0L4 9.62V18h16V9.62z"
+                                                        ></path>
                                                     </svg>
                                                 </span>
                                                 <span className="ml-1.5">
@@ -447,10 +466,12 @@ class Resume extends React.Component {
                                                         xmlns="http://www.w3.org/2000/svg"
                                                         viewBox="0 0 24 24"
                                                         width="24"
-                                                        height="24">
+                                                        height="24"
+                                                    >
                                                         <path
                                                             className="text-gray-600 print:text-gray-900 fill-current"
-                                                            d="M13.04 14.69l1.07-2.14a1 1 0 0 1 1.2-.5l6 2A1 1 0 0 1 22 15v5a2 2 0 0 1-2 2h-2A16 16 0 0 1 2 6V4c0-1.1.9-2 2-2h5a1 1 0 0 1 .95.68l2 6a1 1 0 0 1-.5 1.21L9.3 10.96a10.05 10.05 0 0 0 3.73 3.73zM8.28 4H4v2a14 14 0 0 0 14 14h2v-4.58l-4.5-1.5-1.12 2.26a1 1 0 0 1-1.3.46 12.04 12.04 0 0 1-6.02-6.01 1 1 0 0 1 .46-1.3l2.26-1.14L8.28 4z"></path>
+                                                            d="M13.04 14.69l1.07-2.14a1 1 0 0 1 1.2-.5l6 2A1 1 0 0 1 22 15v5a2 2 0 0 1-2 2h-2A16 16 0 0 1 2 6V4c0-1.1.9-2 2-2h5a1 1 0 0 1 .95.68l2 6a1 1 0 0 1-.5 1.21L9.3 10.96a10.05 10.05 0 0 0 3.73 3.73zM8.28 4H4v2a14 14 0 0 0 14 14h2v-4.58l-4.5-1.5-1.12 2.26a1 1 0 0 1-1.3.46 12.04 12.04 0 0 1-6.02-6.01 1 1 0 0 1 .46-1.3l2.26-1.14L8.28 4z"
+                                                        ></path>
                                                     </svg>
                                                 </span>
                                                 <span className="ml-1.5">
@@ -463,6 +484,7 @@ class Resume extends React.Component {
                             </section>
                         </div>
                     </div>
+                    https://universal-resume.netlify.app
                 </div>
             );
         } else {

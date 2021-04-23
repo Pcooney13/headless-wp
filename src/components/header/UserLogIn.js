@@ -9,6 +9,7 @@ class UserLogIn extends React.Component {
 
         return (
             <li className="ml-auto pr-0 border-l border-black pl-2 pr-0 text-white" id="log">
+                {console.log(this.props)}
                 {username !== undefined ||
                     Cookies.get('username') !== undefined ? (
                         <div>
@@ -24,12 +25,12 @@ class UserLogIn extends React.Component {
                             // }}
                             >
                             {Cookies.get("userImageLink")
-                                ? <img className="avatar-image" src={Cookies.get("userImageLink")} alt="user pic" />
+                                ? <img className="mr-2 h-8 w-8 pointer-events-none" src={Cookies.get("userImageLink")} alt="user pic" />
                                 : ''}
 
                         
                             {console.log(user)}
-                                logout {username}
+                                {username}
                             </button >
                                 <ul className="absolute h-0 transition-all duration-300 overflow-hidden top-0 mt-16 bg-white max-w-screen-xs w-full right-0">
                                     <li className="h-16 text-black-800 transition-color duration-500 border-b border-black-100 p-4 w-full p-0 hover:bg-blue-200"><span>test</span></li>
