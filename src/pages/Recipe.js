@@ -2,6 +2,10 @@
 // Figure out the functionality for zomming from card specifically not just top left corner
 
 //[LIKE] button that stores an array of usernames that likes the pic
+
+// CREATE individual endpoints for recipes/ingredients
+// REMOVE Class State and replace with how the others are
+
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
 import Archive from "./Archive";
@@ -55,6 +59,7 @@ class Recipe extends Archive {
     }
 
     loadPosts() {
+        console.log(this.props)
         // let recipeArray = [];
         Promise.all([
             fetch("https://pat-cooney.com/wp-json/v1/ingredients?per_page=100"),

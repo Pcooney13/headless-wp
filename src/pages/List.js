@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Sidebar2 from "../components/sidebar/Sidebar2";
+import Sidebar3 from "../components/sidebar/Sidebar3";
 import axios from 'axios'
 
 import Card from "../components/Card";
@@ -73,12 +73,12 @@ const List = (props) => {
                 console.log("clicked /")
             }
         });
-
-        console.log(products.data[13])
         content = products.data.map((product, key) => (
             <Card
                 {...props}
                 key={key}
+                number={key+1}
+                total={products.data.length}
                 displayItem={product}
                 currentCategory={props.type}
                 activeUser={activeUser}
@@ -95,7 +95,7 @@ const List = (props) => {
                 <main className="mt-0 flex-1 width-full max-w-screen-md font-gotham">
                     {content}
                 </main>
-                <Sidebar2
+                <Sidebar3
                     {...props}
                     products={products.data}
                     sortItems={sortItems}

@@ -128,19 +128,22 @@ class Header extends React.Component {
 
         function checkPosition() {
             let windowY = window.scrollY;
+            const header = document.querySelector(".header");
+            const sidebar = document.querySelector("#sidebar");
             if (window.scrollY < 115) {
-                document.querySelector('.header').classList.add('is-visible');
-                document.querySelector('.header').classList.remove('is-hidden');
+                header.classList.add('is-visible');
+                header.classList.remove('is-hidden');
+                sidebar && sidebar.classList.remove('pt-16')
             } else if (windowY < scrollPos) {
                 // Scrolling UP
-                document.querySelector('.header').classList.add('is-visible');
-                document.querySelector('.header').classList.remove('is-hidden');
+                header.classList.add('is-visible');
+                sidebar && sidebar.classList.add('pt-16');
+                header.classList.remove('is-hidden');
             } else {
                 // Scrolling DOWN
-                document.querySelector('.header').classList.add('is-hidden');
-                document
-                    .querySelector('.header')
-                    .classList.remove('is-visible');
+                header.classList.add('is-hidden');
+                header.classList.remove('is-visible');
+                sidebar && sidebar.classList.remove('pt-16');
             }
             scrollPos = windowY;
         }
@@ -150,7 +153,7 @@ class Header extends React.Component {
                 <div className="h-16">
                     <ul
                         id="header"
-                        className="bg-green top-0 p-5 fixed flex m-0 items-center h-16 header primary-header is-visible"
+                        className="bg-green top-0 p-5 fixed flex m-0 items-center h-16 header primary-header"
                     >
                         <li className="pr-8 inline-block">
                             <NavLink to="/">

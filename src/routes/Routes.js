@@ -7,14 +7,14 @@ import Home from '../Home'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
 import Photos from '../pages/Photos'
-import Archive from '../pages/Archive'
+// import Archive from '../pages/Archive'
 import Ingredient from '../pages/Ingredient'
 import Recipe from '../pages/Recipe'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import List from '../pages/List'
 import Weather from "../pages/Weather";
-import Users from "../pages/Users";
+// import Users from "../pages/Users";
 import User from "../pages/Users";
 import Notfound from '../pages/404'
 import '../components/styles/App.scss';
@@ -233,42 +233,50 @@ class Routes extends React.Component {
                 {path === "" ? (
                     //home
                     <div className="py-6 border-b border-black-200 font-gotham-light">
-                        <span className="capitalize font-gotham-bold text-gray-400">
+                        <span className="capitalize font-gotham-bold text-black-500">
                             home
                         </span>
                     </div>
                 ) : (
                     //all other pages
-                    <div className="py-6 border-b border-black-200 font-gotham-light">
-                        <a
-                            href="/"
-                            className="underline text-black transition-all duration-300 hover:text-blue focus:text-blue"
-                            rel="v:url"
-                            property="v:title"
-                        >
-                            Home
-                        </a>
-                        <span className="mx-1">/</span>
-                        {pathArray.map((path, i) =>
-                            i + 1 === pathArray.length ? (
-                                <span
-                                    key={i}
-                                    className="capitalize font-gotham-bold text-gray-400"
+                    <div
+                        id="breadcrumbs"
+                        className="py-6 border-b border-black-200 font-gotham-light"
+                    >
+                        <span>
+                            <a
+                                href="/"
+                                className="underline text-black-400 hover:text-dark-green transition-all duration-300 hover:text-blue focus:text-blue"
+                                rel="v:url"
+                                property="v:title"
                                 >
-                                    {path}
-                                </span>                                
-                            ) : (
+                                Home
+                            </a>
+                            <span className="mx-1">/</span>
+                        </span>
+
+                        {pathArray.map((path, i) =>
+                            i + 1 !== pathArray.length ? (
                                 <span key={i}>
                                     <a
-                                        href={`/${prevPost}${path.toLowerCase()}${i === 1 ? '/' : ''}`}
-                                        className="capitalize underline text-black transition-all duration-300 hover:text-blue focus:text-blue"
+                                        href={`/${prevPost}${path.toLowerCase()}${
+                                            i === 1 ? "/" : ""
+                                        }`}
+                                        className="capitalize underline text-black-400 hover:text-dark-green transition-all duration-300 hover:text-blue focus:text-blue"
                                         rel="v:url"
                                         property="v:title"
                                     >
                                         {path}
                                     </a>
                                     <span className="mx-1">/</span>
-                                    <p className="hidden">{(prevPost += path.toLowerCase() + "/")}</p>
+                                </span>
+                            ) : (
+                                <span
+                                    key={i}
+                                    className="capitalize font-gotham-bold text-gray-400"
+                                >
+                                    <span>{path}</span>
+                                    <span></span>
                                 </span>
                             )
                         )}

@@ -61,7 +61,6 @@ body {
 }
 .App {
     padding:1.5rem 0;
-    max-width: 1024px;
     margin: 0 auto;
     position: relative;
     min-height: 75vh;
@@ -71,6 +70,7 @@ body {
 }
 .header {
     width: 100vw;
+    z-index: 99;
     transition: all 0.5s, width 0s;
 }
 .header .active {
@@ -177,16 +177,13 @@ footer {
     stroke-width: 10;
     width: 25px;
 }
-.is-visible {
-    position: fixed;
-    z-index: 99;
-}
 .is-hidden {
     transform: translateY(-100%);
 }
 
 .is-visible {
     transform: translateY(0);
+    position: fixed;
 }
 .weather-app {
     max-width: 500px;

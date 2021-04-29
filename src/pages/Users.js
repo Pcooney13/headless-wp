@@ -1,185 +1,257 @@
-import React from 'react'
-import Sidebar from "../components/sidebar/Sidebar";
+import React, { useState, useEffect } from "react";
+import { Route, NavLink } from "react-router-dom";
+import axios from "axios";
 
-class Users extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            error: null,
-            isLoaded: false,
-            token: "wp-token",
-            count: 0,
-            active: null,
-        };
-        this.findMatches = this.findMatches.bind(this);
-        this.displayMatches = this.displayMatches.bind(this);
-    }
-
-    // SEARCH - matching titles only
-    findMatches(photos, wordToMatch) {
-        if (photos.length > 0) {
-            return photos.filter((pokemon) => {                
-                const regex = new RegExp(wordToMatch, "gi");
-                if (pokemon.last_name.match(regex)) {
-                    return pokemon.last_name.match(regex); 
-                } else if (pokemon.first_name.match(regex)) {
-                    return pokemon.first_name.match(regex); 
-                } else if (pokemon.roles[0].match(regex)) {
-                    return pokemon.roles[0].match(regex);
-                }
-                return ''
-            });
-        }
-    }
-
-    // SEARCH - display only those that match
-    displayMatches(value, e) {
-        const searchMatch = this.findMatches(value, e.target.value);
-        let cards = document.querySelectorAll(".card");
-        let searchPosts = [];
-        //First remove No Match if it is already on screen
-        if (document.querySelector(".no-match"))
-            document.querySelector(".no-match").remove();
-        //Brings all cards back if user inputs text then deletes
-        if (!e.target.value) {
-            for (var n = 0; n < cards.length; n++) {
-                cards[n].classList.remove("hide");
-            }
-        }
-        //Display cards whose title matches the search input text
-        else if (searchMatch && searchMatch.length >= 1 && e.target.value) {
-            for (var i = 0; i < searchMatch.length; i++) {
-                for (var k = 0; k < cards.length; k++) {
-                    cards[k].classList.add("hide");
-                    if (cards[k].classList.contains(searchMatch[i].first_name) || cards[k].classList.contains(searchMatch[i].last_name)) {
-                        searchPosts.push(cards[k]);
-                        cards[k].classList.remove("hide");
-                    } else {
-                        cards[k].classList.add("hide");
-                    }
-                }
-            }
-            for (var m = 0; m < searchPosts.length; m++) {
-                searchPosts[m].classList.remove("hide");
-            }
-            //Display no matches text
-        } else {
-            searchPosts = null;
-            for (var a = 0; a < cards.length; a++) {
-                cards[a].classList.add("hide");
-            }
-            //need to fix this up a wee bit
-            var para = document.createElement("p");
-            para.classList.add("no-match");
-            var node = document.createTextNode("No Matches Found");
-            para.appendChild(node);
-            document.querySelector("main").appendChild(para);
-        }
-    }
-
-    componentDidMount() {
-        this.loadPosts();
-    }
-
-    loadPosts() {
-        fetch("https://pat-cooney.com/wp-json/v1/users?per_page=100")
-            .then(function (response) {
-                return response.json();
-            })
-            .then((value) => {
-                this.setState(
-                    {
-                        isLoaded: true,
-                        users: value,
-                    },
-                    (error) => {
-                        this.setState({
-                            isLoaded: true,
-                            error,
-                        });
-                    }
-                );
-            });
-    }
-
-    render() {
-        const { error, isLoaded } = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return (
-                <div className="App">
-                    <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
-                        {this.props.match.params.ingredient}
+const About = ({ match }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
+        <p className="capitalize">{match.params.ingredient} About</p>
+    </div>
+);
+const Favorites = ({ match }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
+        <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
+            <a
+                className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-green-200"
+                href=""
+            ></a>
+            <div class="pl-2 flex-1 flex flex-col justify-center">
+                <button class="text-black-200 hover:text-black-300 hover:fill-current">
+                    <svg
+                        class="h-12 mr-4 w-6 absolute hover:fill-current top-0 right-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                        ></path>
+                    </svg>
+                </button>
+                <a
+                    class="no-underline text-black"
+                    props="car"
+                    href="/recipes/watermelon-cucumber-juice/"
+                >
+                    <h2 class="underline text-xl font-gotham-medium md:font-gotham-bold leading-tight mb-px tracking-tight">
+                        Watermelon Cucumber Juice
                     </h2>
+                    <p class="text-black-500 text-sm">Juice</p>
+                </a>
+            </div>
+        </div>
+        <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
+            <a
+                className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-bright-green"
+                href=""
+            ></a>
+            <div class="pl-2 flex-1 flex flex-col justify-center">
+                <button class="text-black-200 hover:text-black-300 hover:fill-current">
+                    <svg
+                        class="h-12 mr-4 w-6 absolute hover:fill-current top-0 right-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                        ></path>
+                    </svg>
+                </button>
+                <a
+                    class="no-underline text-black"
+                    props="car"
+                    href="/recipes/watermelon-cucumber-juice/"
+                >
+                    <h2 class="underline text-xl font-gotham-medium md:font-gotham-bold leading-tight mb-px tracking-tight">
+                        Watermelon Cucumber Juice
+                    </h2>
+                    <p class="text-black-500 text-sm">Juice</p>
+                </a>
+            </div>
+        </div>
+        <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
+            <a
+                className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-green"
+                href=""
+            ></a>
+            <div class="pl-2 flex-1 flex flex-col justify-center">
+                <button class="text-black-200 hover:text-black-300 hover:fill-current">
+                    <svg
+                        class="h-12 mr-4 w-6 absolute hover:fill-current top-0 right-0"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+                        ></path>
+                    </svg>
+                </button>
+                <a
+                    class="no-underline text-black"
+                    props="car"
+                    href="/recipes/watermelon-cucumber-juice/"
+                >
+                    <h2 class="underline text-xl font-gotham-medium md:font-gotham-bold leading-tight mb-px tracking-tight">
+                        Watermelon Cucumber Juice
+                    </h2>
+                    <p class="text-black-500 text-sm">Juice</p>
+                </a>
+            </div>
+        </div>
+    </div>
+);
+const Comments = ({ match }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
+        <p className="capitalize">{match.params.ingredient} Comments</p>
+    </div>
+);
 
-                    <div className="card-container">
-                        <p>Loading</p>
-                    </div>
-                </div>
-            );
-        } else {
-            // const { url } = this.props.match
-            const alphaUsers = this.state.users.sort(function (a, b) {
-                if (a.last_name < b.last_name) {
-                    return -1;
-                }
-                if (a.last_name > b.last_name) {
-                    return 1;
-                }
-                return 0;
+const Users = (props) => {
+    const url = `https://pat-cooney.com/wp-json/v1/users?per_page=100`;
+    const [user, setuser] = useState({
+        loading: false,
+        data: null,
+        search: null,
+        error: false,
+    });
+    useEffect(() => {
+        setuser({
+            loading: true,
+            data: null,
+            search: null,
+            error: false,
+        });
+        axios
+            .get(url)
+            .then((response) => {
+                let active;
+                response.data.map((user) => 
+                    // console.log(user)
+                    user.id === parseInt(props.match.params.id)
+                        ? active = user
+                        : ''
+                );
+                setuser({
+                    loading: false,
+                    data: active,
+                    search: null,
+                    error: false,
+                });
+                // console.log(active)
+            })
+            .catch(() => {
+                setuser({
+                    loading: false,
+                    data: null,
+                    search: null,
+                    error: true,
+                });
             });
-            return (
-                <div className="App max-w-screen-lg p-0 m-auto">
-                    <h3 className="text-2xl font-gotham-medium capitalize my-4">
-                        Users
+    }, [url])     
+    
+    let runFirstTest = (user) => {
+        const fixBreadCrumb = document.querySelector("#breadcrumbs");
+        // console.log(fixBreadCrumb.children)
+        // console.log(user)
+        // console.log(props.match.params.id)
+        for(var i = 0; i < fixBreadCrumb.children.length; i++) {
+            if ( fixBreadCrumb.children[i].children[0].innerHTML === props.match.params.id ) {
+                fixBreadCrumb.children[
+                    i
+                ].children[0].innerHTML = fixBreadCrumb.children[
+                    i
+                ].children[0].innerHTML.replace(
+                    props.match.params.id,
+                    `${user.first_name} ${user.last_name}`
+                );
+            }
+            // console.log(fixBreadCrumb.children[i].innerHTML);
+        }        
+        // fixBreadCrumb.innerHTML = user.first_name + " " + user.last_name
+    }
+    
+    let content = null;
+
+    if (user.error) {
+        content = <p>There was an error, please try again.</p>;
+    }
+    if (user.loading) {
+        content = <p className="text-black-300">Loading ...</p>;
+    }
+    if (user.data) {
+
+        content = (
+            <div className="flex">
+                {runFirstTest(user.data)}
+                <div className="p-12 relative">
+                    <div className="absolute w-64 h-64 rounded-2xl bg-green-200 rotate-6 transform z-10"></div>
+                    <div
+                        className="w-64 h-64 rounded-lg bg-center bg-cover z-20 relative"
+                        style={{
+                            backgroundImage: `url(${user.data.image.full})`,
+                        }}
+                    ></div>
+                    <h3 className="py-4 font-gotham-medium text-xl text-dark-green">
+                        {user.data.first_name} {user.data.last_name}
                     </h3>
-                    <div className="flex flex-col md:flex-row justify-center max-w-screen-md m-auto mb-12">
-                        <main className="flex-1">
-                            {alphaUsers.map((user) => (
-                                <div
-                                    key={user.id}
-                                    className={`${user.first_name} ${user.last_name} card max-w-lg mb-4 mx-auto flex items-center bg-white border-black-200 border p-4 rounded-lg`}
+                </div>
+                <div className="flex-1">
+                    <div className="py-4 px-8">
+                        <div className="flex items-center justify-center border-b border-green-200">
+                            <NavLink
+                                activeClassName="font-gotham-bold border-b-4 text-green"
+                                className="pb-2 px-4"
+                                exact to={`/users/${user.data.id}`}
                                 >
-                                    <img
-                                        alt="team"
-                                        className="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-                                        src={
-                                            user.image.full
-                                                ? user.image.full
-                                                : "https://via.placeholder.com/80x80"
-                                        }
-                                    />
-                                    <div className="flex-grow">
-                                        <h2 className="-mb-1 text-xl font-gotham-medium md:font-gotham-bold leading-tight mb-1 tracking-tight">
-                                            {`${user.first_name} ${user.last_name}`}
-                                        </h2>
-                                        <p className="text-gray-500">
-                                            {user.roles}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </main>
-                        <Sidebar
-                            {...this.props}
-                            posts={
-                                this.state[
-                                    this.props.location.pathname.substring(1)
-                                ]
-                            }
-                            findMatches={this.findMatches}
-                            displayMatches={this.displayMatches}
-                            sortAlpha={this.sortAlpha}
-                            sortNumber={this.sortNumber}
-                            sortColor={this.sortColor}
-                            sortNewest={this.sortNewest}
-                            type={this.props.location.pathname.substring(1)}
-                        />
+                                About
+                            </NavLink>
+                            <NavLink
+                                activeClassName="font-gotham-bold border-b-4 text-green"
+                                className="pb-2 px-4 mx-8"
+                                to={`/users/${user.data.id}/favorites`}
+                                >
+                                Favorite Recipes
+                            </NavLink>
+                            <NavLink
+                                activeClassName="font-gotham-bold border-b-4 text-green"
+                                className="pb-2 px-4"
+                                to={`/users/${user.data.id}/comments`}
+                                >
+                                Comments
+                            </NavLink>
+                        </div>
+                        <Route path={`/users/:id/favorites`} component={Favorites} />
+                        <Route path={`/users/:id/comments`} component={Comments} />
+                        <Route exact path={`/users/:id`} component={About} />
                     </div>
                 </div>
-            );
-        }
+            </div>
+        );
     }
-}
-export default Users
+
+    return (
+        <div className="mt-24 mb-32 max-w-screen-lg mx-auto bg-white rounded-lg border border-black-200">
+            <div
+                id="sidebar"
+                className="sticky top-6 transition-all duration-300"
+            >
+                <div className="mb-6">                    
+                    {content}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+
+export default Users;

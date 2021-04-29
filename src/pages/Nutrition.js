@@ -6,26 +6,6 @@ class Nutrition extends React.Component {
         return (
             <div>
                 <div className="flex justify-center items-center max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200">
-                    <div class="w-full flex-1 hidden md:block mr-4">
-                        <div class="relative">
-                            <img
-                                src={
-                                    this.props.ingredient.image.png
-                                        ? this.props.ingredient.image.png
-                                        : "https://pat-cooney.com/app/themes/juicy/assets/images/lime.png"
-                                }
-                                class="w-full relative z-10"
-                                alt=""
-                            />
-                            <div
-                                style={{
-                                    borderColor: this.props.ingredient.color
-                                        .hex,
-                                }}
-                                class="product border-4 absolute z-0"
-                            ></div>
-                        </div>
-                    </div>
                     <div className="p-1 border-2 border-black font-sans w-72">
                         <div className="text-4xl mb-4 font-gotham-bold leading-none">
                             Nutrition Facts
@@ -222,6 +202,12 @@ class Nutrition extends React.Component {
                     href="https://www.fda.gov/food/new-nutrition-facts-label/daily-value-new-nutrition-and-supplement-facts-labels"
                 >
                     nutrition numbers
+                </a>
+                <a
+                    className="block text-center mt-2"
+                    href="https://www.nutritionvalue.org/Oats%2C_raw_nutritional_value.html"
+                >
+                    nutrition csvv
                 </a>
             </div>
         );

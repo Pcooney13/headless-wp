@@ -7,6 +7,7 @@
 //[LIKE] button that stores an array of usernames that likes the pic
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Archive from "./Archive";
 import Nutrition from "./Nutrition";
 import IngredientRecipes from "./IngredientRecipes";
@@ -22,30 +23,52 @@ const Benefits = ({ match }) => (
     </div>
 );
 
-const Intro = ({ match }) => (
-    <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
-        <p className="text-2xl font-gotham-bold mb-4">Lets Talk about some yummy fucking {match.params.ingredient}</p>
-        Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh
-        onion daikon amaranth tatsoi tomatillo melon azuki bean garlic. Gumbo
-        beet greens corn soko endive gumbo gourd. Parsley shallot courgette
-        tatsoi pea sprouts fava bean collard greens dandelion okra wakame
-        tomato. Dandelion cucumber earthnut pea peanut soko zucchini. Turnip
-        greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi
-        amaranth water spinach avocado daikon napa cabbage asparagus winter
-        purslane kale. Celery potato scallion desert raisin horseradish spinach
-        carrot soko. Lotus root water spinach fennel kombu maize bamboo shoot
-        green bean swiss chard seakale pumpkin onion chickpea gram corn pea.
-        Brussels sprout coriander water chestnut gourd swiss chard wakame
-        kohlrabi beetroot carrot watercress. Corn amaranth salsify bunya nuts
-        nori azuki bean chickweed potato bell pepper artichoke. Nori grape
-        silver beet broccoli kombu beet greens fava bean potato quandong celery.
-        Bunya nuts black-eyed pea prairie turnip leek lentil turnip greens
-        parsnip. Sea lettuce lettuce water chestnut eggplant winter purslane
-        fennel azuki bean earthnut pea sierra leone bologi leek soko chicory
-        celtuce parsley jï¿½cama salsify. Celery quandong swiss chard chicory
-        earthnut pea potato. Salsify taro catsear garlic gram celery bitterleaf
-        wattle seed collard greens nori. Grape wattle seed kombu beetroot
-        horseradish carrot squash brussels sprout chard.
+const Intro = ({ match, ingredient, accentColor }) => (
+    <div className="max-w-screen-md mx-auto mt-6 p-10 bg-white rounded-lg border border-black-200 p-10 text-gray-800 relative md:text-left">
+        <div className="md:flex items-center -mx-10 -ml-12">
+            <div className="w-full md:w-1/2 pl-8 pr-4 md:mb-0">
+                <div className="relative">
+                    <img
+                        src={
+                            ingredient.image.png
+                                ? ingredient.image.png
+                                : "https://pat-cooney.com/app/themes/juicy/assets/images/lime.png"
+                        }
+                        className="w-full relative z-10"
+                        alt=""
+                    />
+                    <div
+                        className="product border-4 absolute z-0"
+                        style={{ borderColor: accentColor }}
+                    ></div>
+                </div>
+            </div>
+            <div className="w-full md:w-1/2 pr-8 pl-4">
+                <div className="mb-10">
+                    <h1 className="font-bold uppercase text-3xl mb-5">
+                        {ingredient.title}
+                    </h1>
+                    <p className="text-sm">
+                        Lets talk about these yummy fucking {ingredient.title}
+                        elit. Eos, voluptatum dolorum! Laborum blanditiis
+                        consequatur, voluptates, sint enim fugiat saepe, dolor
+                        fugit, magnam explicabo eaque quas id quo porro
+                        doloruuum facilis...                        
+                        <button
+                            href="/"
+                            className="opacity-75 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900"
+                            style={{
+                                borderColor: accentColor,
+                                color: accentColor,
+                            }}
+                        >
+                            <p>MORE</p>
+                            <i className="mdi mdi-arrow-right"></i>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 );
 
@@ -96,6 +119,7 @@ class Ingredient extends Archive {
                         )
                 );
                 value[1].forEach((recipe) =>
+                recipe.items &&
                     recipe.items.forEach(
                         (ingreds) =>
                             this.state.active.slug ===
@@ -123,7 +147,7 @@ class Ingredient extends Archive {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return (
-                <div className="App">
+                <div className="App max-w-screen-lg">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
                         {this.props.match.params.ingredient}
                     </h2>
@@ -135,10 +159,16 @@ class Ingredient extends Archive {
             );
         } else {
             // window.scrollTo(0, 0);
-            console.log(this.state);         
+            console.log(this.state);      
+            
+            let accentColor = ''
+                this.state.active.color.hsl[0] !== "0" &&
+                this.state.active.color.hex !== "#f7fbfc"
+                    ? (accentColor = this.state.active.color.hex)
+                    : (accentColor = "#126b4c");
 
             return (
-                <div className="App">
+                <div className="App max-w-screen-lg">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
                         {this.props.match.params.ingredient}
                     </h2>
@@ -196,23 +226,30 @@ class Ingredient extends Archive {
                                             }}
                                         ></div>
                                         <div className="bg-white h-48 p-4 md:-mb-24 rounded-md shadow-lg max-w-screen-md mx-4 md:m-auto transform -translate-y-1/2">
-                                            <div className="flex items-center justify-center">
-                                                <h1
-                                                    style={{
-                                                        textDecorationColor: this
-                                                            .state.active.color
-                                                            .hex,
-                                                    }}
-                                                    className="mr-2 font-gotham-black text-4xl leading-none underline"
-                                                >
-                                                    {this.state.active.title}
-                                                </h1>
-                                                <img
-                                                    alt={`${this.state.active.title}`}
-                                                    className="w-16 h-16"
-                                                    src={`https://www.themealdb.com/images/ingredients/${this.state.active.title}.png`}
-                                                />
-                                            </div>
+                                            <Link
+                                                to={`/ingredients/${this.props.match.params.ingredient}`}
+                                            >
+                                                <div className="flex items-center justify-center">
+                                                    <h1
+                                                        style={{
+                                                            textDecorationColor: this
+                                                                .state.active
+                                                                .color.hex,
+                                                        }}
+                                                        className="mr-2 font-gotham-black text-4xl leading-none underline"
+                                                    >
+                                                        {
+                                                            this.state.active
+                                                                .title
+                                                        }
+                                                    </h1>
+                                                    <img
+                                                        alt={`${this.state.active.title}`}
+                                                        className="w-16 h-16"
+                                                        src={`https://www.themealdb.com/images/ingredients/${this.state.active.title}.png`}
+                                                    />
+                                                </div>
+                                            </Link>
                                             <p className="mt-8 flex justify-center">
                                                 <NavLink
                                                     style={{
@@ -266,8 +303,15 @@ class Ingredient extends Archive {
                                         </div>
                                     </div>
                                     <Route
-                                        exact path={`/ingredients/:ingredient/`}
-                                        component={Intro}
+                                        exact
+                                        path={`/ingredients/:ingredient/`}
+                                        render={(props) => (
+                                            <Intro
+                                                {...props}
+                                                ingredient={this.state.active}
+                                                accentColor={accentColor}
+                                            />
+                                        )}
                                     />
                                     <Route
                                         path={`/ingredients/:ingredient/varieties`}
