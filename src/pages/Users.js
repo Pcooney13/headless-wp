@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, NavLink } from "react-router-dom";
+import { Route, NavLink, Link } from "react-router-dom";
 import axios from "axios";
 
 const About = ({ match }) => (
@@ -10,10 +10,10 @@ const About = ({ match }) => (
 const Favorites = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
         <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
-            <a
+            <Link
                 className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-green-200"
-                href=""
-            ></a>
+                to="/ingredients"
+            ></Link>
             <div class="pl-2 flex-1 flex flex-col justify-center">
                 <button class="text-black-200 hover:text-black-300 hover:fill-current">
                     <svg
@@ -43,10 +43,10 @@ const Favorites = ({ match }) => (
             </div>
         </div>
         <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
-            <a
+            <Link
                 className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-bright-green"
-                href=""
-            ></a>
+                href="/"
+            ></Link>
             <div class="pl-2 flex-1 flex flex-col justify-center">
                 <button class="text-black-200 hover:text-black-300 hover:fill-current">
                     <svg
@@ -76,10 +76,10 @@ const Favorites = ({ match }) => (
             </div>
         </div>
         <div className="watermelon-cucumber-juice card overflow-hidden p-0 relative filter-card mb-4 flex bg-white border-black-200 border rounded-lg">
-            <a
+            <Link
                 className="w-28 z-10 h-28 rounded-l-lg bg-center bg-cover mr-4 bg-green"
-                href=""
-            ></a>
+                href="/"
+            ></Link>
             <div class="pl-2 flex-1 flex flex-col justify-center">
                 <button class="text-black-200 hover:text-black-300 hover:fill-current">
                     <svg

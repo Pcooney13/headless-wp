@@ -7,10 +7,11 @@ class IngredientRecipes extends React.Component {
         let counter = 1
         return (
             <div className="max-w-screen-md mx-auto mt-6">
-                {this.props.recipes &&this.props.recipes.map((props) => (
+                {this.props.recipes &&
+                    this.props.recipes.map((props) => (
                         <div
                             key={counter++}
-                            className={`${props.slug} card p-0 relative filter-card flex bg-white shadow-md mb-4`}
+                            className={`${props.slug} card max-w-lg p-0 relative filter-card flex bg-white shadow-md mb-4`}
                         >
                             <div
                                 className="absolute bottom-0 left-2 w-28 h-28 bg-center bg-cover mr-4"
@@ -64,10 +65,10 @@ class IngredientRecipes extends React.Component {
                                     >
                                         {props.title}
                                     </h2>
-                                </Link>                                
+                                </Link>
                             </div>
                         </div>
-                ))}
+                    ))}
             </div>
         );
     }

@@ -45,6 +45,7 @@ class Routes extends React.Component {
             });
         }
     }
+
     changeUser = user => {
         if (user) {
             this.setState({
@@ -66,56 +67,72 @@ class Routes extends React.Component {
         } else {
             user = this.state.username;
         }
-        console.log(user);
-        fetch('https://pat-cooney.com/wp-json/jwt-auth/v1/token', {
-            method: 'POST',
+        console.log("user = " + user);
+        fetch("https://pat-cooney.com/wp-json/jwt-auth/v1/token", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
+                "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value,
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
             }),
         })
-            .then(response => {
-                console.log(response);
-                if (200 === response.status) {
-                    Cookies.set('username', user);
-                    // Cookies.set('wp-auth-token', response.token);
-                    console.log(Cookies.get());
-                    return response.json();
-                }
+        .then((response) => {
+            console.log(response);
+            if (!response.ok) {
+                throw Error(response.status);
+            }
+            if (200 === response.status) {
+                Cookies.set(
+                    "username",
+                    document.getElementById("username").value
+                );
+                Cookies.set('wp-auth-token', response.token);
+                console.log(Cookies.get());
+                return response.json();
+                localStorage.setItem("user", response.data);
+            }
+        })
+        .then((post) => {
+            Cookies.set("wp-auth-token", post.token);
+            console.log(post.token); //token response
+            // loginFunction();
+            return fetch("https://pat-cooney.com/wp-json/wp/v2/users/me", {
+                headers: {
+                    Authorization: "Bearer " + Cookies.get("wp-auth-token"),
+                },
             })
-            .then(post => {
-                Cookies.set('wp-auth-token', post.token);
-                console.log(post.token); //token response
-                // loginFunction();
-                return fetch('https://pat-cooney.com/wp-json/wp/v2/users/me', {
-                    headers: {
-                        Authorization: 'Bearer ' + Cookies.get('wp-auth-token'),
-                    }
-                }).then(boobs => {
-                    return boobs.json()
-                }).then(data => {
-                    Cookies.remove("userImageLink")
-                    if (data.profile_image) {
-                        console.log(data.profile_image)
-                        Cookies.set("userImageLink", data.acf.profile_image.sizes.thumbnail)
-                    }
-                    console.log(Cookies.get("userImageLink"))
-                    this.setState({
-                        user:data
-                    })
-                })
+            .then((boobs) => {
+                return boobs.json();
+            })
+            .then((data) => {
+                Cookies.remove("userImageLink");
+                if (data.profile_image) {
+                    console.log(data.profile_image);
+                    Cookies.set(
+                        "userImageLink",
+                        data.acf.profile_image.sizes.thumbnail
+                    );
+                }
+                console.log(Cookies.get("userImageLink"));
+                this.setState({
+                    user: data,
+                });
+                console.log(this.state)
             });
-            user &&
-                this.changeUser(user);
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            this.hideModal();
-            console.log(this.state);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+        user &&
+            this.changeUser(user);
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        this.hideModal();
     };
+
     handleSignIn = (e) => {
         e.preventDefault();
         fetch('https://pat-cooney.com/wp-json/wp/v2/users/register', {
@@ -158,7 +175,6 @@ class Routes extends React.Component {
     };
     handleAccountForm = (e) => {
         e.preventDefault()
-        console.log(e.target.children[0].innerHTML)
         if (e.target.children[0].innerHTML === "Log In") {
             this.handlelogin(e)
         } else if (e.target.children[0].innerHTML === "Sign Up") {
@@ -232,7 +248,7 @@ class Routes extends React.Component {
             <div className="mx-6 max-w-screen-lg lg:m-auto">
                 {path === "" ? (
                     //home
-                    <div className="py-6 border-b border-black-200 font-gotham-light">
+                    <div className="py-6 border-b border-black-200 font-gotham-light">                        
                         <span className="capitalize font-gotham-bold text-black-500">
                             home
                         </span>
@@ -305,6 +321,9 @@ class Routes extends React.Component {
                         return this.breadcrumbsRegEx(location.pathname);
                     }}
                 />
+                <a href="https://www.freecodecamp.org/news/how-to-persist-a-logged-in-user-in-react/">
+                    Figure out Logged in user so i can get rid of this shit
+                </a>
                 <AnimatePresence exitBeforeEnter>
                     <Switch>
                         <Route exact path="/" component={Home} />

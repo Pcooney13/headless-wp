@@ -9,7 +9,7 @@ class UserLogIn extends React.Component {
 
         return (
             <li className="ml-auto pr-0 border-l border-black pl-2 pr-0 text-white" id="log">
-                {console.log(this.props)}
+                {/* {console.log(this.props)} */}
                 {username !== undefined ||
                     Cookies.get('username') !== undefined ? (
                         <div>

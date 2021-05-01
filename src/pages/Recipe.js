@@ -28,10 +28,12 @@ const Nutrition = ({ match }) => (
 const LandingPage = ({ match, recipe }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
         <p>Recipe</p>
-        {console.log(recipe.items[0].ingredient.ingredient[0].post_title)}
         <ul class="list-disc pl-4">
-            {recipe.items.map((item) => (
-                <li>{item.ingredient.amount} {item.ingredient.measurement} {item.ingredient.ingredient[0].post_title}</li>
+            {recipe.items && recipe.items.map((item) => (
+                <li>
+                    {item.ingredient.amount} {item.ingredient.measurement}{" "}
+                    {item.ingredient.ingredient[0].post_title}
+                </li>
             ))}
         </ul>
     </div>
@@ -60,56 +62,24 @@ class Recipe extends Archive {
 
     loadPosts() {
         console.log(this.props)
-        // let recipeArray = [];
-        Promise.all([
-            fetch("https://pat-cooney.com/wp-json/v1/ingredients?per_page=100"),
-            fetch("https://pat-cooney.com/wp-json/v1/recipes?per_page=100"),
-        ])
-            .then(function (responses) {
-                // Get a JSON object from each of the responses
-                return Promise.all(
-                    responses.map(function (response) {
-                        return response.json();
-                    })
-                );
+        fetch(`https://pat-cooney.com/wp-json/v1/recipes/${this.props.match.params.recipe}`)
+            .then(function (response) {
+                return response.json();
             })
             .then((value) => {
-                value[1].forEach(
-                    (post) =>
-                    post.slug === this.props.match.params.recipe &&                        
-                        this.setState(
-                            {
-                                active: post,
-                            },
-                            (error) => {
-                                this.setState({
-                                    isLoaded: true,
-                                    error,
-                                });
-                            }
-                        )
-                );
-                // value[1].forEach((recipe) =>
-                //     recipe.items.forEach(
-                //         (ingreds) =>
-                //             console.log(this.state.active)
-                //             this.state.active.slug ===
-                //                 ingreds.ingredient.ingredient[0].post_name &&
-                //             recipeArray.push(recipe)
-                //     )
-                // );
-                // this.setState(
-                //     {
-                //         recipes: recipeArray,
-                //     },
-                //     (error) => {
-                //         this.setState({
-                //             isLoaded: true,
-                //             error,
-                //         });
-                //     }
-                // );
-            });
+                
+                this.setState(
+                    {
+                        active: value,
+                    },
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
+                    }
+                )
+            })
     }
 
     render() {
@@ -120,7 +90,7 @@ class Recipe extends Archive {
             return (
                 <div className="App">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
-                        {this.props.match.params.ingredient}
+                        {this.props.match.params.recipe}
                     </h2>
 
                     <div className="card-container">
@@ -134,7 +104,7 @@ class Recipe extends Archive {
             return (
                 <div className="App">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
-                        {this.props.match.params.ingredient}
+                        {this.props.match.params.recipe}
                     </h2>
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-lg font-gotham">
@@ -197,17 +167,10 @@ class Recipe extends Archive {
                                                             .state.active.color
                                                             .hex,
                                                     }}
-                                                    className="mr-2 font-gotham-black text-4xl leading-none underline"
+                                                    className="mr-2 mt-4 font-gotham-black text-4xl leading-none underline"
                                                 >
                                                     {this.state.active.title}
-                                                </h1>
-                                                <img
-                                                    alt={`${this.state.active.title}`}
-                                                    className="w-16 h-16"
-                                                    src={`https://via.placeholder.com/64x64/${this.state.active.color.hex.substring(
-                                                        1
-                                                    )}/000000?text=smoothie`}
-                                                />
+                                                </h1>                                                
                                             </div>
                                             <p className="mt-8 flex justify-center">
                                                 <NavLink

@@ -90,8 +90,9 @@ class Ingredient extends Archive {
 
     loadPosts() {
         let recipeArray = []
+        console.log(this.props.match.params.ingredient)
         Promise.all([
-            fetch("https://pat-cooney.com/wp-json/v1/ingredients?per_page=100"),
+            fetch(`https://pat-cooney.com/wp-json/v1/ingredients/${this.props.match.params.ingredient}`),
             fetch("https://pat-cooney.com/wp-json/v1/recipes?per_page=100"),
         ])
             .then(function (responses) {
@@ -103,21 +104,17 @@ class Ingredient extends Archive {
                 );
             })
             .then((value) => {
-                value[0].forEach(
-                    (post) =>
-                        post.slug === this.props.match.params.ingredient &&
-                        this.setState(
-                            {
-                                active: post,
-                            },
-                            (error) => {
-                                this.setState({
-                                    isLoaded: true,
-                                    error,
-                                });
-                            }
-                        )
-                );
+                this.setState(
+                    {
+                        active: value[0],
+                    },
+                    (error) => {
+                        this.setState({
+                            isLoaded: true,
+                            error,
+                        });
+                    }
+                )
                 value[1].forEach((recipe) =>
                 recipe.items &&
                     recipe.items.forEach(
