@@ -1,14 +1,9 @@
-//create a new user --> [SIGN UP] button
-
-//
-
-
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import UserLogIn from './UserLogIn';
 
+import ModalPage from "../../pages/ModalPage";
 
 class Header extends React.Component {
 
@@ -163,18 +158,12 @@ class Header extends React.Component {
                             </NavLink>
                         </li>
                         <li className="pr-8 inline-block">
-                            <NavLink
-                                activeClassName="active"
-                                to="/ingredients"
-                            >
+                            <NavLink activeClassName="active" to="/ingredients">
                                 Ingredients
                             </NavLink>
                         </li>
                         <li className="pr-8 inline-block">
-                            <NavLink
-                                activeClassName="active"
-                                to="/recipes"
-                            >
+                            <NavLink activeClassName="active" to="/recipes">
                                 Recipes
                             </NavLink>
                         </li>
@@ -193,6 +182,7 @@ class Header extends React.Component {
                                 Resume
                             </NavLink>
                         </li>
+                        <ModalPage />
                         <UserLogIn
                             user={user}
                             username={username}
@@ -351,7 +341,6 @@ class Header extends React.Component {
                                 id="description"
                             ></p>
                         </div>
-
                         <form
                             className="form"
                             id="profile-form"

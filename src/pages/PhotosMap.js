@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 const mapStyles = {
@@ -13,8 +12,8 @@ export class MapContainer extends React.Component {
         super(props);
 
         this.state = {
-            isLoaded: false,
-            map: false,
+            // isLoaded: false,
+            // map: false,
             mapCoords: [],
             error: null,
             posts: null,
@@ -43,24 +42,34 @@ export class MapContainer extends React.Component {
 
     showMap() {
         return (
-            <div id="the-map">
-                <Map google={this.props.google}
+            <div class="mx-auto h-96 relative max-w-screen-lg" id="the-map">
+                <Map
+                    google={this.props.google}
                     onClick={this.onMapClicked}
-                    zoom={8}
+                    zoom={2}
                     style={mapStyles}
                     initialCenter={{
                         lat: 42.6540089,
                         lng: -71.1504676,
-                    }}>
-                    {this.displayMarkers()}
+                    }}
+                >
+                    {/* {this.displayMarkers()} */}
                     <InfoWindow
                         marker={this.state.activeMarker}
-                        visible={this.state.showingInfoWindow}>
+                        visible={this.state.showingInfoWindow}
+                    >
                         <div>
                             <h1>{this.state.selectedPlace.name}</h1>
                             {console.log(this.state.selectedPlace.info)}
-                            {this.state.selectedPlace.info && <img src={this.state.selectedPlace.info.image.medium} alt={this.state.selectedPlace.info.title}/>}
-                            
+                            {this.state.selectedPlace.info && (
+                                <img
+                                    src={
+                                        this.state.selectedPlace.info.image
+                                            .medium
+                                    }
+                                    alt={this.state.selectedPlace.info.title}
+                                />
+                            )}
                         </div>
                     </InfoWindow>
                 </Map>
@@ -94,7 +103,7 @@ export class MapContainer extends React.Component {
     }
 
     loadPosts() {
-        const dataPosts = 'https://pat-cooney.com/wp/wp-json/pcd/v1/photos';
+        const dataPosts = 'https://pat-cooney.com/wp/wp-json/v1/recipes';
         fetch(dataPosts)
             .then(value => value.json())
             .then(value => {
@@ -113,54 +122,47 @@ export class MapContainer extends React.Component {
             });
     }
 
-    //     center map on user location     //
-    /////////////////////////////////////////   
-    // showPosition(position) {
-    //     console.log("Latitude: " + position.coords.latitude + 
-    //     "<br>Longitude: " + position.coords.longitude);  
-    // }
-    // getLocation() {
-    //     if (navigator.geolocation) {
-    //         navigator.geolocation.getCurrentPosition(
-    //             // Success function
-    //             this.showPosition,
-    //             // Error function
-    //             null,
-    //             // Options. See MDN for details.
-    //             {
-    //                 enableHighAccuracy: true,
-    //                 timeout: 5000,
-    //                 maximumAge: 0,
-    //             }
-    //         );
-    //             this.setState({
-    //                 map: true,
-    //                 // mapCoords: [position.coords.latitude, position.coords.longitude],
-    //             });
-    //     } else { 
-    //         console.log("Geolocation is not supported by this browser.");
-    //     }
-    // }
+    // center map on user location     //
+    ///////////////////////////////////////   
+    showPosition(position) {
+        console.log("Latitude: " + position.coords.latitude + 
+        "<br>Longitude: " + position.coords.longitude);  
+    }
+    getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                // Success function
+                this.showPosition,
+                // Error function
+                null,
+                // Options. See MDN for details.
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0,
+                }
+            );
+                this.setState({
+                    map: true,
+                    // mapCoords: [position.coords.latitude, position.coords.longitude],
+                });
+        } else { 
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
 
     render() {
-        const { error, isLoaded, map } = this.state;
+        // const { error, isLoaded, map } = this.state;
+        const { error } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
-        } else if (!isLoaded && !map) {
-            return (
-                <div className="App">
-                    <h1>Photos Map</h1>
-                </div>
-            );
         } else {
             return (
                 <div className="App">
-                    {console.log(this.state)}
+                    {/* {console.log(this.state)}
                     {this.state.posts &&
                         this.state.posts[0].location.lat &&
-                        console.log(this.state.posts[0].location.lat)}
-                    <h1>Photos Map</h1>
-                    <Link to="/photos">View Gallery Photos</Link>
+                        console.log(this.state.posts[0].location.lat)} */}
                     {this.showMap()}
                 </div>
             );

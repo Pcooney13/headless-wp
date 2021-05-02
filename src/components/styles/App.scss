@@ -1,22 +1,11 @@
-
-$lightgreen: #4b957b;
 $green: #126b4c;
-$darkgreen: #284b3e;
 $white: #eef1f0;
 $white-50: rgba(238, 241, 240, .5);
 
 :root {
     --off-white: #eef1f0;
     --black: #484848;
-    --dark-red: #b42d3c;
-    --light-red: #ff6f61;
-    --dark-yellow: #f7b11a;
-    --light-yellow: #fdd796;
-    --light-green: #a6ce39;
     --border-green: #b9d5cb;
-    --dark-blue: #0b57ff;
-    --light-blue: #6bc4c6;
-    --purple: #6f62ab;
 }
 
 @font-face{
@@ -70,7 +59,7 @@ body {
 }
 .header {
     width: 100vw;
-    z-index: 99;
+    z-index: 49;
     transition: all 0.5s, width 0s;
 }
 .header .active {
@@ -111,11 +100,6 @@ footer {
 #log-in {
     margin-right: 15px;
 }
-#sign-in {
-    background-color: $darkgreen;
-    margin-left: 5px;
-    margin-right: 5px;
-}
 #modal,
 #post-modal,
 #map-modal {
@@ -152,20 +136,11 @@ footer {
     opacity: 0.5;
 }
 .close-modal:hover {
-    color: var(--light-green);
     opacity: 1;
     transform: scale(1.5);
 }
 #modal-btn-right {
     margin-left: auto;
-}
-.has-children:after {
-    content: url(../svgs/arrow.svg);
-    width: 8px;
-    display: inline-block;
-    margin-left: 5px;
-    transition: all 0.5s;
-    transform: rotate(180deg);
 }
 #logo {
     position: absolute;
@@ -262,26 +237,10 @@ img.image-full {
 a.image-big {
     height: unset;
 }
-.photo-title-flex {
-    display: flex;
-}
-.photo-title-flex button {
-    margin-left: auto;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background-color: $green;
-    color: white;
-    font-size: 21px;
-    font-weight: bold;
-}
 .form #new-post-image {
     padding: 0;
     height: 60px;
     border: none;
-}
-.not-liked .fill {
-    opacity: 0;
 }
 .fill {
     opacity: 1;

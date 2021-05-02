@@ -117,7 +117,8 @@ const Comments = ({ match }) => (
 );
 
 const Users = (props) => {
-    const url = `https://pat-cooney.com/wp-json/v1/users?per_page=100`;
+    console.log(props.match.params.slug)
+    const url = `https://pat-cooney.com/wp-json/v1/users/${props.match.params.slug}`;
     const [user, setuser] = useState({
         loading: false,
         data: null,
@@ -133,17 +134,10 @@ const Users = (props) => {
         });
         axios
             .get(url)
-            .then((response) => {
-                let active;
-                response.data.map((user) => 
-                    // console.log(user)
-                    user.id === parseInt(props.match.params.id)
-                        ? active = user
-                        : ''
-                );
+            .then((response) => {                
                 setuser({
                     loading: false,
-                    data: active,
+                    data: response.data,
                     search: null,
                     error: false,
                 });
@@ -159,26 +153,22 @@ const Users = (props) => {
             });
     }, [url])     
     
-    let runFirstTest = (user) => {
-        const fixBreadCrumb = document.querySelector("#breadcrumbs");
-        // console.log(fixBreadCrumb.children)
-        // console.log(user)
-        // console.log(props.match.params.id)
-        for(var i = 0; i < fixBreadCrumb.children.length; i++) {
-            if ( fixBreadCrumb.children[i].children[0].innerHTML === props.match.params.id ) {
-                fixBreadCrumb.children[
-                    i
-                ].children[0].innerHTML = fixBreadCrumb.children[
-                    i
-                ].children[0].innerHTML.replace(
-                    props.match.params.id,
-                    `${user.first_name} ${user.last_name}`
-                );
-            }
-            // console.log(fixBreadCrumb.children[i].innerHTML);
-        }        
-        // fixBreadCrumb.innerHTML = user.first_name + " " + user.last_name
-    }
+    // let runFirstTest = (user) => {
+    //     const fixBreadCrumb = document.querySelector("#breadcrumbs");
+
+    //     for(var i = 0; i < fixBreadCrumb.children.length; i++) {
+    //         if ( fixBreadCrumb.children[i].children[0].innerHTML === props.match.params.id ) {
+    //             fixBreadCrumb.children[
+    //                 i
+    //             ].children[0].innerHTML = fixBreadCrumb.children[
+    //                 i
+    //             ].children[0].innerHTML.replace(
+    //                 props.match.params.id,
+    //                 `${user.first_name} ${user.last_name}`
+    //             );
+    //         }
+    //     }        
+    // }
     
     let content = null;
 
@@ -192,7 +182,7 @@ const Users = (props) => {
 
         content = (
             <div className="flex">
-                {runFirstTest(user.data)}
+                {/* {runFirstTest(user.data)} */}
                 <div className="p-12 relative">
                     <div className="absolute w-64 h-64 rounded-2xl bg-green-200 rotate-6 transform z-10"></div>
                     <div
@@ -211,28 +201,28 @@ const Users = (props) => {
                             <NavLink
                                 activeClassName="font-gotham-bold border-b-4 text-green"
                                 className="pb-2 px-4"
-                                exact to={`/users/${user.data.id}`}
+                                exact to={`/users/${user.data.slug}`}
                                 >
                                 About
                             </NavLink>
                             <NavLink
                                 activeClassName="font-gotham-bold border-b-4 text-green"
                                 className="pb-2 px-4 mx-8"
-                                to={`/users/${user.data.id}/favorites`}
+                                to={`/users/${user.data.slug}/favorites`}
                                 >
                                 Favorite Recipes
                             </NavLink>
                             <NavLink
                                 activeClassName="font-gotham-bold border-b-4 text-green"
                                 className="pb-2 px-4"
-                                to={`/users/${user.data.id}/comments`}
+                                to={`/users/${user.data.slug}/comments`}
                                 >
                                 Comments
                             </NavLink>
                         </div>
-                        <Route path={`/users/:id/favorites`} component={Favorites} />
-                        <Route path={`/users/:id/comments`} component={Comments} />
-                        <Route exact path={`/users/:id`} component={About} />
+                        <Route path={`/users/:slug/favorites`} component={Favorites} />
+                        <Route path={`/users/:slug/comments`} component={Comments} />
+                        <Route exact path={`/users/:slug`} component={About} />
                     </div>
                 </div>
             </div>

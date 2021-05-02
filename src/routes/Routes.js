@@ -6,10 +6,10 @@ import { AnimatePresence } from "framer-motion";
 import Home from '../Home'
 import Header from '../components/header/Header'
 import Footer from '../components/footer/Footer'
-import Photos from '../pages/Photos'
 // import Archive from '../pages/Archive'
 import Ingredient from '../pages/Ingredient'
 import Recipe from '../pages/Recipe'
+import ModalPage from '../pages/ModalPage'
 import PhotosMap from '../pages/PhotosMap'
 import Resume from '../pages/Resume'
 import List from '../pages/List'
@@ -25,42 +25,54 @@ class Routes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            error: null,
-            isLoaded: false,
-            loggedIn: false,
-            token: 'wp-token',
-            username: undefined,
-            user:undefined,
-            modalState: undefined,
-            list: undefined,
+            // error: null,
+            // isLoaded: false,
+            // loggedIn: false,
+            // token: 'wp-token',
+            // username: undefined,
+            // user:undefined,
+            // modalState: undefined,
+            // list: undefined,
         };
         this.changeUser = this.changeUser.bind(this);
         this.userDropdown = this.userDropdown.bind(this);
     }
     componentDidMount() {
         //Check cookies if user is logged in && forces a reload on login
-        if (Cookies.get('username')) {
+        if (Cookies.get('user_id')) {
+            console.log("someone is logged in")
+            fetch('https://pat-cooney.com/wp-json/v1/users').then((response) => {
+                return response.json();
+            })
+            .then((value) => {
+                    console.log(value)
+                    // this.setState(
+
+                    // )
+            })
             this.setState({
                 username: Cookies.get('username'),
             });
         }
     }
-
     changeUser = user => {
-        if (user) {
-            this.setState({
-                username: user,
-            });
-        } else {
-            this.setState({
-                username: undefined,
-            });
-        }
+        console.log("Change user called: " + user)
+        // if (user) {
+        //     this.setState({
+        //         username: user,
+        //     });
+        // } else {
+        //     this.setState({
+        //         username: undefined,
+        //     });
+        // }
     };
     // Add api call to /:user and setState: {user: res.apidata}
     handlelogin = (e) => {
         e.preventDefault();
         console.log(this.state);
+        Cookies.remove("user")
+        console.log(Cookies.get());
         let user;
         if (!this.state.username) {
             user = document.getElementById('username').value;
@@ -80,25 +92,17 @@ class Routes extends React.Component {
             }),
         })
         .then((response) => {
-            console.log(response);
             if (!response.ok) {
                 throw Error(response.status);
             }
-            if (200 === response.status) {
-                Cookies.set(
-                    "username",
-                    document.getElementById("username").value
-                );
-                Cookies.set('wp-auth-token', response.token);
-                console.log(Cookies.get());
+            if (200 === response.status) {                
                 return response.json();
-                localStorage.setItem("user", response.data);
+                // localStorage.setItem("user", response.data);
             }
         })
         .then((post) => {
+            //JWT AUTH TOKEN SET
             Cookies.set("wp-auth-token", post.token);
-            console.log(post.token); //token response
-            // loginFunction();
             return fetch("https://pat-cooney.com/wp-json/wp/v2/users/me", {
                 headers: {
                     Authorization: "Bearer " + Cookies.get("wp-auth-token"),
@@ -108,15 +112,14 @@ class Routes extends React.Component {
                 return boobs.json();
             })
             .then((data) => {
-                Cookies.remove("userImageLink");
-                if (data.profile_image) {
-                    console.log(data.profile_image);
-                    Cookies.set(
-                        "userImageLink",
-                        data.acf.profile_image.sizes.thumbnail
-                    );
+                // Cookies.remove("userImageLink");
+                if (data.profile_image) {                    
+                    Cookies.set( "username", data.name );
+                    Cookies.set( "user_id", data.id );
+                    Cookies.set( "userImageLink", data.acf.profile_image.sizes.thumbnail );
                 }
-                console.log(Cookies.get("userImageLink"));
+                // console.log(Cookies.get());
+                // console.log(Cookies.get("userImageLink"));
                 this.setState({
                     user: data,
                 });
@@ -126,13 +129,11 @@ class Routes extends React.Component {
         .catch(function (error) {
             console.log(error);
         });
-        user &&
-            this.changeUser(user);
+        Cookies.get("username") && this.changeUser(Cookies.get("username"));
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         this.hideModal();
     };
-
     handleSignIn = (e) => {
         e.preventDefault();
         fetch('https://pat-cooney.com/wp-json/wp/v2/users/register', {
@@ -326,26 +327,9 @@ class Routes extends React.Component {
                 </a>
                 <AnimatePresence exitBeforeEnter>
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route
-                            path="/photos/:category"
-                            render={(props) => (
-                                <Photos
-                                    {...props}
-                                    username={this.state.username}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/photo/:id"
-                            render={(props) => (
-                                <Photos
-                                    {...props}
-                                    username={this.state.username}
-                                />
-                            )}
-                        />
+                        <Route exact path="/" component={Home} />                        
                         <Route exact path="/weather" component={Weather} />
+                        <Route exact path="/modal" component={ModalPage} />
                         <Route
                             exact
                             path="/list"
@@ -353,7 +337,7 @@ class Routes extends React.Component {
                         />
                         <Route exact path="/resume" component={Resume} />
                         <Route exact path="/map" component={PhotosMap} />
-                        <Route path="/users/:id" component={User} />
+                        <Route path="/users/:slug" component={User} />
                         <Route
                             exact
                             path="/users"
@@ -393,16 +377,6 @@ class Routes extends React.Component {
                             )}
                         />
 
-                        <Route
-                            exact
-                            path="/photos"
-                            render={(props) => (
-                                <Photos
-                                    {...props}
-                                    username={this.state.username}
-                                />
-                            )}
-                        />
                         <Route component={Notfound} />
                     </Switch>
                 </AnimatePresence>

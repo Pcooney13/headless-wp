@@ -51,7 +51,8 @@ function Card(props, activeUser) {
             key={props.displayItem.id}
             className={`${props.displayItem.first_name} ${props.displayItem.last_name} card max-w-lg mb-4 mx-auto flex items-center bg-white border-black-200 border p-4 rounded-lg`}
         >
-            <Link to={`/users/${props.displayItem.id}/`}>
+            <Link to={`/users/${props.displayItem.slug}/`}>
+                {console.log(props.displayItem)}
                 <motion.img
                     variants={textMotion}
                     alt="team"
@@ -65,7 +66,7 @@ function Card(props, activeUser) {
             </Link>
             <div className="flex-grow">
                 <Link
-                    to={`/users/${props.displayItem.id}/`}
+                    to={`/users/${props.displayItem.slug}/`}
                     className="no-underline text-black"
                 >
                     <h2 className="text-xl font-gotham-medium md:font-gotham-bold leading-tight tracking-tight">
