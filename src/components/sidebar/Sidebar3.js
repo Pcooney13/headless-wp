@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Html5Entities } from "html-entities";
 
-import { ReactComponent as SVGSortAsc } from "../svgs/sort-asc.svg";
-import { ReactComponent as SVGSearch } from "../svgs/search.svg";
-import { ReactComponent as SVGColorSwatch } from "../svgs/color-swatch.svg";
-import { ReactComponent as SVGFilter } from "../svgs/filters.svg";
-import { ReactComponent as SVGChevronDown } from "../svgs/chevron-down.svg";
+import { ReactComponent as SVGSortAsc } from "../../assets/svgs/sort-asc.svg";
+import { ReactComponent as SVGSearch } from "../../assets/svgs/search.svg";
+import { ReactComponent as SVGColorSwatch } from "../../assets/svgs/color-swatch.svg";
+import { ReactComponent as SVGFilter } from "../../assets/svgs/filters.svg";
+import { ReactComponent as SVGChevronDown } from "../../assets/svgs/chevron-down.svg";
 
 const List = (props) => {
     const htmlEntities = new Html5Entities();

@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../components/sidebar/Sidebar';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
-import { ReactComponent as SVGStar } from "../components/svgs/star-o.svg";
+import { ReactComponent as SVGStar } from "../assets/svgs/star-o.svg";
 
 //Create function to add `${user_ID}, ` to recipe when star is clicked
 // SAVE RECIPE ID TO USER PROFILE

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ReactComponent as SVGStar } from "../components/svgs/star-o.svg";
+import { ReactComponent as SVGStar } from "../assets/svgs/star-o.svg";
 import { Html5Entities } from "html-entities";
 
 

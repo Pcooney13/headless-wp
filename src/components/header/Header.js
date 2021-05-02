@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import UserLogIn from './UserLogIn';
 
-import ModalPage from "../../pages/ModalPage";
+import ModalComponent from "../modal/ModalComponent";
 
 class Header extends React.Component {
 
@@ -182,7 +182,19 @@ class Header extends React.Component {
                                 Resume
                             </NavLink>
                         </li>
-                        <ModalPage />
+                        <ModalComponent
+                            user={user}
+                            username={username}
+                            className="color-white"
+                            modalState={this.props.modalState}
+                            showModal={this.props.showModal}
+                            hideModal={this.props.hideModal}
+                            userDropdown={this.props.userDropdown}
+                            handleAccountForm={this.props.handleAccountForm}
+                            handlelogout={this.props.handlelogout}
+                            handlelogin={this.props.handlelogin}
+                            handleSignIn={this.props.handleSignIn}
+                        />
                         <UserLogIn
                             user={user}
                             username={username}
