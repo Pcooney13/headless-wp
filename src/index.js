@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Routes from "./components/routes/Routes";
-import './assets/css/tailwind.output.css';
 import * as serviceWorker from './serviceWorker';
+
+import './assets/css/tailwind.output.css';
 
 ReactDOM.render(
     <div>

@@ -2,6 +2,7 @@
   "name": "pcooney",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://pat-cooney.com/",
   "dependencies": {
     "acorn": "^7.1.1",
     "animated": "^0.2.2",
@@ -19,7 +20,8 @@
     "react-dom": "^16.8.6",
     "react-lazyload": "^2.6.5",
     "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
+    "react-scripts": "^2.1.8",
+    "react-toastify": "^7.0.4",
     "react-transition-group": "^4.0.0",
     "styled-components": "3.1.6",
     "typescript": "^3.4.5",
@@ -45,8 +47,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "autoprefixer": "^10.2.5",
-    "postcss": "^8.2.6",
-    "tailwindcss": "^2.0.3"
+    "autoprefixer": "^9.8.6",
+    "postcss": "^7.0.35",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.2"
   }
 }

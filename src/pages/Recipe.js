@@ -8,7 +8,6 @@
 
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
-import Archive from "./Archive";
 
 const Varieties = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
@@ -44,7 +43,7 @@ const SimilarRecipes = ({ match }) => (
     </div>
 );
 
-class Recipe extends Archive {
+class Recipe extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -88,7 +87,7 @@ class Recipe extends Archive {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return (
-                <div className="App">
+                <div className="App max-w-screen-lg">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
                         {this.props.match.params.recipe}
                     </h2>
@@ -102,10 +101,11 @@ class Recipe extends Archive {
             // window.scrollTo(0, 0);
 
             return (
-                <div className="App">
+                <div className="App max-w-screen-lg">
                     <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
                         {this.props.match.params.recipe}
                     </h2>
+                    onscroll when image hits top sticky immage and move info box into center. might need more padding-bottom so it sits perfectly centered on scroll
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
                         <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-lg font-gotham">
                             {this.state.active === null ? (
@@ -230,7 +230,7 @@ class Recipe extends Archive {
                                             <LandingPage
                                             {...props}
                                             type={"recipes"}
-                                                recipe={this.state.active}                                                
+                                            recipe={this.state.active}                                                
                                             />
                                         )}
                                     />

@@ -1,8 +1,19 @@
-import React from "react";
+import React from 'react'
+
+const formatNutrition = (sizeModifier, ingredient, measure, dailyvalue) => {
+    if (!dailyvalue) {
+        return ` ${(ingredient * 1).toFixed(2)}${measure}`
+        // return ` ${ingredient}${measure}`
+    } else {
+        return ` ${((ingredient / dailyvalue) * 100).toFixed(1)}%`
+    }
+}
 
 class Nutrition extends React.Component {
     render() {
         // const { url } = this.props.match
+        let nutritionSize = 100
+
         return (
             <div>
                 <div className="flex justify-center items-center max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200">
@@ -12,7 +23,7 @@ class Nutrition extends React.Component {
                         </div>
                         <div className="flex justify-between font-gotham-bold border-b-8 border-black">
                             <div>Serving size</div>
-                            <div>Standard (100g)</div>
+                            <div>Standard ({nutritionSize}g)</div>
                         </div>
                         <div className="font-gotham-bold">
                             Amount per serving
@@ -37,31 +48,35 @@ class Nutrition extends React.Component {
                                     <span className="font-gotham-bold">
                                         Total Fat
                                     </span>
-                                    {` ${
-                                        this.props.ingredient.nutrition.fat
-                                            ? `${this.props.ingredient.nutrition.fat}g`
-                                            : ``
-                                    }`}
+                                    {this.props.ingredient.nutrition.fat &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition.fat,
+                                            'g'
+                                        )}
                                 </div>
                                 <div className="font-gotham-bold">
-                                    {(
-                                        (this.props.ingredient.nutrition.fat /
-                                            78) *
-                                        100
-                                    ).toFixed(1)}
-                                    %
+                                    {this.props.ingredient.nutrition.fat &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition.fat,
+                                            '%',
+                                            78
+                                        )}
                                 </div>
                             </div>
                             <hr className="border-black-200" />
                             <div className="pl-4 flex justify-between">
                                 <div>
                                     Saturated Fat
-                                    {` ${
-                                        this.props.ingredient.nutrition
-                                            .saturated_fat
-                                            ? `${this.props.ingredient.nutrition.saturated_fat}g`
-                                            : `0g`
-                                    }`}
+                                    {this.props.ingredient.nutrition
+                                        .saturated_fat &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .saturated_fat,
+                                            'g'
+                                        )}
                                 </div>
                                 <div className="font-gotham-bold">
                                     {this.props.ingredient.nutrition
@@ -81,24 +96,26 @@ class Nutrition extends React.Component {
                                 <div>
                                     <span className="font-gotham-bold">
                                         Cholesterol
-                                    </span>{" "}
-                                    {` ${
-                                        this.props.ingredient.nutrition
-                                            .cholesterol
-                                            ? `${this.props.ingredient.nutrition.cholesterol}mg`
-                                            : `0mg`
-                                    }`}
+                                    </span>
+                                    {this.props.ingredient.nutrition
+                                        .cholesterol &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .cholesterol,
+                                            'mg'
+                                        )}
                                 </div>
                                 <div className="font-gotham-bold">
-                                    {this.props.ingredient.nutrition.cholesterol
-                                        ? (
-                                              (this.props.ingredient.nutrition
-                                                  .cholesterol /
-                                                  300) *
-                                              100
-                                          ).toFixed(1)
-                                        : 0}
-                                    %
+                                    {this.props.ingredient.nutrition
+                                        .cholesterol &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .cholesterol,
+                                            '%',
+                                            300
+                                        )}
                                 </div>
                             </div>
                             <hr className="border-black-200" />
@@ -106,65 +123,124 @@ class Nutrition extends React.Component {
                                 <div>
                                     <span className="font-gotham-bold">
                                         Sodium
-                                    </span>{" "}
-                                    {` ${
-                                        this.props.ingredient.nutrition.sodium
-                                            ? `${this.props.ingredient.nutrition.sodium}mg`
-                                            : `0mg`
-                                    }`}
+                                    </span>
+                                    {this.props.ingredient.nutrition.sodium &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .sodium,
+                                            'mg'
+                                        )}
                                 </div>
-                                <div className="font-gotham-bold">7%</div>
+                                <div className="font-gotham-bold">
+                                    {this.props.ingredient.nutrition.sodium &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .sodium,
+                                            '%',
+                                            2300
+                                        )}
+                                </div>
                             </div>
                             <hr className="border-black-200" />
                             <div className="flex justify-between">
                                 <div>
                                     <span className="font-gotham-bold">
                                         Total Carbohydrate
-                                    </span>{" "}
-                                    {` ${
-                                        this.props.ingredient.nutrition.carbs
-                                            ? `${this.props.ingredient.nutrition.carbs}g`
-                                            : `0g`
-                                    }`}
+                                    </span>
+                                    {this.props.ingredient.nutrition.carbs &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .carbs,
+                                            'g'
+                                        )}
                                 </div>
                                 <div className="font-gotham-bold">
-                                    {this.props.ingredient.nutrition.carbs
-                                        ? (
-                                              (this.props.ingredient.nutrition
-                                                  .carbs /
-                                                  300) *
-                                              100
-                                          ).toFixed(1)
-                                        : 0}
-                                    %
+                                    {this.props.ingredient.nutrition.carbs &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .carbs,
+                                            '%',
+                                            275
+                                        )}
                                 </div>
                             </div>
                             <hr className="border-black-200" />
                             <div className="flex justify-between">
-                                <div className="pl-4">Dietary Fiber 4g</div>
-                                <div className="font-gotham-bold">14%</div>
-                            </div>
-                            <hr className="border-black-200" />
-                            <div className="pl-4">
-                                Total Sugar 12g
                                 <div className="pl-4">
-                                    <hr className="border-black-200" />
-                                    <div className="flex justify-between">
-                                        <div>Includes 10g Added Sugars</div>
-                                        <div className="font-gotham-bold">
-                                            20%
-                                        </div>
-                                    </div>
+                                    Dietary Fiber
+                                    {this.props.ingredient.nutrition.fiber &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .fiber,
+                                            'g'
+                                        )}
+                                </div>
+                                <div className="font-gotham-bold">
+                                    {this.props.ingredient.nutrition.fiber &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .fiber,
+                                            '%',
+                                            28
+                                        )}
                                 </div>
                             </div>
                             <hr className="border-black-200" />
-                            <div>
-                                <span className="font-gotham-bold">
-                                    Protein
-                                </span>{" "}
-                                3g
+                            <div className="flex justify-between">
+                                <div className="pl-4">
+                                    Total Sugar
+                                    {this.props.ingredient.nutrition.sugar &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .sugar,
+                                            'g'
+                                        )}
+                                </div>
+                                <div className="font-gotham-bold">
+                                    {this.props.ingredient.nutrition.sugar &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .sugar,
+                                            '%',
+                                            50
+                                        )}
+                                </div>
+                            </div>
+                            <hr className="border-black-200" />  
+                            <div className="flex justify-between">
+                                <div>
+                                    <span className="font-gotham-bold">
+                                        Protein
+                                    </span>
+                                    {this.props.ingredient.nutrition.protein &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .protein,
+                                            'g'
+                                        )}
+                                </div>
+                                <div className="font-gotham-bold">
+                                    {this.props.ingredient.nutrition.protein &&
+                                        formatNutrition(
+                                            nutritionSize,
+                                            this.props.ingredient.nutrition
+                                                .protein,
+                                            '%',
+                                            50
+                                        )}
+                                </div>
                             </div>
                         </div>
+                        {/* ENDED HERE */}
                         <div className="border-t-8 border-black pt-1 text-sm">
                             <div className="flex justify-between">
                                 <div>Vitamin D 2mcg</div>
@@ -210,7 +286,7 @@ class Nutrition extends React.Component {
                     nutrition csvv
                 </a>
             </div>
-        );
+        )
     }
 }
-export default Nutrition;
+export default Nutrition

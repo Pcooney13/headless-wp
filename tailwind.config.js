@@ -1,6 +1,6 @@
 module.exports = {
     mode: "jit",
-    purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+    purge: ["./src/**/*.{js,jsx}", "./public/index.html"],
     darkMode: false, // or 'media' or 'class'
     theme: {
         screens: {
@@ -56,6 +56,9 @@ module.exports = {
             },
             maxHeight: {
                 0: "0",
+            },
+            maxWidth: {
+                128: "32rem",
             },
             fontSize: {
                 "8xl": "8rem",

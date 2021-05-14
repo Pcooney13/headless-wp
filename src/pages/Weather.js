@@ -113,9 +113,16 @@ class WeatherApp extends Component {
 
     render() {
         return (
-            <div className="App">
+            <div className="mx-auto max-w-screen-lg">
+                <h3 class="text-2xl font-gotham-medium capitalize my-4">Weather</h3>
                 <div className="weather-app">
                     <div>
+                        <p>
+                            <a class="text-bright-green underline" href="https://www.youtube.com/watch?v=eYWBWT33kVU">
+                                This
+                            </a>{' '}
+                            is cooler than what you got
+                        </p>
                         <Weather
                             temperature={this.state.temperature}
                             apparentTemperature={this.state.apparentTemperature}
@@ -135,7 +142,7 @@ class WeatherApp extends Component {
                     </div>
                 </div>
             </div>
-        );
+        )
     }
 }
 

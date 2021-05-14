@@ -432,7 +432,7 @@ const List = (props) => {
 const ColorPicker = () => {
     const [color, setColor] = useState(null);
 
-    console.log("colorPicker", color);
+    // console.log("colorPicker", color);
 
     return (
         <button className="h-8 w-8 relative overflow-hidden">
@@ -441,7 +441,7 @@ const ColorPicker = () => {
                 className="h-8 w-8 text-black-300"
             />
             <input
-                value={color}
+                value={color ? color : undefined}
                 type="color"
                 className="h-8 w-8 absolute top-0 left-0 opacity-0"
                 name="colorPicker"

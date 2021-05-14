@@ -8,9 +8,68 @@
 import React from "react";
 import { Route, NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Archive from "./Archive";
+import axios from 'axios'
 import Nutrition from "./Nutrition";
 import IngredientRecipes from "./IngredientRecipes";
+
+function getResults(zip) {
+
+    axios({
+        method: 'GET',
+        url: `http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=01801`,
+        config: {
+            headers: {
+                type: 'GET',
+                contentType: 'application/json; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+            },
+        },
+    })
+
+    // or
+    // fetch(`http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=${zip}`, {
+    //     headers: {
+    //         type: 'GET',
+    //         'Content-Type': 'application/json; charset=utf-8',
+    //         dataType: 'jsonp',
+    //         'Access-Control-Allow-Origin': '*',
+    //         // 'Access-Control-Allow-Credentials': false
+    //     },
+    // })
+    //     .then(function (response) {
+    //         return response.json()
+    //     })
+    //     .then((value) => {
+    //         console.log(value)
+    //     })
+
+
+    // $.ajax({
+    //     type: 'GET',
+    //     contentType: 'application/json; charset=utf-8',
+    //     // submit a get request to the restful service zipSearch or locSearch.
+    //     url: 'http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=' + zip,
+    //     // or
+    //     dataType: 'jsonp',
+    //     jsonpCallback: 'searchResultsHandler',
+    // })
+}
+// //iterate through the JSON result object.
+// function searchResultsHandler(searchResults) {
+//     for (var key in searchresults) {
+//         alert(key)
+//         var results = searchresults[key]
+//         for (var i = 0; i < results.length; i++) {
+//             var result = results[i]
+//             for (var key in result) {
+//                 //only do an alert on the first search result
+//                 if (i == 0) {
+//                     alert(result[key])
+//                 }
+//             }
+//         }
+//     }
+// }
 
 const Varieties = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
@@ -19,7 +78,7 @@ const Varieties = ({ match }) => (
 );
 const Benefits = ({ match }) => (
     <div className="max-w-screen-md mx-auto mt-6 p-4 bg-white rounded-lg border border-black-200 h-128">
-        <p>Benefits</p>
+        {getResults("01801")}
     </div>
 );
 
@@ -32,28 +91,21 @@ const Intro = ({ match, ingredient, accentColor }) => (
                         src={
                             ingredient.image.png
                                 ? ingredient.image.png
-                                : "https://pat-cooney.com/app/themes/juicy/assets/images/lime.png"
+                                : 'https://pat-cooney.com/app/themes/juicy/assets/images/lime.png'
                         }
                         className="w-full relative z-10"
                         alt=""
                     />
-                    <div
-                        className="product border-4 absolute z-0"
-                        style={{ borderColor: accentColor }}
-                    ></div>
+                    <div className="inset-8 border-4 absolute z-0" style={{ borderColor: accentColor }}></div>
                 </div>
             </div>
             <div className="w-full md:w-1/2 pr-8 pl-4">
                 <div className="mb-10">
-                    <h1 className="font-bold uppercase text-3xl mb-5">
-                        {ingredient.title}
-                    </h1>
+                    <h1 className="font-bold uppercase text-3xl mb-5">{ingredient.title}</h1>
                     <p className="text-sm">
                         Lets talk about these yummy fucking {ingredient.title}
-                        elit. Eos, voluptatum dolorum! Laborum blanditiis
-                        consequatur, voluptates, sint enim fugiat saepe, dolor
-                        fugit, magnam explicabo eaque quas id quo porro
-                        doloruuum facilis...                        
+                        elit. Eos, voluptatum dolorum! Laborum blanditiis consequatur, voluptates, sint enim fugiat
+                        saepe, dolor fugit, magnam explicabo eaque quas id quo porro doloruuum facilis...
                         <button
                             href="/"
                             className="opacity-75 hover:opacity-100 inline-block text-xs leading-none border-b border-gray-900"
@@ -70,9 +122,9 @@ const Intro = ({ match, ingredient, accentColor }) => (
             </div>
         </div>
     </div>
-);
+)
 
-class Ingredient extends Archive {
+class Ingredient extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -89,10 +141,12 @@ class Ingredient extends Archive {
     }
 
     loadPosts() {
-        let recipeArray = []
-        console.log(this.props.match.params.ingredient)
+        let recipeArray = [];
+        console.log(this.props.match.params.ingredient);
         Promise.all([
-            fetch(`https://pat-cooney.com/wp-json/v1/ingredients/${this.props.match.params.ingredient}`),
+            fetch(
+                `https://pat-cooney.com/wp-json/v1/ingredients/${this.props.match.params.ingredient}`
+            ),
             fetch("https://pat-cooney.com/wp-json/v1/recipes?per_page=100"),
         ])
             .then(function (responses) {
@@ -114,16 +168,17 @@ class Ingredient extends Archive {
                             error,
                         });
                     }
-                )
-                value[1].forEach((recipe) =>
-                recipe.items &&
-                    recipe.items.forEach(
-                        (ingreds) =>
-                            this.state.active.slug ===
-                                ingreds.ingredient.ingredient[0].post_name &&
-                           recipeArray.push(recipe) 
-                    )
-                );  
+                );
+                value[1].forEach(
+                    (recipe) =>
+                        recipe.items &&
+                        recipe.items.forEach(
+                            (ingreds) =>
+                                this.state.active.slug ===
+                                    ingreds.ingredient.ingredient[0]
+                                        .post_name && recipeArray.push(recipe)
+                        )
+                );
                 this.setState(
                     {
                         recipes: recipeArray,
@@ -134,7 +189,7 @@ class Ingredient extends Archive {
                             error,
                         });
                     }
-                )      
+                );
             });
     }
 
@@ -145,7 +200,7 @@ class Ingredient extends Archive {
         } else if (!isLoaded) {
             return (
                 <div className="App max-w-screen-lg">
-                    <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
+                    <h2 className="text-2xl font-gotham-medium capitalize my-4">
                         {this.props.match.params.ingredient}
                     </h2>
 
@@ -153,24 +208,47 @@ class Ingredient extends Archive {
                         <p>Loading</p>
                     </div>
                 </div>
-            );
+            )
         } else {
             // window.scrollTo(0, 0);
-            console.log(this.state);      
-            
-            let accentColor = ''
-                this.state.active.color.hsl[0] !== "0" &&
-                this.state.active.color.hex !== "#f7fbfc"
-                    ? (accentColor = this.state.active.color.hex)
-                    : (accentColor = "#126b4c");
+            console.log(this.state);
+
+            let accentColor = "";
+            this.state.active.color.hsl[0] !== "0" &&
+            this.state.active.color.hex !== "#f7fbfc"
+                ? (accentColor = this.state.active.color.hex)
+                : (accentColor = "#126b4c");
 
             return (
                 <div className="App max-w-screen-lg">
-                    <h2 className="capitalize text-2xl mb-8 font-gotham-bold">
+                    <h2 className="text-2xl font-gotham-medium capitalize my-4">
                         {this.props.match.params.ingredient}
                     </h2>
+                    {this.state.active.photo_credit && (
+                        <div className="mb-1 h-4 text-black-500 flex group justify-end">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-4 w-4 mr-1 text-black-500 group-hover:text-bright-green group-hover:transition-all group-hover:duration-300"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
+                            <a
+                                href={this.state.active.photo_credit.url}
+                                target={this.state.active.photo_credit.target}
+                                className="leading-none text-right right-0 text-black-500 group-hover:text-bright-green group-hover:transition-all group-hover:duration-300"
+                            >
+                                {this.state.active.photo_credit.title}
+                            </a>
+                        </div>
+                    )}
                     <div className="flex flex-col md:flex-row justify-center max-w-screen-lg m-auto mb-12">
-                        <main className="mt-0 md:mt-4 flex-1 width-full max-w-screen-lg font-gotham">
+                        <main className="flex-1 width-full max-w-screen-lg font-gotham">
                             {this.state.active === null ? (
                                 <p>No matches</p>
                             ) : (
@@ -179,8 +257,8 @@ class Ingredient extends Archive {
                                         <div
                                             className="h-88 -mb-4"
                                             style={{
-                                                backgroundSize: "cover",
-                                                backgroundPosition: "center",
+                                                backgroundSize: 'cover',
+                                                backgroundPosition: 'center',
                                                 backgroundImage: `linear-gradient( 180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,.8) 100%), url('${this.state.active.image.full}')`,
                                             }}
                                         ></div>
@@ -189,56 +267,28 @@ class Ingredient extends Archive {
                                             style={{
                                                 background: `linear-gradient( 
                                                 90deg,
-                                                    hsl(${
-                                                        this.state.active.color
-                                                            .hsl[0]
-                                                    }, ${
-                                                    this.state.active.color
-                                                        .hsl[1]
-                                                }%, ${
-                                                    this.state.active.color
-                                                        .hsl[2] + 20
-                                                }%), 
-                                                    hsl(${
-                                                        this.state.active.color
-                                                            .hsl[0]
-                                                    }, ${
-                                                    this.state.active.color
-                                                        .hsl[1]
-                                                }%, ${
-                                                    this.state.active.color
-                                                        .hsl[2]
-                                                }%),
-                                                    hsl(${
-                                                        this.state.active.color
-                                                            .hsl[0]
-                                                    }, ${
-                                                    this.state.active.color
-                                                        .hsl[1]
-                                                }%, ${
-                                                    this.state.active.color
-                                                        .hsl[2] - 20
-                                                }%)
+                                                    hsl(${this.state.active.color.hsl[0]}, ${
+                                                    this.state.active.color.hsl[1]
+                                                }%, ${this.state.active.color.hsl[2] + 20}%), 
+                                                    hsl(${this.state.active.color.hsl[0]}, ${
+                                                    this.state.active.color.hsl[1]
+                                                }%, ${this.state.active.color.hsl[2]}%),
+                                                    hsl(${this.state.active.color.hsl[0]}, ${
+                                                    this.state.active.color.hsl[1]
+                                                }%, ${this.state.active.color.hsl[2] - 20}%)
                                                 )`,
                                             }}
                                         ></div>
                                         <div className="bg-white h-48 p-4 md:-mb-24 rounded-md shadow-lg max-w-screen-md mx-4 md:m-auto transform -translate-y-1/2">
-                                            <Link
-                                                to={`/ingredients/${this.props.match.params.ingredient}`}
-                                            >
+                                            <Link to={`/ingredients/${this.props.match.params.ingredient}`}>
                                                 <div className="flex items-center justify-center">
                                                     <h1
                                                         style={{
-                                                            textDecorationColor: this
-                                                                .state.active
-                                                                .color.hex,
+                                                            textDecorationColor: this.state.active.color.hex,
                                                         }}
                                                         className="mr-2 font-gotham-black text-4xl leading-none underline"
                                                     >
-                                                        {
-                                                            this.state.active
-                                                                .title
-                                                        }
+                                                        {this.state.active.title}
                                                     </h1>
                                                     <img
                                                         alt={`${this.state.active.title}`}
@@ -250,9 +300,7 @@ class Ingredient extends Archive {
                                             <p className="mt-8 flex justify-center">
                                                 <NavLink
                                                     style={{
-                                                        textDecorationColor: this
-                                                            .state.active.color
-                                                            .hex,
+                                                        textDecorationColor: this.state.active.color.hex,
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
@@ -262,9 +310,7 @@ class Ingredient extends Archive {
                                                 </NavLink>
                                                 <NavLink
                                                     style={{
-                                                        textDecorationColor: this
-                                                            .state.active.color
-                                                            .hex,
+                                                        textDecorationColor: this.state.active.color.hex,
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
@@ -274,9 +320,7 @@ class Ingredient extends Archive {
                                                 </NavLink>
                                                 <NavLink
                                                     style={{
-                                                        textDecorationColor: this
-                                                            .state.active.color
-                                                            .hex,
+                                                        textDecorationColor: this.state.active.color.hex,
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
@@ -286,9 +330,7 @@ class Ingredient extends Archive {
                                                 </NavLink>
                                                 <NavLink
                                                     style={{
-                                                        textDecorationColor: this
-                                                            .state.active.color
-                                                            .hex,
+                                                        textDecorationColor: this.state.active.color.hex,
                                                     }}
                                                     activeClassName="font-gotham-bold underline"
                                                     className="mx-6"
@@ -310,10 +352,7 @@ class Ingredient extends Archive {
                                             />
                                         )}
                                     />
-                                    <Route
-                                        path={`/ingredients/:ingredient/varieties`}
-                                        component={Varieties}
-                                    />
+                                    <Route path={`/ingredients/:ingredient/varieties`} component={Varieties} />
                                     <Route
                                         path={`/ingredients/:ingredient/recipes`}
                                         // component={IngredientRecipes}
@@ -325,10 +364,7 @@ class Ingredient extends Archive {
                                             />
                                         )}
                                     />
-                                    <Route
-                                        path={`/ingredients/:ingredient/benefits`}
-                                        component={Benefits}
-                                    />
+                                    <Route path={`/ingredients/:ingredient/benefits`} component={Benefits} />
                                     <Route
                                         path={`/ingredients/:ingredient/nutrition`}
                                         // component={NutritionInfo}
@@ -344,8 +380,16 @@ class Ingredient extends Archive {
                             )}
                         </main>
                     </div>
+                    <div className="my-20 text-center">
+                        <a
+                            href={`https://pat-cooney.com/wp/wp-admin/post.php?post=${this.state.active.id}&action=edit`}
+                            className="bg-green-200 text-green p-4 font-gotham-bold rounded-full"
+                        >
+                            Edit {this.state.active.title}
+                        </a>
+                    </div>
                 </div>
-            );
+            )
         }
     }
 }

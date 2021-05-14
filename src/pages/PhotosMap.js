@@ -42,7 +42,8 @@ export class MapContainer extends React.Component {
 
     showMap() {
         return (
-            <div class="mx-auto h-96 relative max-w-screen-lg" id="the-map">
+            <div className="mx-auto h-96 relative max-w-screen-lg" id="the-map">
+                <a className="text-bright-green underline" href="https://developers.google.com/maps/documentation/javascript/shapes">Draw shapes to map for where ingredient can be grown</a>
                 <Map
                     google={this.props.google}
                     onClick={this.onMapClicked}
